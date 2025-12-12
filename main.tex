@@ -1,0 +1,123 @@
+\iffalse
+\DocumentMetadata{
+	lang        = de,
+	pdfstandard = ua-2,
+	pdfstandard = a-4f, %or a-4
+	tagging=on,
+	tagging-setup={math/setup=mathml-SE} 
+}
+\fi
+\documentclass{report}
+
+% custom margins
+\usepackage[a4paper,margin=1.5in]{geometry}
+\renewcommand{\baselinestretch}{1.2}
+%\AddToHook{cmd/section/before}{\clearpage}
+
+% emma's long list of custom macros and universally used packages
+\include{../lecture-notes/macros-and-packages.tex}
+
+% colored box behind proofs
+\tcolorboxenvironment{proof}{
+	colback=white,
+	boxrule=0pt,
+	frame hidden,
+	borderline west={1pt}{0pt}{black},
+	before skip=0.75cm,
+	after skip=0.75cm,
+	sharp corners,
+	breakable,
+	enhanced,
+}
+
+\renewenvironment{proofsketch}{\begin{proof}[Proof Sketch]\renewcommand*{\qedsymbol}{\("\square"\)}}{\end{proof}}
+
+\pagestyle{fancy} %allows headers
+
+\lhead{Emma Yoneda}
+\rhead{\today}
+
+\begin{document}
+	
+	\include{title}
+	\tableofcontents
+	\thispagestyle{fancy}
+	\chapter{Sets and Orders}
+	\chapter{Algebraic Structures}
+		\section{Groups}
+		\section{Fields}
+		\section{Ordered Fields}
+		\iffalse
+		\begin{definition}
+			An \tbf{ordered commutative Ring} $(R,P)$ is a commutative Ring $K$ equipped with a set $P$ of \tbf{positive Elements}, such that:
+			\begin{enumerate}
+				\item For every $x \in K$, we have exactly one of $x \in P$ ($x$ is \tit{positive}), $x = 0$, or $-x \in P$ ($x$ is \tit{negative}).
+				\item If $x$ and $y$ are positive, then so are $x + y$ and $x \cdot y$.
+			\end{enumerate}
+		\end{definition}
+		We say that $K$ is \tit{ordered by $P$}.
+		\fi
+		\begin{definition}
+		An \tbf{ordered commutative Ring} $(R, \leq)$ is a commutative Ring $R$ equipped with an \tbf{ordering relation} $\leq$, such that for all $a,b,c \in R$, we have:
+		\begin{enumerate}
+			\item $\leq$ defines a \tit{total order} on $F$. i.e:
+			\begin{enumerate}
+				\item $a \leq a$ (the order is \tit{reflexive}),
+				\item $a \leq b \wedge b \leq c \implies a \leq c$ (the order is \tit{transitive}),
+				\item $a \leq b \wedge b \leq a \implies a = b$ (the order is \tit{antisymmetric}),
+				\item $a \leq b \vee b \leq a$ (the order is \tit{strongly connected})
+			\end{enumerate}
+			\item $a \leq b \implies a + c \leq b + c$
+			\item $0 \leq a \wedge 0 \leq b \implies 0 \leq ab$
+		\end{enumerate}
+		\end{definition}
+				\begin{lemma}
+			For every ordered commutative Ring $(R, \leq)$ and $a \in R$, we have $-a \leq 0 \leq a$ or $a \leq 0 \leq -a$.
+		\end{lemma}
+		\begin{proof}
+			Since the order $\leq$ is strongly connected, we have $a \leq 0$ or $0 \leq a$.
+			\begin{enumerate}
+				\item If $a \leq 0$, then we have $-a + a \leq 0 + -a$, i.e. $a \leq 0 \leq -a$,
+				\item if $0 \leq a$, then we have $-a + 0 \leq -a + a$, i.e. $-a \leq 0 \leq a$
+			\end{enumerate}
+		\end{proof}
+		\begin{lemma}
+			Let $a \in (R, \leq)$. Then $0 \leq a^2$.
+		\end{lemma}
+		\begin{proof}
+			Since the order $\leq$ is strongly connected, we have $a \leq 0$ or $0 \leq a$.
+			\begin{enumerate}
+				\item If $0 \leq a$, then we have $0 \leq a \cdot a = a^2$,
+				\item if $a \leq 0$, then $0 \leq -a$ and we have $0 \leq -a \cdot (-a) = a^2$.
+			\end{enumerate}
+			 
+		\end{proof}
+		\begin{lemma}
+			Every ordered commutative Ring has characteristic $0$.
+		\end{lemma}
+		\begin{proof}
+			Assume that $F$ is a field of characteristic $p$. Then an ordering relation would need to fulfill:
+			\begin{align*}
+				1 \leq 1 + 1 \leq \sum_{i = 1}^p 1 = 0 \leq 1
+			\end{align*}
+		\end{proof}
+		\section{Vector Spaces}
+	\chapter{Topology}
+		\section{Topological Spaces}
+		\section{Metric Spaces}
+	\chapter{Topological Vector Spaces}
+		\section{Topological Vector Spaces}
+		\section{Normed Vector Spaces}
+		\section{Banach Spaces}
+	\chapter{Differentiation}
+		\section{Frechét Spaces}
+		\section{The Gateaux Derivative}
+		\section{The Frechét Derivative}
+	\chapter{Measure Theory}
+		\section{Set Algebras}
+		\section{Measure Spaces}
+		\section{The Lebesque Measure}
+	\chapter{Integration}
+		\section{The Bochner Integral}
+		
+\end{document}
