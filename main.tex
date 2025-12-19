@@ -100,18 +100,182 @@
 			Which implies $0 = 1$. However, by the definition of a field, we have $0 \neq 1$.
 		\end{proof}
 	\section{The Archimedean Property}
-	\section{On the Importance of the Real Numbers}
 		\begin{theorem}
-			Let $F$ be an arbitrary archimedean ordered field. Then $F$ is isomorphic to a subfield of the real numbers $\bR$.
+			Let $F$ be an archimedean ordered field. Then $F$ is isomorphic to a subfield of the real numbers $\bR$.
+		\end{theorem}
+	\section{The Least Upper Bound Property and the Importance of the Real Numbers}
+		\begin{definition}
+			Let $F$ be an ordered field. We say that $F$ has the \tbf{least upper bound property} if every subset of $F$ that has an upper bound in $F$ has a least upper bound in $F$.
+		\end{definition}
+		\begin{theorem}
+			$F$ has the least upper bound property if and only if it has the equivalent "greatest lower bound property", i.e. every subset of $F$ that has a lower bound in $F$ has a greatest lower bound in $F$.
 		\end{theorem}
 		\begin{theorem}
-			Let $F$ be an arbitrary ordered field. Then $F$ has the least-upper-bound property if and only if it is archimedean and cauchy complete.
+			Let $F$ be a non-archimedean ordered field. Then $F$ does not have the least-upper-bound property.
 		\end{theorem}
+		\begin{theorem}
+			Every ordered field with the least upper bound property is isomorphic. Therefore the real numbers $\bR$ are, up to isomorphism, the only ordered field with the least upper bound property.
+		\end{theorem}
+		If you're the kind of person who generally prefers algebra to analysis, you might have always felt unsatisfied by a seeming lack of generality to analysis - why does everyone only ever seem to care about $\bR$? I hope that this theorem finally makes you feel like you have a satisfying answer, as it did for me: Whenever someone makes a definition that explicitly and exclusively concerns the real numbers, they are doing so because they want to make a definition that concerns ordered fields with the least upper bound property - it just so happens that $\bR$ is the only such field!
+		\begin{corollary}
+			Let $F$ be an ordered field. Then $F$ has the least-upper-bound property if and only if it is archimedean and cauchy complete.
+		\end{corollary}
 		\subsection{Alternative completeness properties}
 		
 	\chapter{Topology}
-		\section{Metric Spaces}
-		\section{Topological Spaces}
+		\section{Metric Spaces and Topological Spaces}
+		\begin{definition}
+			Let $X$ be a topological space, $x \in X$, and $V \subset X$. We call $V$ a \tit{neighborhood of $x$} if there exists an open set $U \subset V$ such that $x \in U$.
+		\end{definition}
+		\begin{theorem}
+			Let $X$ be a topological space and let $V \subset X$. Then $V$ is open if and only if for every $x \in V$, $V$ is a neighborhood of $x$.
+		\end{theorem}
+		\begin{proof}
+			If $V$ is open then it is trivially a neighborhood of all of its points.
+			\newpar
+			Assume that $V$ is a neighborhood of all its points. Let $U_x \subset V$ be the necessary open set containing $x \in V$ that makes $V$ a neighborhood of $x$. Then since every $U_x$ is a subset of $V$ we have
+			\begin{align*}
+				\bigcup_{x \in V} U_x \subset V
+			\end{align*}
+			and since every $x \in V$ is contained in some $U_x$ we also have
+			\begin{align*}
+				V \subset \bigcup_{x \in V} U_x
+			\end{align*}
+			Therefore $V$ is a union of open sets, making it open.
+		\end{proof}
+		\begin{definition}
+			Let $f : X \to Y$ be a function between topological spaces. We call $f$ \tbf{continuous} if the preimage $f^{-1}(U)$ of any open set $U$ is again an open set.
+		\end{definition}
+		\begin{definition}
+			Let $f: X \to Y$ be a function between topological spaces. Let $x \in X$. We call $f$ \tbf{continuous at $x$} if, for any neighborhood $V \subset Y$ of $f(x)$, there exists a neighborhood $U \subset X$ of $x$ such that $f(U) \subset V$.
+		\end{definition}
+		
+		\begin{lemma}
+			$f: X \to Y$ is continuous at $x \in X$ if and only if, for every neighborhood $V \subset Y$ of $f(x)$, we have that $f^{-1}(V)$ is a neighborhood of $x$.
+		\end{lemma}
+		\begin{proof}
+			\phantom{}
+			\begin{itemize}
+				\item[$\Longrightarrow:$] If $f(U) \subset V$, then by the definition of preimages we have $U \subset f^{-1}(V)$. Therefore, since $U$ is a neighborhood of $x$, the superset $f^{-1}(V)$ must be a neighborhood of $x$ as well.
+				\item[$\Longleftarrow:$] If $f^{-1}(V)$ is a neighborhood of $x$, then $U = f^{-1}(V)$ already fulfills our definition.
+			\end{itemize}
+		\end{proof}
+		\begin{theorem}
+			$f : X \to Y$ is continuous if and only if it is continuous at every point $x \in X$.
+		\end{theorem}
+		\begin{proof}
+			\phantom{}
+			\begin{itemize}
+				\item[$\Longrightarrow$:] Let $f$ be continuous and let $x \in X$. Then if $V$ is a neighborhood of $f(x)$, there must exist an open set $U$ such that contains $f(x) \in U \subset V$. Then $f^{-1}(U) \subset f^{-1}(V)$ is an open set containing $x$, meaning that $f^{-1}(V)$ is a neigborhood of $x$. Therefore $f$ is continuous at every $x$
+				\item[$\Longleftarrow$:] Let $V \subset X$ be open. Then $f^{-1}(V)$ is a neighborhood every $x \in f^{-1}(V)$. Therefore, $f^{-1}(V)$ is open.
+			\end{itemize}
+		\end{proof}
+		\begin{definition}
+			Let $f : X \to Y$ be a function between topological spaces. We call $f$ \tbf{sequentially continuous at a point $x$} if, for every sequence $x_n$ such that $\lim_{n \to \infty} x_n = x$, we have
+			$\lim_{n \to \infty} f(x_n) = f(x)$. We say the function is \tbf{sequentially continuous} if this condition holds for every point $x \in X$.
+		\end{definition}
+		\begin{theorem}
+			Every continuous function is sequentially continuous.
+		\end{theorem}
+		\begin{theorem}
+			If $X$ is first-countable (and we assume the axiom of choice), then any sequentially continuous function is continuous.
+		\end{theorem}
+		\begin{corollary}
+			A function $f : X \to Y$ from a first-countable space $X$ into any topological space $Y$ is continuous if and only if it is sequentially continuous.
+		\end{corollary}
+		In particular, continuity and sequential continuity are equivalent for functions between metric spaces.
+		\begin{theorem}[\theoremname{Epsilon-Delta-Criterion}]
+			Let $f : M \to N$ be a function between metric spaces. Then $f$ is continuous at a point $x \in M$ if and only if for every $\epsilon \in \bR_{> 0}$, there exists a $\delta \in \bR_{> 0}$ such that for all $y \in M$, we have that
+			\begin{align*}
+				d_M(x,y) < \delta \implies d_N(f(x),f(y)) < \epsilon
+			\end{align*}
+		\end{theorem}
+		This is the standard definition of continuity used in most introductory courses in real analysis.
+		Intuitively, it says that a function is continuous if and only if, as $x$ and $y$ get arbitrarily close, $f(x)$ and $f(y)$ also get arbitrarily close. 
+		\begin{proof}
+			\begin{itemize}
+				\item[$\Rightarrow$:] Assume that $f$ is sequentially continuous at a point $x$, but that the given condition doesn't hold. Then there exists an $\epsilon \in \bR_{> 0}$ such that for every $\delta \in \bR_{> 0}$, there exists an $x_\delta \in M$ such that
+				\begin{align*}
+					d_M(x,x_\delta) \leq \delta, \textnormal{ but } d_N(f(x), f(x_\delta)) \geq \epsilon
+				\end{align*}
+				Therefore, if we define $\delta_n := \frac{1}{n}$, then the sequence $x_{\delta_n}$ converges to $x$, but the sequence $f(x_{\delta_n})$ doesn't converge to $f(x)$, since $d_N(f(x), f(x_\delta)) \geq \epsilon > 0$.
+				\item[$\Leftarrow$:] Let $x_n$ be a sequence with $\lim_{n \to \infty} = x$ which fulfills our condition. We need to show $\lim_{n \to \infty} f(x_n) = f(x)$, meaning that for every $\epsilon \in \bR_{> 0}$, we need to find an $N \in \bN$, such that for all $n \geq N$, we have
+				\begin{align*}
+					d_N(f(x_n) - f(x)) < \epsilon
+				\end{align*}
+				by our epsilon-delta condition, this holds for every $x_n$ such that $d(x_n, x) < \delta$. Since $\lim_{n \to \infty} x_n = x$, we can find an $N$ such that this condition is fulfilled for all $n > N$. Therefore does $f(x_n)$ indeed converge to $f(x)$.
+			\end{itemize}
+		\end{proof}
+		\begin{theorem}
+			$X$ be a topological space and let $A \subset X$. Then, assuming the discrete topology on $\lr{0,1}$, the characteristic function $\chi_A : X \to \lr{0,1}$ is continuous at a point $x \in X$ if and only if $x \in \tn{int}(A)$ or $x \in \tn{int}(X \setminus A)$.
+		\end{theorem}
+		\begin{proof}
+			\begin{enumerate}
+				\item Let $x \in \tn{int}(A)$. Then by definition of the interior of a set there exists an open set $U \subset A$ that contains $x$. Since $U \subset A$, we have $f(U) = \lr{1}$. Therefore, if $V$ is a neighborhood around $f(x) = 1$, then $f^{-1}(V)$ must contain $U$, making it a neighborhood of $x$.
+				\item Let $x \in \tn{int}(X \setminus A)$. Then the same argument as before applies, except we have a $U \subset X \setminus A$ with $f(U) = \lr{0}$.
+				\item Let $x \in \partial A$ with $x \in A$. Then $V = \lr{1}$ is an open neighborhood of $f(x)$, but $f^{-1}(V) \subset A$. However, since $x$ is on the boundary of $A$, every open set containing $x$ must contain points in $X \setminus A$. Therefore $f^{-1}(V)$ cannot be a neighborhood of $x$.
+				\item Let $x \in \partial A$ with $x \in X \setminus A$. Then the same argument applies to $V = \lr{0}$, since $f^{-1}(V)$ cannot contain points in $A$.
+			\end{enumerate}
+		\end{proof}
+		\begin{corollary}
+			The characteristic function of the rational numbers is nowhere continuous.
+		\end{corollary}
+		\begin{theorem}
+			\theoremname{(A function continuous at exactly one point)}: The function $f : \bR \to \bR$ with
+			\begin{align*}
+				f(x) = x \cdot \chi_{\bQ}(x) = \begin{cases}
+					x & x \in \bQ\\
+					0 & x \notin \bQ
+				\end{cases}
+			\end{align*}
+			is continuous at $0$ and discontinuous at every other point.
+		\end{theorem}
+		\begin{proof}
+			\begin{enumerate}
+				\item Let $V$ be a neighborhood of $f(0) = 0$. Then by definition, there must be an $\epsilon > 0$ such that $(-\epsilon,\epsilon) \in V$. Then since $f(x) \leq x$, we have $f^{-1}(y) \geq y$, implying that
+				\begin{align*}
+					(-\epsilon,\epsilon) \subset f^{-1}((-\epsilon,\epsilon)) \subset f^{-1}(V)
+				\end{align*}
+				and therefore $f^{-1}(V)$ is a neighborhood of $0$.
+				\item Let $x \in \bQ \setminus \lr{0}$. Then, since all irrationals get mapped to zero, the preimage of $(\frac{1}{2}x, \frac{3}{2}x)$ only contains rational numbers and therefore cannot be a neighborhood of $x$.
+				\item Let $x \notin \bQ$. Then the preimage of $(-\frac{1}{2}x, \frac{1}{2}x)$ contains $x$, but not any rationals between $x$ and $\frac{1}{2}x$, and therefore cannot be a neighborhood of $x$.
+			\end{enumerate}
+		\end{proof}
+		\begin{theorem}
+			\theoremname{(A function only continuous at the irrationals)} \tbf{Thomae's function} $T : \bR \to \bR$, defined as
+			\begin{align*}
+				T(x) =
+				\begin{cases}
+					\frac{1}{q} & x \in \bQ, x = \frac{p}{q}, \tn{$p$, $q$ have no common divisors}\\
+					0 & x \notin \bQ
+				\end{cases},
+			\end{align*}
+			is discontinuous at every rational number and continuous at every irrational number.
+		\end{theorem}
+		Thomae's function has many other names - it is also known the \tit{modified Dirichlet function}, the \tit{Riemann function}, or under more whimsical names such as the \tit{popcorn function}, \tit{raindrop function}, \tit{countable cloud function}, or the \tit{Stars over Babylon} (due to John Horton Conway, one of the coolest mathematicians of all time).
+		\begin{theorem}
+			\theoremname{(A function discontinuous at an arbitrary $F_\sigma$-set)}
+			Let $A = \bigcup_{n \in \bN} F_n$ be a countable union of closed sets $F_n$. For any point $x \in A$, let $n(x)$ be the smallest natural number such that $x \in F_{n(x)}$. Then the function $f_A : \bR \to \bR$ defined by
+			\begin{align*}
+				f_A(x) =
+				\begin{cases}
+					\frac{1}{n(x)} & x \in A, x \in \bQ\\
+					-\frac{1}{n(x)} & x \in A, x \notin \bQ\\
+					0 & x \notin A
+				\end{cases}
+			\end{align*}
+			is continuous at every $x \in X \notin A$ and discontinuous at every $x \in A$
+		\end{theorem}
+		\begin{corollary}
+			\theoremname{(Functions continuous at an arbitrary $G_\delta$-set)}
+			Since the complement of a $G_\delta$-set is $F_\sigma$, we can use the same construction to construct a function that is continuous at an arbitrary $G_\delta$-subset of $\bR$. 
+		\end{corollary}
+		\begin{proposition}
+			Let $f$ be a function between complete metric spaces. Then the set of discontinuities of $f$ is $F_\sigma$ (meaning it is a countable union of closed sets).
+		\end{proposition}
+		\begin{corollary}
+			There is no function $f : \bR \to \bR$ that is only continuous at the rationals.
+		\end{corollary}
 		\section{Uniform Spaces}
 		Many theorems in analysis require a notion of \tit{uniform convergence}, \tit{uniform continuity}, and so on. These ideas can be easily expressed in a metric space - recall that, for example, a function $f: M \to N$ between metric spaces is uniformly continuous if for every $\epsilon > 0$, a $\delta > 0$ exists such that if $d_M(x,y)  < \delta$, then $d_N(f(x),f(y)) < \epsilon$.
 		\newpar
@@ -160,9 +324,49 @@
 	\chapter{Measure Theory}
 		\section{Set Algebras}
 		\section{Measure Spaces}
+		\begin{definition}
+			Let $X$ be an uncountable set and $f : X \to [0,\infty]$. Then we define
+			\begin{align*}
+				\sum_{x \in X} f(x) = \sup_{\abs{F} < \infty} \sum_{x \in F} f(x)
+			\end{align*}
+		\end{definition}
+		It may seem odd that we can sum over an uncountable set by simply summing over the finite sets - this is partly justified by the following lemma:
+		\begin{lemma}
+			If all terms of a sum are positive, and uncountably many of these terms are non-zero, then the sum diverges.
+		\end{lemma}
+		\begin{proof}
+			Let 
+			\begin{align*}
+				\sum_{x \in X} f(x) = L \in \bR
+			\end{align*}
+		Let $S_n = \lr{x \in X : f(x) > \frac{1}{n}}$ for $n \in \bN$. Then we have:
+		\begin{align*}
+			L &= \sum_{x \in X} f(x)\\
+			  &\geq \sum_{x \in S_n} f(x)\\
+			  &> \sum_{x \in S_n} \frac{1}{n}\\
+			  &= \frac{\abs{S_n}}{n}
+		\end{align*}
+		So we have $\abs{S_n} < nL$ for all $n \in \bN$. The set of all non-zero terms is given by:
+		\begin{align*}
+			S = \lr{x \in X \mid f(x) > 0} = \bigcup_{n \in \bN} \lr{x \in X \mid f(x) > \frac{1}{n}}
+		\end{align*}
+		And since $S$ is a countable union of finite sets, it must be countable. Therefore a finite limit $L$ can't exist if $S$ is uncountable.
+		\end{proof}
+		\begin{definition}
+			If our sum is absolutely convergent, we can also define
+			\begin{align*}
+				\sum_{x \in X} f(x) = \sum_{x \in X, f(x) \geq 0} f(x) - \sum_{x \in X, f(x) \leq 0} \abs{f(x)}
+			\end{align*}
+		\end{definition}
 		\section{The Lebesque Measure}
 	\chapter{Integration}
 		\section{The Lebesque Integral}
+		\begin{theorem}
+			Let $X$ be an arbitrary set. Let $c$ be the counting measure on $\cP(X)$. Let $f : X \to \barR$ be a $c$-measurable function. Then
+			\begin{align*}
+				\int_X f ~dc = \sum_{x \in X} f(x)
+			\end{align*}
+		\end{theorem}
 		\section{The Bochner Integral}
 		
 \end{document}
