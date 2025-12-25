@@ -42,7 +42,8 @@
 	\include{title}
 	\tableofcontents
 	\thispagestyle{fancy}
-	\chapter{Sets and Orders}
+	\part{Set Theory}
+	\part{Algebraic Structures}
 	\chapter{Ordered Fields}
 		\iffalse
 		\begin{definition}
@@ -90,7 +91,7 @@
 			 
 		\end{proof}
 		\begin{lemma}
-			Every ordered commutative Ring has characteristic $0$.
+			Every ordered field has characteristic $0$.
 		\end{lemma}
 		\begin{proof}
 			Assume that $F$ is a field of characteristic $p$. Then an ordering relation would need to fulfill:
@@ -99,13 +100,67 @@
 			\end{align*}
 			Which implies $0 = 1$. However, by the definition of a field, we have $0 \neq 1$.
 		\end{proof}
+		\begin{lemma}
+			Let $a \leq b$ and $c \geq 0$. Then $ac \leq bc$.
+		\end{lemma}
+		\begin{proof}
+			Since $a \leq b$, we have $0 = a - a \leq b - a$. Therefore, we also have $0 \leq (b-a)c = bc - ac$. Adding $ac$ to both sides, we get $ac \leq bc$.
+		\end{proof}
+		\begin{corollary}
+			Let $a \leq b$. Then $a^{-1} \geq b^{-1}$.
+		\end{corollary}
+		\begin{proof}
+			\begin{align*}
+						 & a \leq b\\
+				\implies & 1 = aa^{-1} \leq ba^{-1}\\
+				\implies &b^{-1} \leq b^{-1}ba^{-1} = a^{-1}
+			\end{align*}
+		\end{proof}
+		\begin{summary}
+			Let $F$ be an ordered Field and let $a,b,c \in F$ Then all of the following hold:
+			\begin{enumerate}
+				\item $a \leq a$
+				\item If $a \leq b$ and $b \leq c$, then $a \leq c$ (transitivity)
+				\item If $a \leq b$ and $b \leq a$, then $a = b$ (antisymmetry)
+				\item We always have at least one of $a \leq b$ and $b \leq a$
+				\item If $a \leq b$, then $a + c \leq b + c$
+				\item If $0 \leq a$ and $0 \leq b$, then $0 \leq ab$.
+				\item If $0 \leq a$, then $-a \leq 0$.
+				\item $0 \leq a^2$
+				\item If $a \leq b$ and $c \geq 0$, then $ac \leq bc$.
+				\item If $a \leq b$ and $c \leq 0$, then $ac \geq bc$.
+			\end{enumerate}
+		\end{summary}
 	\section{The Archimedean Property}
+		\begin{definition}
+			Let $F$ be an archimedean ordered field. Then we say that $F$ is \tbf{archimedean} if for every $x,y \in F_{> 0}$, there exists a natural number $n$ such that
+			\begin{align*}
+				nx  > y
+			\end{align*}
+		\end{definition}
+		\begin{anmerkung}
+			It follows immediately that if $F$ is non-archimedean, there exists $x,y \in F$ such that  for all natural numbers $n$, we have
+			\begin{align*}
+				nx < y
+			\end{align*}
+			which immediately implies
+			\begin{align*}
+				n_F = \sum_{k = 1}^n 1_F = \sum_{k = 1}^n x x^{-1} = x^{-1} nx < x^{-1}y := y'
+			\end{align*}
+			Therefore, there exists an element $y'$ that is "infinitely large", i.e. it is greater than the image of the embedding of any natural number into the field. It immediately follows that $\frac{1}{y'} < \frac{1}{n_F}$ for all $n \in \bN$, meaning that $F$ also contains "infinitely small" elements.
+		\end{anmerkung}
+	\section{Why always $\bR$?}
+		If you're the kind of person who generally prefers algebra to analysis, you might have always felt unsatisfied by a seeming lack of generality to analysis - why does everyone only ever seem to care about $\bR$? The goal of this chapter is to make you feel like you finally have a satisfying answer - we will prove that $\bR$ is \tit{the only} ordered field, up to isomorphism, that has the key property that every bounded set has a least upper bound. 
+		\newpar
+		Whenever someone gives a definition explicitly concerning $\bR$, they are giving a definition concerning ordered fields with the least upper bound property - it just so happens that $\bR$ is the only such field!
+		\subsection{Subfields of ordered fields}
 		\begin{theorem}
 			Let $F$ be an archimedean ordered field. Then $F$ is isomorphic to a subfield of the real numbers $\bR$.
 		\end{theorem}
-	\section{The Least Upper Bound Property and the Importance of the Real Numbers}
+		This means that $\bR$ can be viewed as a "maximal archimedean ordered field". Later we will prove that $\bR$ is also unique up to isomorphism, meaning that it is \tit{the} maximal archimedean ordered field. This realization is a key step on our journey of justifying the ubiquity of the real numbers.
+		\subsection{The least upper bound property}
 		\begin{definition}
-			Let $F$ be an ordered field. We say that $F$ has the \tbf{least upper bound property} if every subset of $F$ that has an upper bound in $F$ has a least upper bound in $F$.
+			Let $F$ be an ordered field. We say that $F$ has the \tbf{least upper bound property}, or alternatively that $F$ is \tbf{Dedekind complete}, if every subset of $F$ that has an upper bound in $F$ has a least upper bound in $F$.
 		\end{definition}
 		\begin{theorem}
 			$F$ has the least upper bound property if and only if it has the equivalent "greatest lower bound property", i.e. every subset of $F$ that has a lower bound in $F$ has a greatest lower bound in $F$.
@@ -113,17 +168,25 @@
 		\begin{theorem}
 			Let $F$ be a non-archimedean ordered field. Then $F$ does not have the least-upper-bound property.
 		\end{theorem}
+		\begin{proof}
+			Since $F$ is an ordered field, it must have characteristic $0$. Let $N_F$ be the infinite set
+			\begin{align*}
+				N_F : \lr{\sum_{k = 0}^n 1_F : n \in \bN}
+			\end{align*}
+			Since $F$ is non-archimedean, there exists an element $x$ such that for all $n \in N_F$, we have $n < x$. However, for any upper bound $b$ of $N_F$, we have that for all $n \in N_F$, $b > n+1 \in N_F$. Therefore, $b-1$ is also an upper bound, meaning that no least upper bound exists.
+		\end{proof}
+		Importantly, this immediately implies that Cauchy-completeness of an ordered field is \tit{not} equivalent to Dedekind-completeness!
+		\begin{corollary}
+			Let $F$ be an ordered field. Then $F$ has the least-upper-bound property if and only if it is archimedean and Cauchy complete.
+		\end{corollary}
 		\begin{theorem}
 			Every ordered field with the least upper bound property is isomorphic. Therefore the real numbers $\bR$ are, up to isomorphism, the only ordered field with the least upper bound property.
 		\end{theorem}
-		If you're the kind of person who generally prefers algebra to analysis, you might have always felt unsatisfied by a seeming lack of generality to analysis - why does everyone only ever seem to care about $\bR$? I hope that this theorem finally makes you feel like you have a satisfying answer, as it did for me: Whenever someone makes a definition that explicitly and exclusively concerns the real numbers, they are doing so because they want to make a definition that concerns ordered fields with the least upper bound property - it just so happens that $\bR$ is the only such field!
-		\begin{corollary}
-			Let $F$ be an ordered field. Then $F$ has the least-upper-bound property if and only if it is archimedean and cauchy complete.
-		\end{corollary}
 		\subsection{Alternative completeness properties}
 		
-	\chapter{Topology}
-		\section{Metric Spaces and Topological Spaces}
+	\part{Topology}
+		\chapter{Metric Spaces and Topological Spaces}
+		\section{Vocabulary}
 		\begin{definition}
 			Let $X$ be a topological space, $x \in X$, and $V \subset X$. We call $V$ a \tit{neighborhood of $x$} if there exists an open set $U \subset V$ such that $x \in U$.
 		\end{definition}
@@ -144,8 +207,23 @@
 			Therefore $V$ is a union of open sets, making it open.
 		\end{proof}
 		\begin{definition}
+			Let $X$ be a topological space. We say that a subset of $X$ is $F_\sigma$ (from French "\tit{fermé}", "closed", and "\tit{somme}", "sum, union") if it is a countable union of closed sets. Dually, we say it is $G_\delta$ (from German "\tit{Gebiet}", an old term for "open set", and "\tit{Durschschnitt}", "average, intersection") if it is a countable intersection of open sets. 
+		\end{definition}
+		\begin{theorem}
+			The complement of a $G_\delta$ set is $F_\sigma$ and vice versa.
+		\end{theorem}
+		\section{Continuity}
+		The notion of continuity is central to analysis (and of key importance to mathematics and general), and one could argue the most important reason why the field of topology is of interest in the first place is because it gives us the most general setting in which we can define a notion of a continuous function. There are many different definitions of continuity in various levels of generality.
+		\begin{definition}
 			Let $f : X \to Y$ be a function between topological spaces. We call $f$ \tbf{continuous} if the preimage $f^{-1}(U)$ of any open set $U$ is again an open set.
 		\end{definition}
+		\begin{theorem}
+			\label{theorem:trivialcontinuity}
+			Let $f : X \to Y$ be a function between topological spaces. Assume $Y$ has the trivial topology. Then $f$ is continuous.
+		\end{theorem}
+		\begin{proof}
+			By definition of the trivial topology, the only open sets in $Y$ are $Y$ itself and the empty set. We have $f^{-1}(Y) = X$, which is open, and $f^{-1}(\emptyset) = \emptyset$, which is also open.
+		\end{proof}
 		\begin{definition}
 			Let $f: X \to Y$ be a function between topological spaces. Let $x \in X$. We call $f$ \tbf{continuous at $x$} if, for any neighborhood $V \subset Y$ of $f(x)$, there exists a neighborhood $U \subset X$ of $x$ such that $f(U) \subset V$.
 		\end{definition}
@@ -174,6 +252,7 @@
 			Let $f : X \to Y$ be a function between topological spaces. We call $f$ \tbf{sequentially continuous at a point $x$} if, for every sequence $x_n$ such that $\lim_{n \to \infty} x_n = x$, we have
 			$\lim_{n \to \infty} f(x_n) = f(x)$. We say the function is \tbf{sequentially continuous} if this condition holds for every point $x \in X$.
 		\end{definition}
+		This definition most directly captures the intuitive idea that a function is continuous if $f(x)$ gets arbitrarily close to $f(y)$ whenever $x$ gets arbitrarily close to $y$.
 		\begin{theorem}
 			Every continuous function is sequentially continuous.
 		\end{theorem}
@@ -190,8 +269,7 @@
 				d_M(x,y) < \delta \implies d_N(f(x),f(y)) < \epsilon
 			\end{align*}
 		\end{theorem}
-		This is the standard definition of continuity used in most introductory courses in real analysis.
-		Intuitively, it says that a function is continuous if and only if, as $x$ and $y$ get arbitrarily close, $f(x)$ and $f(y)$ also get arbitrarily close. 
+		This is the standard definition of continuity used in most introductory courses in real analysis, since it can be easily defined for $f : \bR \to \bR$ even if topological spaces and metric spaces haven't been introduced yet. Since it is only defined for functions between metric spaces, it is less general than most of our other definitions, but it has the advantage of often leading to simpler proofs.
 		\begin{proof}
 			\begin{itemize}
 				\item[$\Rightarrow$:] Assume that $f$ is sequentially continuous at a point $x$, but that the given condition doesn't hold. Then there exists an $\epsilon \in \bR_{> 0}$ such that for every $\delta \in \bR_{> 0}$, there exists an $x_\delta \in M$ such that
@@ -213,13 +291,21 @@
 			\begin{enumerate}
 				\item Let $x \in \tn{int}(A)$. Then by definition of the interior of a set there exists an open set $U \subset A$ that contains $x$. Since $U \subset A$, we have $f(U) = \lr{1}$. Therefore, if $V$ is a neighborhood around $f(x) = 1$, then $f^{-1}(V)$ must contain $U$, making it a neighborhood of $x$.
 				\item Let $x \in \tn{int}(X \setminus A)$. Then the same argument as before applies, except we have a $U \subset X \setminus A$ with $f(U) = \lr{0}$.
+				
 				\item Let $x \in \partial A$ with $x \in A$. Then $V = \lr{1}$ is an open neighborhood of $f(x)$, but $f^{-1}(V) \subset A$. However, since $x$ is on the boundary of $A$, every open set containing $x$ must contain points in $X \setminus A$. Therefore $f^{-1}(V)$ cannot be a neighborhood of $x$.
+				
 				\item Let $x \in \partial A$ with $x \in X \setminus A$. Then the same argument applies to $V = \lr{0}$, since $f^{-1}(V)$ cannot contain points in $A$.
 			\end{enumerate}
 		\end{proof}
+		\begin{anmerkung}
+			We have to assume the discrete topology on $\lr{0,1}$, since if $\lr{0}$ is not open, then the function ends up continuous at points $x \in \partial A \setminus A$, and if $\lr{1}$ is not open, then the function ends up continuous at points $x \in \partial A \cap A$.
+		\end{anmerkung}
 		\begin{corollary}
-			The characteristic function of the rational numbers is nowhere continuous.
+			The characteristic function of the rational numbers (also known as the \tbf{Dirichlet function}) is nowhere continuous.
 		\end{corollary}
+		\begin{proof}
+			Assuming the standard topology on $\bR$, the interiors of both $\bQ$ and $\bR \setminus \bQ$ are empty.
+		\end{proof}
 		\begin{theorem}
 			\theoremname{(A function continuous at exactly one point)}: The function $f : \bR \to \bR$ with
 			\begin{align*}
@@ -253,6 +339,8 @@
 			is discontinuous at every rational number and continuous at every irrational number.
 		\end{theorem}
 		Thomae's function has many other names - it is also known the \tit{modified Dirichlet function}, the \tit{Riemann function}, or under more whimsical names such as the \tit{popcorn function}, \tit{raindrop function}, \tit{countable cloud function}, or the \tit{Stars over Babylon} (due to John Horton Conway, one of the coolest mathematicians of all time).
+		\newpar
+		Recall that we call a set $F_\sigma$ if it is a countable union of closed sets, and that we call a set $G_\delta$ if it is a countable intersetion of open sets.
 		\begin{theorem}
 			\theoremname{(A function discontinuous at an arbitrary $F_\sigma$-set)}
 			Let $A = \bigcup_{n \in \bN} F_n$ be a countable union of closed sets $F_n$. For any point $x \in A$, let $n(x)$ be the smallest natural number such that $x \in F_{n(x)}$. Then the function $f_A : \bR \to \bR$ defined by
@@ -271,16 +359,20 @@
 			Since the complement of a $G_\delta$-set is $F_\sigma$, we can use the same construction to construct a function that is continuous at an arbitrary $G_\delta$-subset of $\bR$. 
 		\end{corollary}
 		\begin{proposition}
-			Let $f$ be a function between complete metric spaces. Then the set of discontinuities of $f$ is $F_\sigma$ (meaning it is a countable union of closed sets).
+			Let $f$ be a function between complete metric spaces. Then the set of continuitity of $f$ is $G_\delta$ and the set of discontinuities of $f$ is $F_\sigma$.
 		\end{proposition}
 		\begin{corollary}
 			There is no function $f : \bR \to \bR$ that is only continuous at the rationals.
 		\end{corollary}
-		\section{Uniform Spaces}
-		Many theorems in analysis require a notion of \tit{uniform convergence}, \tit{uniform continuity}, and so on. These ideas can be easily expressed in a metric space - recall that, for example, a function $f: M \to N$ between metric spaces is uniformly continuous if for every $\epsilon > 0$, a $\delta > 0$ exists such that if $d_M(x,y)  < \delta$, then $d_N(f(x),f(y)) < \epsilon$.
+		\begin{proof}
+			The irrationals are uncountable and the rationals are dense in the reals.
+			Any countable union of closed sets either only contains singleton sets, in which case it is countable, or contains at least one non-singleton interval, in which case it contains rational numbers. Therefore the irrationals are not $F_\sigma$ and the rationals are not $G_\delta$.
+		\end{proof}
+		\chapter{Uniform Spaces}
+		Many theorems in analysis require a notion of \tit{uniform convergence}, \tit{uniform continuity}, and so on. These ideas can be easily expressed in a metric space - recall that, for example, a function $f: M \to N$ between metric spaces is uniformly continuous if there exists a $\delta > 0$ such that for every $\epsilon > 0$, we have that if $d_M(x,y)  < \delta$, then $d_N(f(x),f(y)) < \epsilon$.
 		\newpar
 		Meanwhile, we wouldn't be able to refine the definition of continuity like this in a topological space, since the general structure of the neighborhoods of a topological space might vary wildly at different locations in the space - the important quality of a metric space here is that the notion of distance in a metric space can be applied "uniformly" to pairs of points, no matter where they are located. In this section, we want to define a set of spaces more general than metric spaces, but less general than topological spaces, which shares this important property of "uniformity", which will allow us to generalize many useful properties of metric spaces.
-		\subsection{Diagonal Uniformity}
+		\section{Diagonal Uniformity}
 		\begin{definition}
 			For any set $X$, we denote by $\Delta(X)$ the diagonal $\lr{(x,x) \mid x \in X}$ in $X \times X$.
 		\end{definition}
@@ -317,25 +409,147 @@
 		\section{Banach Spaces}
 		\section{Hilbert Spaces}
 		\section{Topological Vector Spaces}
+	\part{Differentiation and Integration}
 	\chapter{Differentiation}
 		\section{The Frechét Derivative}
 		\section{Frechét Spaces}
 		\section{The Gateaux Derivative}
+	\chapter{Manifolds and Diffeomorphisms}
+		\section{Inverse Function Theorem}
+		\begin{definition}
+			We say a map is "$\cC^n$" if its first $n$ derivatives exist and are continuous. If $f \in \cC^n$ is bijective such that $f^{-1} \in \cC^n$, then we call $f$ a \tbf{$\cC^n$-diffeomorphism}.
+		\end{definition}
+		\begin{theorem}
+			\theoremname{(Inverse Function Theorem)}
+			Let $X, Y$ be finite-dimensional real affine spaces, let $U \subset X$ be open and let $f : U \to Y$ be $\cC^n$.
+			Then if the differential $d_p$ at a point $p \in U$ is invertible, There exists an open set $V$ with $p \in V \subset U$ such that $f|_V$ is a $\cC^n$-diffeomorphism.
+		\end{theorem}
 	\chapter{Measure Theory}
+		\section{The Measure Problem}
+		\section{Lattices and Boolean Algebras}
+		In the next section, we will introduce various types of \tit{set algebras} - algebraic structures on the power set of a given set. These will be important because we can define different variants of a "measure function" on these set algebras, which will provide us with weaker or stronger definitions based on the set algebra they are defined on.
+		\newpar
+		However, in order to gain a full birds-eye view of these definitions, we will first introduce the more general notion of \tit{boolean algebras}:
+		\subsection{Boolean Algebras}
+		\begin{definition}
+			A \tbf{boolean algebra} is a set $X$, equipped with two binary operations $\wedge$ and $\vee$, a unary operation $\neg$, and two elements $0$ and $1$, such that:
+			\begin{enumerate}
+				\item $\wedge$ and $\vee$ are commutative,
+				\item $1$ is a neutral element of $\wedge$, and $0$ is a neutral element of $\vee$,
+				\item $\wedge$ distributes over $\vee$ and $\vee$ distributes over $\wedge$,
+				\item $x \wedge \neg x = 0$, and $x \vee \neg x = 1$.
+			\end{enumerate}
+		\end{definition}
+		\begin{corollary}
+			Any boolean algebra also has the following properties:
+			\begin{enumerate}
+				\item $\wedge$ and $\vee$ are associative,
+				\item $\wedge$ and $\vee$ have the following \tbf{absorbtion property}:
+				\begin{align*}
+					a \wedge (a \vee b) = a\\
+					a \vee (a \wedge b) = a,
+				\end{align*}
+				\item $a = b \wedge a$ if and only if $a \vee b = b$.
+			\end{enumerate}
+		\end{corollary}
+		There are three "central" boolean algebras, from which most of the terminology describing them is descended:
+		\begin{theorem}
+			The set of \tbf{propositional formulas} forms a boolean algebra, where $0$ is the logical falsum ($\bot$, an unfulfillable formula), $1$ is the logical verum ($\top$, a tautological formula), and $\wedge$, $\vee$ and $\neg$ are logical "and", "or" and "not".
+		\end{theorem}
+		In computer science and circuit engineering, one often considers the subalgebra of this boolean algebra where every formula is directly evaluated to "$0$" or "$1$".
+		\begin{theorem}
+			The \tbf{power set} $\cP(X)$ of any set $X$ forms a boolean algebra, where $0 = \emptyset$, $1 = X$, $\wedge$ is the set intersection operation $\cap$, $\vee$ is the set union operation $\cup$, and $\neg$ is the set complement operation $M \to X \setminus M$.
+		\end{theorem}
+		\subsection{Lattices}
+		Boolean algebras themselves turn out to be specific instances of \tit{lattices}, which play an important role in order theory and universal algebra.
+		\begin{definition}
+			A \tbf{lattice} is an algebraic structure $(L,\vee,\wedge)$, consisting of a set $L$, an operation $\vee$, called \tbf{join}, and an operation $\wedge$, called \tbf{meet}, such that the absorbtion laws $a \vee (a \wedge b) = a$ and $a \wedge (a \vee b) = a$. 
+		\end{definition}
+		\begin{proposition}
+			Equivalently, a partially ordered set $(L,\leq)$ is a lattice if every pair of elements has a least upper bound $\sup(a,b) := a \vee b \in L$ and a greatest lower bound $\inf(a,b) := a \wedge b \in L$.
+		\end{proposition}
+		\begin{definition}
+			We call a lattice \tbf{bounded} if there exists a \tbf{least element} $0$, i.e. $0$ fulfills $a \vee 0 = a$, and a \tbf{greatest element} $1$, which fulfills $a \wedge 1 = a$.
+		\end{definition}
+		\begin{corollary}
+			A boolean algebra is a bounded semilattice such that meet and join are distributive over each other and such that complements exist.
+		\end{corollary}
 		\section{Set Algebras}
-		\section{Measure Spaces}
+		\begin{definition}
+			Let $X$ be a set and $\cA \subset \cP(X)$. Then we call $\cA$ a \tbf{set algebra} if it has the following properties:
+			\begin{enumerate}
+				\item $\emptyset \in \cA$
+				\item For any $A \in \cA$, we have $X \setminus A \in \cA$ ($\cA$ is closed under the operation of taking complements).
+				\item For any $F,G \in \cA$, we have $F \cup G$ in $\cA$ ($\cA$ is closed under binary unions).
+			\end{enumerate}
+		\end{definition}
+		\begin{corollary}
+			If $\cA$ is a set algebra on $X$, it also fulfills the following:
+			\begin{enumerate}
+				\item $X \in \cA$,
+				\item For any $F,G \in \cA$, we have $F \cap G$ in $\cA$,
+				\item For any $A_1, \hdots, A_n \in \cA$, we have $\bigcup_{i = 1}^n A_i \in \cA$,
+				\item For any $A_1, \hdots, A_n \in \cA$, we have $\bigcap_{i = 1}^n A_i \in \cA$. 
+			\end{enumerate}
+		\end{corollary}
+		Thus, we obtain the following more concise (but less readable) definition of set algebras:
+		\begin{corollary}
+			A set algebra is a subalgebra of the power set boolean algebra on $X$.
+		\end{corollary}
+		\begin{corollary}
+			A topology on $X$ is "simply" a set algebra on $X$ that is closed under arbitrary unions.
+		\end{corollary}
+		\subsection{$\sigma$-Algebras}
+		The most important type of set algebra for the purposes of measure theory is the \tit{$\sigma$-Algebra}, on which we will define the notion of a "measure" in our desired final form.
+		\begin{definition}
+			Let $X$ be an arbitrary set and $\cA \subset \cP(X)$. We call $\cA$ a $\sigma$\tbf{-Algebra on $X$} if:
+			\begin{enumerate}
+				\item $X \in \cA$
+				\item For all $A \in \cA$, we have $X \setminus A \in \cA$ ($\cA$ is closed under the operation of taking a complement).
+				\item For all $A_i \in \cA$, we have $\bigcup_{i \in \bN} \in \cA$ ($\cA$ is closed under the operationg of taking countable unions).
+			\end{enumerate}
+			If $\cA$ is a $\sigma$-Algebra on $X$, we call $(X,\cA)$ a \tbf{measure space}.
+		\end{definition}
+		\begin{corollary}
+			Any $\sigma$-algebra contains the empty set and is closed under countable intersection.
+		\end{corollary}
+		\begin{corollary}
+			A $\sigma$-algebra can be more concisely defined as a set algebra that is closed under \tit{countable} union and intersection, not just finite ones.
+		\end{corollary}
+		\subsection{Set Rings}
+		\begin{theorem}
+			Let $\cA \subset \cP(X)$ such that $\emptyset \in \cA$ and such that $\cA$ is closed under symmetric difference and intersection. Then $\cA$ forms a ring (in the general algebraic sense), where addition is symmetric difference, multiplication, intersection, additive inverses are set complements and the neutral element of multiplication is $X$. We call such an $\cA$ a \tbf{ring of sets} or \tbf{set ring}.
+		\end{theorem}
+		\begin{corollary}
+			Set rings are closed under finite union and intersection.
+		\end{corollary}
+		\subsection{Semirings of Sets}
+		\begin{theorem}
+			Let $\cS \subset \cP(X)$. We call $\cS$ a \tbf{semiring of sets} if:
+			\begin{enumerate}
+				\item $\emptyset \in \cS$,
+				\item $\cS$ is closed under finite intersections,
+				\item For $A,B \in \cS$, there exist disjoint sets $S_1, \hdots, S_n \in \cS$ such that $A \setminus B = \bigcup_{i = i}^n S_i$.
+			\end{enumerate}
+		\end{theorem}
+		This means that a set semiring is a weakened form of a set ring where complements are not necessarily contained in the semiring, but can still be "constructed" from elements of the ring.
+		\newpar
+		Sadly, unlike with rings of sets, there is absolutely no connection between semirings of sets and the algebraic notion of a semiring - a semiring of sets is exclusively a semi(ring of sets), and \tit{not} a (semiring) of sets.
+		\newpar
+		Semirings of sets are of fundamental importance to measure theory primarily because the \tit{lebesque measure} we will end up defining on $\bR^n$ is constructed through the approximation of sets by cuboids, which form a semiring - a complement of two cuboids is not necessarily a cuboid, but it can always be constructed from a finite union of cuboids.
+		\section{Measure functions}
 		\begin{definition}
 			Let $X$ be an uncountable set and $f : X \to [0,\infty]$. Then we define
 			\begin{align*}
 				\sum_{x \in X} f(x) = \sup_{\abs{F} < \infty} \sum_{x \in F} f(x)
 			\end{align*}
 		\end{definition}
-		It may seem odd that we can sum over an uncountable set by simply summing over the finite sets - this is partly justified by the following lemma:
+		It may seem odd that we can sum over an uncountable set by simply summing over the finite subsets - this is partly justified by the following lemma:
 		\begin{lemma}
 			If all terms of a sum are positive, and uncountably many of these terms are non-zero, then the sum diverges.
 		\end{lemma}
 		\begin{proof}
-			Let 
+			Assume that a sum over a set converges, i.e. 
 			\begin{align*}
 				\sum_{x \in X} f(x) = L \in \bR
 			\end{align*}
@@ -346,7 +560,7 @@
 			  &> \sum_{x \in S_n} \frac{1}{n}\\
 			  &= \frac{\abs{S_n}}{n}
 		\end{align*}
-		So we have $\abs{S_n} < nL$ for all $n \in \bN$. The set of all non-zero terms is given by:
+		So we have $\abs{S_n} < nL$ for all $n \in \bN$, meaning that all $S_n$ are finite. The set of all non-zero terms is given by:
 		\begin{align*}
 			S = \lr{x \in X \mid f(x) > 0} = \bigcup_{n \in \bN} \lr{x \in X \mid f(x) > \frac{1}{n}}
 		\end{align*}
@@ -367,6 +581,5 @@
 				\int_X f ~dc = \sum_{x \in X} f(x)
 			\end{align*}
 		\end{theorem}
-		\section{The Bochner Integral}
-		
+		\section{The Bochner Integral}		
 \end{document}
