@@ -217,12 +217,20 @@
 		\begin{definition}
 			Let $f : X \to Y$ be a function between topological spaces. We call $f$ \tbf{continuous} if the preimage $f^{-1}(U)$ of any open set $U$ is again an open set.
 		\end{definition}
+		If the two extreme topologies are involved, continuity of a function is often trivial to verify:
 		\begin{theorem}
 			\label{theorem:trivialcontinuity}
 			Let $f : X \to Y$ be a function between topological spaces. Assume $Y$ has the trivial topology. Then $f$ is continuous.
 		\end{theorem}
 		\begin{proof}
 			By definition of the trivial topology, the only open sets in $Y$ are $Y$ itself and the empty set. We have $f^{-1}(Y) = X$, which is open, and $f^{-1}(\emptyset) = \emptyset$, which is also open.
+		\end{proof}
+		\begin{theorem}
+			\label{theorem:discretecontinuity}
+			Let $f : X \to Y$ be a function between topological spaces. Assume $X$ has the discrete topology. Then $f$ is continuous.
+		\end{theorem}
+		\begin{proof}
+			Every subset of $X$ is open, therefore every preimage of $f$ must be open.
 		\end{proof}
 		\begin{definition}
 			Let $f: X \to Y$ be a function between topological spaces. Let $x \in X$. We call $f$ \tbf{continuous at $x$} if, for any neighborhood $V \subset Y$ of $f(x)$, there exists a neighborhood $U \subset X$ of $x$ such that $f(U) \subset V$.
@@ -343,23 +351,23 @@
 		Recall that we call a set $F_\sigma$ if it is a countable union of closed sets, and that we call a set $G_\delta$ if it is a countable intersetion of open sets.
 		\begin{theorem}
 			\theoremname{(A function discontinuous at an arbitrary $F_\sigma$-set)}
-			Let $A = \bigcup_{n \in \bN} F_n$ be a countable union of closed sets $F_n$. For any point $x \in A$, let $n(x)$ be the smallest natural number such that $x \in F_{n(x)}$. Then the function $f_A : \bR \to \bR$ defined by
+			Let $F = \bigcup_{n \in \bN} F_n$ be a countable union of closed sets $F_n$. For any point $x \in F$, let $n(x)$ be the smallest natural number such that $x \in F_{n(x)}$. Then the function $f_F : \bR \to \bR$ defined by
 			\begin{align*}
-				f_A(x) =
+				f_F(x) =
 				\begin{cases}
-					\frac{1}{n(x)} & x \in A, x \in \bQ\\
-					-\frac{1}{n(x)} & x \in A, x \notin \bQ\\
-					0 & x \notin A
+					\frac{1}{n(x)} & x \in F, x \in \bQ\\
+					-\frac{1}{n(x)} & x \in F, x \notin \bQ\\
+					0 & x \notin F
 				\end{cases}
 			\end{align*}
-			is continuous at every $x \in X \notin A$ and discontinuous at every $x \in A$
+			is continuous at every $x \in X \notin F$ and discontinuous at every $x \in F$
 		\end{theorem}
 		\begin{corollary}
 			\theoremname{(Functions continuous at an arbitrary $G_\delta$-set)}
 			Since the complement of a $G_\delta$-set is $F_\sigma$, we can use the same construction to construct a function that is continuous at an arbitrary $G_\delta$-subset of $\bR$. 
 		\end{corollary}
 		\begin{proposition}
-			Let $f$ be a function between complete metric spaces. Then the set of continuitity of $f$ is $G_\delta$ and the set of discontinuities of $f$ is $F_\sigma$.
+			Let $f$ be a function between complete metric spaces. Then the set of continuities of $f$ is $G_\delta$ and the set of discontinuities of $f$ is $F_\sigma$.
 		\end{proposition}
 		\begin{corollary}
 			There is no function $f : \bR \to \bR$ that is only continuous at the rationals.
@@ -368,47 +376,48 @@
 			The irrationals are uncountable and the rationals are dense in the reals.
 			Any countable union of closed sets either only contains singleton sets, in which case it is countable, or contains at least one non-singleton interval, in which case it contains rational numbers. Therefore the irrationals are not $F_\sigma$ and the rationals are not $G_\delta$.
 		\end{proof}
-		\chapter{Uniform Spaces}
-		Many theorems in analysis require a notion of \tit{uniform convergence}, \tit{uniform continuity}, and so on. These ideas can be easily expressed in a metric space - recall that, for example, a function $f: M \to N$ between metric spaces is uniformly continuous if there exists a $\delta > 0$ such that for every $\epsilon > 0$, we have that if $d_M(x,y)  < \delta$, then $d_N(f(x),f(y)) < \epsilon$.
-		\newpar
-		Meanwhile, we wouldn't be able to refine the definition of continuity like this in a topological space, since the general structure of the neighborhoods of a topological space might vary wildly at different locations in the space - the important quality of a metric space here is that the notion of distance in a metric space can be applied "uniformly" to pairs of points, no matter where they are located. In this section, we want to define a set of spaces more general than metric spaces, but less general than topological spaces, which shares this important property of "uniformity", which will allow us to generalize many useful properties of metric spaces.
-		\section{Diagonal Uniformity}
-		\begin{definition}
-			For any set $X$, we denote by $\Delta(X)$ the diagonal $\lr{(x,x) \mid x \in X}$ in $X \times X$.
-		\end{definition}
-		Our first definition of a \tit{uniform structure} on a set $X$ is based on the observation that in a metric space, $x$ and $y$ are close together if and only if $(x,y)$ is close to $\Delta(X)$.
-		\begin{definition}
-			For any pair of subsets $U,V$ of $X \times X$ (which by definition can be viewed as relations on $X$), we can extend the notion of function composition to these arbitrary relations by defining $U \circ V$ to be the set
-			\begin{align*}
-				\lr{(x,y) \in X \times X \mid \exists z \in X : ((x,z) \in V, (z,y) \in U}
-			\end{align*}
-		\end{definition}
-		\begin{definition}
-			A \tbf{diagonal uniformity} on a set $X$ is a collection $\cD(X)$ of subsets of $X \times X$, called \tbf{surroundings}, such that:
-			\begin{enumerate}
-				\item If $D \in \cD$, then $\Delta(X) \subset D$,
-				\item If $D_1, D_2 \in \cD$, then $D_1 \cap D_2 \in \cD$,
-				\item If $D \in \cD$, then there exists an $E \in \cD$ such that $E \circ E \subset D$,
-				\item If $D \in \cD$, then there exists an $E \in \cD$ such that $E^{-1} \subset D$
-				\item If $D \in \cD$ and $D \subset E$, then $E \in \cD$.
-			\end{enumerate}
-			We call a set $X$ equipped with such a structure a \tbf{uniform space}.
-		\end{definition}
-		\begin{example}
-			For any metric space $(M,d)$, the metric $d$ generates a \tit{metric uniformity} by having a surrounding
-			\begin{align*}
-				D_\epsilon^d = \lr{(x,y) \in M \times M \mid d(x,y) < \epsilon}
-			\end{align*}
-			for every $\epsilon > 0$. Uniformities that can be generated in this way from metrics are called \tbf{metrizable}.
-		\end{example}
-		\begin{anmerkung}
-			For an arbitrary metric $d$, the uniformity generated by $d$ is identical to the one generated by a scaled version $\lambda d$ (with $\lambda \in \bR^\times$). Therefore different metrics may generate the same uniformity.
-		\end{anmerkung}
+		
 	\chapter{Topological Vector Spaces}
 		\section{Normed Vector Spaces}
 		\section{Banach Spaces}
 		\section{Hilbert Spaces}
 		\section{Topological Vector Spaces}
+	\chapter{Uniform Spaces}
+	Many theorems in analysis require a notion of \tit{uniform convergence}, \tit{uniform continuity}, and so on. These ideas can be easily expressed in a metric space - recall that, for example, a function $f: M \to N$ between metric spaces is uniformly continuous if there exists a $\delta > 0$ such that for every $\epsilon > 0$, we have that if $d_M(x,y)  < \delta$, then $d_N(f(x),f(y)) < \epsilon$.
+	\newpar
+	Meanwhile, we wouldn't be able to refine the definition of continuity like this in a topological space, since the general structure of the neighborhoods of a topological space might vary wildly at different locations in the space - the important quality of a metric space here is that the notion of distance in a metric space can be applied "uniformly" to pairs of points, no matter where they are located. In this section, we want to define a set of spaces more general than metric spaces, but less general than topological spaces, which shares this important property of "uniformity", which will allow us to generalize many useful properties of metric spaces.
+	\section{Diagonal Uniformity}
+	\begin{definition}
+		For any set $X$, we denote by $\Delta(X)$ the diagonal $\lr{(x,x) \mid x \in X}$ in $X \times X$.
+	\end{definition}
+	Our first definition of a \tit{uniform structure} on a set $X$ is based on the observation that in a metric space, $x$ and $y$ are close together if and only if $(x,y)$ is close to $\Delta(X)$.
+	\begin{definition}
+		For any pair of subsets $U,V$ of $X \times X$ (which by definition can be viewed as relations on $X$), we can extend the notion of function composition to these arbitrary relations by defining $U \circ V$ to be the set
+		\begin{align*}
+			\lr{(x,y) \in X \times X \mid \exists z \in X : ((x,z) \in V, (z,y) \in U}
+		\end{align*}
+	\end{definition}
+	\begin{definition}
+		A \tbf{diagonal uniformity} on a set $X$ is a collection $\cD(X)$ of subsets of $X \times X$, called \tbf{surroundings}, such that:
+		\begin{enumerate}
+			\item If $D \in \cD$, then $\Delta(X) \subset D$,
+			\item If $D_1, D_2 \in \cD$, then $D_1 \cap D_2 \in \cD$,
+			\item If $D \in \cD$, then there exists an $E \in \cD$ such that $E \circ E \subset D$,
+			\item If $D \in \cD$, then there exists an $E \in \cD$ such that $E^{-1} \subset D$
+			\item If $D \in \cD$ and $D \subset E$, then $E \in \cD$.
+		\end{enumerate}
+		We call a set $X$ equipped with such a structure a \tbf{uniform space}.
+	\end{definition}
+	\begin{example}
+		For any metric space $(M,d)$, the metric $d$ generates a \tit{metric uniformity} by having a surrounding
+		\begin{align*}
+			D_\epsilon^d = \lr{(x,y) \in M \times M \mid d(x,y) < \epsilon}
+		\end{align*}
+		for every $\epsilon > 0$. Uniformities that can be generated in this way from metrics are called \tbf{metrizable}.
+	\end{example}
+	\begin{anmerkung}
+		For an arbitrary metric $d$, the uniformity generated by $d$ is identical to the one generated by a scaled version $\lambda d$ (with $\lambda \in \bR^\times$). Therefore different metrics may generate the same uniformity.
+	\end{anmerkung}
 	\part{Differentiation and Integration}
 	\chapter{Differentiation}
 		\section{The Frechét Derivative}
@@ -426,10 +435,86 @@
 		\end{theorem}
 	\chapter{Measure Theory}
 		\section{The Measure Problem}
-		\section{Lattices and Boolean Algebras}
-		In the next section, we will introduce various types of \tit{set algebras} - algebraic structures on the power set of a given set. These will be important because we can define different variants of a "measure function" on these set algebras, which will provide us with weaker or stronger definitions based on the set algebra they are defined on.
+		The most basic goal of measure theory is to establish a generalized notion of a "measure function", which assigns a "volume" to a given set. In particular, we would like to establish a function that assigns volume functions to subsets of $\bR^n$ and has the following three properties:
+		\begin{enumerate}
+			\item When given a subset with an easily intuitively definable volume, the volume function should agree with that volume. In particular, the volume of a cuboid should be the product of the lengths of its sides, and the length of a real interval $(a,b)$ should be $b-a$.
+			\item The volume of a countable disjoint union of sets should be the sum of the individual volumes.
+			\item The volume should be invariant under isometries, i.e. functions like rotations, translations, and reflections should not change the volume of a set.
+		\end{enumerate}
+		It will turn out that there exists exactly one function, called the \tit{Lebesque measure} $\lambda^n$, that fulfills these conditions for a very large family of sets - enough to include every "somewhat reasonable" subset of $\bR^n$. However, there are still counterexamples.
+		\begin{proposition}
+			Every subset of $\bR^n$ being Lebesque-measurable is consistent with ZF (without the axiom of choice).
+		\end{proposition}
+		\begin{theorem}
+			Assuming the axiom of choice, there exist subsets of $\bR^n$ that cannot be assigned a volume without arriving at a contradiction.
+		\end{theorem}
+		It turns out that this result crucially relies on the full axiom of choice, and in particular is not implied by commonly used weaker forms of the axiom of choice such as the axiom of dependent choice.
 		\newpar
-		However, in order to gain a full birds-eye view of these definitions, we will first introduce the more general notion of \tit{boolean algebras}:
+		The following two subsections deal with two different ways of proving this theorem by construction \tit{non-measurable sets}: The \tit{Vitali Sets}, and the decomposition of a sphere given in the \tit{Banach-Tarski-Paradox}.
+		\subsection{Vitali Sets}
+		\begin{proposition}
+			The relation $x \sim y \Leftrightarrow x - y \in \bQ$ is an equivalence relation on the real numbers.
+		\end{proposition}
+		\begin{theorem}
+			There exist sets $V \subset [0,1]$ such that for each $r \in \bR$, there exists exactly one number $v \in V$ such that $v - r$ is rational. We call such a set a \tbf{Vitali Set}.
+		\end{theorem}
+		\begin{proof}
+			Consider the aforementioned equivalence relation $x \sim y$ on $\bR$. Each equivalence class must contain at least one representative also contained in $[0,1]$, since if $x - y  = q \in \bQ$, we have $x - (y +  q) \in \bQ$ for all $q \in \bQ$, letting us pick a $q$ such that $x- (y+q) \in [0,1]$. Being equivalence classes, they must also be disjoint.
+			\newpar
+			This means we can use the axiom of choice to pick exactly one element of each equivalence class of $\sim$, giving us our set $V$.
+		\end{proof}
+		\begin{lemma}
+			Let $q_1, q_2, \hdots$ be an enumeration of $\bQ \cap [-1,1]$. Then for $j \neq k$, we have
+			\begin{align*}
+				(q_j + V) \cap (q_k + V) = \emptyset
+			\end{align*}
+		\end{lemma}
+		\begin{proof}
+			Assume the intersection is non-empty. Then there exist $v_1,v_2 \in V$ such that $q_j + v_1 = q_k + v_2$, meaning $v_1 - v_2 \in \bQ$. Therefore, $v_1$ must be in the same equivalence class as $v_2$. Since $V$ contains exactly one element of each equivalence class, we have $v_1 = v_2$, and therefore we also have $q_j = q_k$, i.e. $j = k$.
+		\end{proof}
+		\begin{lemma}
+			We have
+			\begin{align*}
+				[0,1] \subset \bigcup_{k \in \bN} (q_k + V) \subset [-1,2]
+			\end{align*}
+		\end{lemma}
+		\begin{proof}
+		\begin{enumerate}
+			\item $\displaystyle \bigcup_{k \in \bN} (q_k + V) \subset [-1,2]$ follows trivially from $q_k \in [-1,1]$ and $V \subset [0,1]$.
+			\item $\displaystyle [0,1] \subset \bigcup_{k \in \bN} (q_k + V)$ follows from the definition of $V$, since for every $y \in [0,1]$ we have a unique $v \in V$ such that $y-v := q \in \bQ$, and since $y \in [0,1]$ and $v \in [0,1]$, we have $q \in [-1,1]$, i.e. $q$ is contained in our enumeration.
+		\end{enumerate}
+		\end{proof}
+		\begin{corollary}
+			Vitali sets are non-measurable.
+		\end{corollary}
+		\begin{proof}
+			Assume that $\lambda^1$ is our desired Lebesque measure on $\bR$, which is invariant under isometries and countably additive. Then we have
+			\begin{align*}
+				1 = \lambda^1([0,1]) \leq \lambda^1\lr(\bigcup_{k \in \bN} (q_k + V)) \leq \lambda^1\lr([-1,2]) = 3
+			\end{align*}
+			Since our measure is countably addiive and invariant under isometries, we can translate each individual set and preserve the measure:
+			\begin{align*}
+				\lambda^1\lr(\bigcup_{k \in \bN} (q_k + V)) 
+				&= \sum_{k \in \bN} \lambda^1\lr(q_k + V)\\
+				&= \sum_{k \in \bN} \lambda^1\lr(V)
+			\end{align*}
+			Now, if $\lambda^1(V) \leq 0$, we wouldn't have $1 \leq \sum_{k \in \bN} \lambda^1\lr(V)$, and if $\lambda^1(V) > 0$, we wouldn't have $\sum_{k \in \bN} \lambda^1\lr(V) \leq 3$. Therefore every possible measure we could assign to $V$ leads to a contradiction.
+		\end{proof}
+		\subsection{The Banach-Tarski Paradox}
+		\begin{theorem}
+			Given any two sets $A,B \subset \bR^n$, with $n \geq 3$, such that both $A$ and $B$ have a nonempty interior, there exist disjoint decompositions $A_1 \sqcup \hdots \sqcup A_k = A$ and $B_1 \sqcup \hdots \sqcup B_k = B$ such that for each $i$, $A_i$ and $B_i$ can be transformed into each other by an isometry.
+		\end{theorem}
+	
+		\begin{corollary}
+			The unit sphere can be transformed into two copies of the unit sphere by a finite disjoint decomposition followed by an isometry. The subsets of the decomposition therefore violate the countable union condition we expect from measure functions, and can therefore not be a assigned a meaningful volume.
+		\end{corollary}
+				
+		\section{Lattices and Boolean Algebras}
+		We have just seen that we cannot define our desired measure function on the full power set of $\bR^n$. This means we will have to work on smaller systems of subsets of a given set. Naturally, we want to find the largest such systems that are still well-behaved enough to only contain measurable sets.
+		\newpar
+		We will arrive at different algebraic structures on subsets of power sets, which will serve as the domains of our measure functions.
+		\newpar
+		In order to gain a full birds-eye view of these definitions, we will first introduce the more general notion of \tit{boolean algebras}:
 		\subsection{Boolean Algebras}
 		\begin{definition}
 			A \tbf{boolean algebra} is a set $X$, equipped with two binary operations $\wedge$ and $\vee$, a unary operation $\neg$, and two elements $0$ and $1$, such that:
@@ -472,7 +557,7 @@
 			We call a lattice \tbf{bounded} if there exists a \tbf{least element} $0$, i.e. $0$ fulfills $a \vee 0 = a$, and a \tbf{greatest element} $1$, which fulfills $a \wedge 1 = a$.
 		\end{definition}
 		\begin{corollary}
-			A boolean algebra is a bounded semilattice such that meet and join are distributive over each other and such that complements exist.
+			A boolean algebra is a bounded lattice such that meet and join are distributive over each other and such that complements exist.
 		\end{corollary}
 		\section{Set Algebras}
 		\begin{definition}
@@ -499,6 +584,9 @@
 		\begin{corollary}
 			A topology on $X$ is "simply" a set algebra on $X$ that is closed under arbitrary unions.
 		\end{corollary}
+		\begin{theorem}
+			\theoremname{(Stone's Representation Theorem for Boolean Algebras:)} Every boolean algebra is isomorphic to a set algebra.
+		\end{theorem}
 		\subsection{$\sigma$-Algebras}
 		The most important type of set algebra for the purposes of measure theory is the \tit{$\sigma$-Algebra}, on which we will define the notion of a "measure" in our desired final form.
 		\begin{definition}
