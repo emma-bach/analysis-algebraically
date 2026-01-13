@@ -26,11 +26,21 @@
 % Multiple Text Columns
 \usepackage{multicol}
 
+% Margin Notes
+\usepackage{sidenotes}
+
 % FloatBarrier
 \usepackage{placeins} 
 
 % hyperref should be last apparently
 \usepackage{hyperref}
+
+% nicer text
+\usepackage{microtype} % general improvements to text appearance
+\usepackage[T2A,T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[osf, helvratio=.9]{newpxtext} % text font
+\usepackage{newpxmath} % math font
 
 %--- RENEWED COMMANDS ---
 
@@ -63,7 +73,7 @@
 \newcommand{\ol}[1]{\overline{{#1}}}
 
 % Underlined, bold, non-cursive Theorem Name
-\newcommand{\theoremname}[1]{\ul{\textnormal{\tbf{#1}}}}
+\newcommand{\theoremname}[1]{\textnormal{\tbf{(#1):}}}
 
 % Starts a new paragraph without indentation
 % and with an empty line between paragraphs
@@ -82,6 +92,7 @@
 \newcommand{\symdiff}{\vartriangle}
 \newcommand{\trans}{\twoheadrightarrow}
 \newcommand{\tensor}{\otimes}
+\newcommand{\bigmid}{~\middle|~}
 
 %--- STUFF IN FANCY BRACKETS ---
 \newcommand{\scalar}[2]{\left\langle #1, #2 \right\rangle}
@@ -134,6 +145,7 @@
 \newcommand{\bRnm}{\mathbb{R}^{n \times m}}
 
 % vectors
+\newcommand{\vzero}{\kern-1.2pt\vec{\kern1.2pt 0}} 
 \renewcommand{\va}{\vec{a}}
 \renewcommand{\vb}{\vec{b}}
 \newcommand{\vc}{\vec{c}}
@@ -145,13 +157,12 @@
 \newcommand{\vs}{\vec{s}}
 \newcommand{\vT}{\vec{T}}
 \renewcommand{\vu}{\vec{u}}
-\newcommand{\vv}{\vec{v}}
+\renewcommand{\vv}{\vec{v}}
 \newcommand{\vw}{\vec{w}}
 \newcommand{\vW}{\vec{W}}
 \newcommand{\vx}{\vec{x}}
 \newcommand{\vy}{\vec{y}}
 \newcommand{\vz}{\vec{z}}
-\newcommand{\vzero}{\vec{0}}
 
 \newcommand{\veta}{\vec{\eta}}
 
@@ -195,6 +206,7 @@
 \newcommand{\GL}{\text{GL}}
 \newcommand{\SO}{\text{SO}}
 \newcommand{\Hess}[1]{\text{Hess}(#1)}
+\renewcommand{\div}{\tn{div}}
 
 \newcommand{\Grp}{\textnormal{Grp}}
 \newcommand{\Mag}{\textnormal{Mag}}
@@ -206,8 +218,6 @@
 \newcommand{\Mat}{\textnormal{Mat}}
 \newcommand{\Matnn}{\textnormal{Mat}(n \times n)}
 \newcommand{\MatBB}[3]{\textnormal{Mat}^{#1}_{#2}\left(#3\right)}
-
-
 
 % --- THEOREM AND PROOF TYPES ---
 % \newtheorem{codename}{printedname}[countedwith]

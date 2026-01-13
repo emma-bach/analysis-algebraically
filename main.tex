@@ -1,17 +1,10 @@
-\iffalse
-\DocumentMetadata{
-	lang        = de,
-	pdfstandard = ua-2,
-	pdfstandard = a-4f, %or a-4
-	tagging=on,
-	tagging-setup={math/setup=mathml-SE} 
-}
-\fi
-\documentclass{report}
+\documentclass[10pt]{report}
+\makeatletter
 
 % custom margins
-\usepackage[a4paper,margin=1.5in]{geometry}
+\usepackage[a4paper,margin=1in,rmargin=2.5in,marginparsep=16pt, marginparwidth=1.5in]{geometry}
 \renewcommand{\baselinestretch}{1.2}
+
 %\AddToHook{cmd/section/before}{\clearpage}
 
 % emma's long list of custom macros and universally used packages
@@ -22,7 +15,7 @@
 	colback=white,
 	boxrule=0pt,
 	frame hidden,
-	borderline west={1pt}{0pt}{black},
+	borderline west={1.5pt}{0pt}{black},
 	before skip=0.75cm,
 	after skip=0.75cm,
 	sharp corners,
@@ -43,6 +36,29 @@
 	\tableofcontents
 	\thispagestyle{fancy}
 	\part{Set Theory}
+	\chapter{Axioms of Set Theory}
+		\section{ZFC}
+		\section{Operations on Sets}
+		\section{Relations and Maps}
+		\begin{theorem}
+			\theoremname{Some identities for preimages}
+			Let $f : X \to Y$ be a bijective map. Then for all $Y_i \subset Y$, the following identities hold:
+			\begin{enumerate}
+				\item The preimage of a union of sets is the union of the preimages:
+				\begin{align*}
+					f^{-1}\lr(\bigcup_{i \in I} Y_i) = \bigcup_{i \in I} f^{-1}(Y_i)
+				\end{align*}
+				\item The preimage of an intersection of sets is the intersection of the preimages:
+				\begin{align*}
+					f^{-1}\lr(\bigcap_{i \in I} Y_i) = \bigcap_{i \in I} f^{-1}(Y_i)
+				\end{align*}
+				\item The preimage of the complement of a set is the complement of its preimage:
+				\begin{align*}
+					f^{-1}(Y \setminus Y_i) = X \setminus f^{-1}(Y_i)
+				\end{align*}
+			\end{enumerate}
+		\end{theorem}
+		\section{Orders}
 	\part{Algebraic Structures}
 	\chapter{Ordered Fields}
 		\iffalse
@@ -111,25 +127,27 @@
 		\end{corollary}
 		\begin{proof}
 			\begin{align*}
-						 & a \leq b\\
-				\implies & 1 = aa^{-1} \leq ba^{-1}\\
-				\implies &b^{-1} \leq b^{-1}ba^{-1} = a^{-1}
+						  a &\leq b\\
+				\implies 1 = aa^{-1} &\leq ba^{-1}\\
+				\implies b^{-1} &\leq b^{-1}ba^{-1} = a^{-1}
 			\end{align*}
 		\end{proof}
 		\begin{summary}
 			Let $F$ be an ordered Field and let $a,b,c \in F$ Then all of the following hold:
-			\begin{enumerate}
-				\item $a \leq a$
-				\item If $a \leq b$ and $b \leq c$, then $a \leq c$ (transitivity)
-				\item If $a \leq b$ and $b \leq a$, then $a = b$ (antisymmetry)
-				\item We always have at least one of $a \leq b$ and $b \leq a$
-				\item If $a \leq b$, then $a + c \leq b + c$
-				\item If $0 \leq a$ and $0 \leq b$, then $0 \leq ab$.
-				\item If $0 \leq a$, then $-a \leq 0$.
-				\item $0 \leq a^2$
-				\item If $a \leq b$ and $c \geq 0$, then $ac \leq bc$.
-				\item If $a \leq b$ and $c \leq 0$, then $ac \geq bc$.
-			\end{enumerate}
+			\begin{multicols}{2}
+				\begin{enumerate}
+					\item $a \leq a$
+					\item If $a \leq b$ and $b \leq c$, then $a \leq c$ (transitivity)
+					\item If $a \leq b$ and $b \leq a$, then $a = b$ (antisymmetry)
+					\item We always have at least one of $a \leq b$ and $b \leq a$
+					\item If $a \leq b$, then $a + c \leq b + c$
+					\item If $0 \leq a$ and $0 \leq b$, then $0 \leq ab$.
+					\item If $0 \leq a$, then $-a \leq 0$.
+					\item $0 \leq a^2$
+					\item If $a \leq b$ and $c \geq 0$, then $ac \leq bc$.
+					\item If $a \leq b$ and $c \leq 0$, then $ac \geq bc$.
+				\end{enumerate}
+			\end{multicols}
 		\end{summary}
 	\section{The Archimedean Property}
 		\begin{definition}
@@ -376,7 +394,51 @@
 			The irrationals are uncountable and the rationals are dense in the reals.
 			Any countable union of closed sets either only contains singleton sets, in which case it is countable, or contains at least one non-singleton interval, in which case it contains rational numbers. Therefore the irrationals are not $F_\sigma$ and the rationals are not $G_\delta$.
 		\end{proof}
-		
+	\chapter{Topological Manifolds}
+	\begin{lemma}
+		Let $M$ be a topological space. Then the following are equivalent:
+		\begin{enumerate}
+			\item Every point in $M$ has a neighborhood that is homeomorphic to an open subset of $\bR^n$.
+			\item Every point in $M$ has a neighborhood that is homeomorphic to an open ball in $\bR^n$.
+			\item Every point in $M$ has a neighborhood that is homeomorphic to $\bR^n$.
+		\end{enumerate}
+		If $M$ has this property, we call it \tbf{locally Euclidean of dimension $n$.}.
+	\end{lemma}
+	Notably, a topological space $M$ is locally euclidean of dimension $0$ if and only if every open subset is homeomorphic to $\bR^0 = \lr{0}$, i.e. every open set contains a single point, i.e. $M$ is discrete.
+	\begin{definition}
+		Let $M$ be locally euclidean of dimension $n$. Let $U \subset M$ be open. Then:
+		\begin{enumerate}
+			\item We call $U$ a \tbf{coordinate domain},
+			\item We call any homeomorphism $\phi : U \to V$ to an open subset $V \subseteq \bR^n$ a \tbf{coordinate map},
+			\item We call the pair $(U, \phi)$ is a \tbf{coordinate chart}, or just \tbf{chart}.
+		\end{enumerate}
+	\end{definition}
+	\begin{definition}
+		Let $M$ be a topological space. Then we call $M$ an \tbf{$n$-dimensional topological manifold} if it is:
+		\begin{enumerate}
+			\item Hausdorff, and
+			\item second-countable, and
+			\item locally Euclidean of dimension $n$.
+		\end{enumerate}
+	\end{definition}
+	Some authors omit the latter two conditions, but virtually all important examples of locally euclidean topological spaces do fulfill these properties, and most interesting theorems about topological manifolds require them, so not much is gained by working with a more general definition.
+	\begin{theorem}
+		Every open subset of an $n$-dimensional topological manifold is itself an $n$-dimensional topological manifold.
+	\end{theorem}
+	\begin{theorem}
+		A topological space is a $0$-manifold if and only if it is a countable discrete space.
+	\end{theorem}
+	The two following theorems are of fundamental importance, but the proofs sadly require additional machinery that we will not establish here:
+	\begin{proposition}
+		If $m \neq n$, then a nonempty topological space cannot be both an $m$-manifold and an $n$-manifold.
+	\end{proposition}
+	Note that the empty set is explicitly excluded, since it does in fact qualify as a manifold of any arbitrary dimension.
+	\begin{proposition}
+		Every topological $n$-manifold is homeomorphic to a subset of a Euclidean space $\bR^k$, where $k \geq n$.
+	\end{proposition}
+	\begin{corollary}
+		Every topological manifold is separable and metrizable.
+	\end{corollary}
 	\chapter{Topological Vector Spaces}
 		\section{Normed Vector Spaces}
 		\section{Banach Spaces}
@@ -418,30 +480,153 @@
 	\begin{anmerkung}
 		For an arbitrary metric $d$, the uniformity generated by $d$ is identical to the one generated by a scaled version $\lambda d$ (with $\lambda \in \bR^\times$). Therefore different metrics may generate the same uniformity.
 	\end{anmerkung}
-	\part{Differentiation and Integration}
-	\chapter{Differentiation}
-		\section{The Frechét Derivative}
-		\section{Frechét Spaces}
-		\section{The Gateaux Derivative}
-	\chapter{Manifolds and Diffeomorphisms}
-		\section{Inverse Function Theorem}
+	\part{Differentiation}
+	\chapter{Differentiation in Normed Vector Spaces}
+		\section{The Fréchet Derivative}
+		\begin{definition}
+			\theoremname{Fréchet Derivative}
+			Let $(V, \norm{-}_V$, $(W, \norm{-}_W)$ be normed vector spaces. Let $x \in U \subset V$. Then a map $f : U \to W$ is called \tbf{Fréchet differentiable at $x_0$}, \tbf{totally differentiable at $x_0$}, or just \tbf{differentiable at $x_0$}, if there exists a bounded linear map $A : V \to W$ such that
+			\begin{align*}
+				\lim_{h \to 0} \frac{\norm{f(x_0 + h) - f(x_0) - A(h)}_W}{\norm{h}_V} = 0
+			\end{align*}
+			$f$ is called (Fréchet / totally) differentiable if it is differentiable at every point.
+		\end{definition}
+		\begin{theorem}
+			If such an $A$ exists, it is unique. We call it the \tbf{Fréchet derivative}, \tbf{differential}, or \tbf{derivative}, of $f$ at $x$, and denote it as:
+			\begin{align*}
+				Df(x) := A
+			\end{align*}
+		\end{theorem}
+		Some comments:
+		\begin{enumerate}
+			\item In the case $f : \bR \to \bR$, the linear maps $\bR \to \bR$ are exactly the maps $x \mapsto cx$, with $c$ constant. Therefore if $f$ is a function $\bR \to \bR$, then assuming the standard absolute value norm on $\bR$, this expression can be rearranged to give us the classic definition of a derivative:
+			\begin{align*}
+				\lim_{h \to 0} &\frac{\norm{f(x_0 + h) - f(x_0) - A(h)}_\bR}{\norm{h}_\bR} = 0\\
+				\Longleftrightarrow
+				\lim_{h \to 0} &\frac{\abs{f(x_0 + h) - f(x_0) - c \cdot h}}{\abs{h}} = 0\\
+				\Longleftrightarrow
+				\lim_{h \to 0} &\frac{f(x_0 + h) - f(x_0) - c \cdot h}{h} = 0\\
+				\Longleftrightarrow
+				\lim_{h \to 0} &\frac{f(x_0 + h) - f(x_0)}{h} - c = 0\\
+				\Longleftrightarrow
+				\lim_{h \to 0} &\frac{f(x_0 + h) - f(x_0)}{h} = c\\
+			\end{align*}
+			In this case, we generally write $c := f'(x_0)$.
+			
+			However, note that under our general definition of a derivative, the derivative is a \tit{map}, meaning that the derivative $Df(x)$ of $f : \bR \to \bR$ at $x$" is \tit{technically} not the scalar $f'(x) \in \bR$, but instead the linear map
+			\begin{align*}
+				Df(x): \bR &\to \bR\\
+				t &\mapsto f'(x) \cdot t
+			\end{align*}		
+			\item The definition demands that $A$ be a \tit{bounded} linear map. However, recall that if $V$ is finite-dimensional, every linear map from $V$ is inherently bounded, so this additional constraint is only relevant if $V$ is infinite-dimensional.
+			\item If $V$ and $W$ are finite-dimensional vector spaces over the same field $\bF$, $A$ is a matrix, and we can write $A \cdot h$ instead of $A(h)$.
+		\end{enumerate}
+		\begin{definition}
+			We call $f : U \to W$ \tbf{continuously differentiable} if the function
+			\begin{align*}
+				Df : U &\to \hom(V,W)\\
+					 x &\mapsto Df(x)
+			\end{align*}
+			is continuous. We denote the set of continuously differentiable functions $U \to W$ as $\cC^1(U,W)$.
+		\end{definition}
+		\begin{proposition}
+			\phantom{}
+			\begin{enumerate}
+				\item Every constant map is totally differentiable with total derivative $0$.
+				\item Every bounded linear map $F$ is totally differentiable with total derivative $F$.
+			\end{enumerate}
+		\end{proposition}
+		\begin{theorem}
+			\theoremname{Differential of Multiplication}
+			The multiplication operator
+			\begin{align*}
+				M : \bF^2 &\to \bF\\
+					\vx &\mapsto x_1 \cdot_\bF x_2
+			\end{align*} 
+			is differentiable, with derivative:
+			\begin{align*}
+				DM(\vx) = (x_2,x_1)
+			\end{align*}
+		\end{theorem}
+		\begin{proof}
+			We have:
+			\begin{align*}
+				&M(\vx + \vh) - M(\vx) - DM(\vh) \\
+				= &(x_1 + h_1)(x_2 + h_2) - x_1x_2 - h_1x_2 - h_2x_1\\ 
+				= &x_1x_2 + x_1h_2 + h_1x_2 + h_1h_2 - x_1x_2 - h_1x_2 - h_2x_1\\
+				= &h_1 \cdot h_2 
+			\end{align*}
+			Since norms on finite dimensional vector spaces are equivalent, we can assume the Maximum norm on $\bF^2$, and get:
+			\begin{align*}
+				&\lim_{\vh \to \vzero} \frac{\norm{h_1 \cdot h_2}_{\bF}}{\norm{\vh}_{\max}}\\
+				= &\lim_{\vh \to \vzero} \frac{\norm{h_1 \cdot h_2}_{\bF}}{\max\lr{\abs{h_1}, \abs{h_2}}}\\
+				= &\lim_{\vh \to \vzero} \frac{\norm{h_1 \cdot h_2}_{\bF}}{\max\lr{\abs{h_1}, \abs{h_2}}}\\
+				= &\lim_{\vh \to \vzero} \frac{\abs{h_1}_\bF \abs{h_2}_\bF}{\max\lr{\abs{h_1}, \abs{h_2}}}\\
+				= &\lim_{\vh \to \vzero} \abs{\min\lr{h_1, h_2}}_\bF\\
+				= &~0
+			\end{align*}
+		\end{proof}
+		\begin{proposition}
+			\theoremname{Linearity of the differential operator}
+			Let $V, W$ be normed vector spaces over a field $\bF$, and let $F,G: V \supset U \to W$ be totally differentiable at $\vx \in U$. Let $c \in \bF$. Then:
+			\begin{enumerate}
+				\item $D(cF)(\vx) = c \cdot (DF(\vx))$
+				\item $D(F + G)(\vx) = DF(\vx) + DG(\vx)$
+			\end{enumerate}
+		\end{proposition}
+		\begin{align*}
+		\end{align*}
+		\section{Divergence and Curl}
+		\begin{definition}
+			\theoremname{Divergence of a Vector Field}
+			Let 
+			\begin{align*}
+				f : \bR^m \supset S &\to \bR^n\\
+				x &\mapsto (f_1(x), \hdots, f_n(x))
+			\end{align*} be continuously differentiable. Then the \tbf{divergence} of $f$ is defined to be
+			\begin{align*}
+				\div f = \tr Df
+			\end{align*}
+		\end{definition}
+		\begin{anmerkung}
+			If we assume the standard base on $\bR^n$, we have:
+			\begin{align*}
+				\div f = \tr(Df) =  \sum_{i = 1}^n \frac{\partial}{\partial x_i} f_i(x)
+			\end{align*}
+		\end{anmerkung}
+		$\div f$ is sometimes written as $\nabla \cdot f$, which is horrendous notation that I will stay far away from.
+		\newpar
+		$\div f$ has a nice physical interpretation: Imagine $f$ as a physical vector field describing the flow of a fluid. Take a neighborhood around a point $x$, measure the amount of fluid flowing out of that neighborhood, and subtract the amount of fluid flowing into that neighborhood. Then $(\div f)(x)$ is the limiting value of this operation as we let our neighborhoods converge to the point $x$ itself.
+		\newpar
+		This means that $x$ is a \tit{source} iff $(\div f)(x) > 0$, and a \tit{sink} iff $(\div f)(x) < 0$.
+	\chapter{Differentiable Manifolds}
+		\section{Differentiable Manifolds}
 		\begin{definition}
 			We say a map is "$\cC^n$" if its first $n$ derivatives exist and are continuous. If $f \in \cC^n$ is bijective such that $f^{-1} \in \cC^n$, then we call $f$ a \tbf{$\cC^n$-diffeomorphism}.
 		\end{definition}
+		Under the convention that the $0$th derivative of $f$ is $f$ itself, a $C^0$-diffeomorphism is the same thing as a homeomorphism.
 		\begin{theorem}
-			\theoremname{(Inverse Function Theorem)}
-			Let $X, Y$ be finite-dimensional real affine spaces, let $U \subset X$ be open and let $f : U \to Y$ be $\cC^n$.
-			Then if the differential $d_p$ at a point $p \in U$ is invertible, There exists an open set $V$ with $p \in V \subset U$ such that $f|_V$ is a $\cC^n$-diffeomorphism.
+			content...
 		\end{theorem}
+		\section{Inverse Function Theorem}
+		\begin{theorem}
+			\theoremname{Inverse Function Theorem}
+			Let $X, Y$ be finite-dimensional real affine spaces, let $U \subset X$ be open and let $f : U \to Y$ be $\cC^n$.
+			Then if the differential $Df(p)$ at a point $p \in U$ is invertible, There exists an open set $V$ with $p \in V \subset U$ such that $f|_V$ is a $\cC^n$-diffeomorphism.
+		\end{theorem}
+		\section{Implicit Function Theorem}
+	\part{Measure and Integration}
+	\chapter{The Riemann Integral}
 	\chapter{Measure Theory}
 		\section{The Measure Problem}
 		The most basic goal of measure theory is to establish a generalized notion of a "measure function", which assigns a "volume" to a given set. In particular, we would like to establish a function that assigns volume functions to subsets of $\bR^n$ and has the following three properties:
 		\begin{enumerate}
 			\item When given a subset with an easily intuitively definable volume, the volume function should agree with that volume. In particular, the volume of a cuboid should be the product of the lengths of its sides, and the length of a real interval $(a,b)$ should be $b-a$.
-			\item The volume of a countable disjoint union of sets should be the sum of the individual volumes.
+			\item The volume of a countable disjoint union of sets should be the sum of the individual volumes. This property is generally referred to as \tit{$\sigma$-additivity}.
 			\item The volume should be invariant under isometries, i.e. functions like rotations, translations, and reflections should not change the volume of a set.
 		\end{enumerate}
-		It will turn out that there exists exactly one function, called the \tit{Lebesque measure} $\lambda^n$, that fulfills these conditions for a very large family of sets - enough to include every "somewhat reasonable" subset of $\bR^n$. However, there are still counterexamples.
+		We call a $\sigma$-additive function a \tit{measure}.
+		It will turn out that there exists exactly one function on $\bR^n$, called the \tit{Lebesque measure} $\lambda^n$, that fulfills these conditions for a very large family of sets (the so-called "Borel $\sigma$-Algebra") - enough to include every "somewhat reasonable" subset of $\bR^n$. However, there are still counterexamples.
 		\begin{proposition}
 			Every subset of $\bR^n$ being Lebesque-measurable is consistent with ZF (without the axiom of choice).
 		\end{proposition}
@@ -485,7 +670,7 @@
 		\end{enumerate}
 		\end{proof}
 		\begin{corollary}
-			Vitali sets are non-measurable.
+			Vitali sets are not measurable by any translation-invariant measure.
 		\end{corollary}
 		\begin{proof}
 			Assume that $\lambda^1$ is our desired Lebesque measure on $\bR$, which is invariant under isometries and countably additive. Then we have
@@ -508,9 +693,18 @@
 		\begin{corollary}
 			The unit sphere can be transformed into two copies of the unit sphere by a finite disjoint decomposition followed by an isometry. The subsets of the decomposition therefore violate the countable union condition we expect from measure functions, and can therefore not be a assigned a meaningful volume.
 		\end{corollary}
-				
+		\section{$\sigma$-Additivity}
+		\begin{theorem}
+			Let $X$ be a set and $\cA \subseteq \cP(X)$. Then the $\sigma$-additivity of a function $\mu : \cA \to [0,\infty]$ is only well defined if $\cA$ contains the empty set and is closed under countable union.
+		\end{theorem}
+		\begin{corollary}\theoremname{$\emptyset$ is always a zero set}
+			Let $\mu$ be a $\sigma$-additive function $\cA \to [0,\infty]$. Then $\mu(\emptyset) = 0$.
+		\end{corollary}
+		\begin{corollary}\theoremname{$\sigma$-Additivity implies monotonicity}
+			Let $\mu$ be a $\sigma$-additive function $\cA \to [0,\infty]$. Then $A \subset B$ implies $\mu(A) \leq \mu(B)$.
+		\end{corollary}	
 		\section{Lattices and Boolean Algebras}
-		We have just seen that we cannot define our desired measure function on the full power set of $\bR^n$. This means we will have to work on smaller systems of subsets of a given set. Naturally, we want to find the largest such systems that are still well-behaved enough to only contain measurable sets.
+		We have just seen that we cannot define our desired measure function on the full power set of $\bR^n$. This means we will have to work on smaller systems of subsets of a given set. Naturally, we want to find the largest such systems that are still well-behaved enough to allow us to define a sensible notion of measure.
 		\newpar
 		We will arrive at different algebraic structures on subsets of power sets, which will serve as the domains of our measure functions.
 		\newpar
@@ -529,7 +723,7 @@
 			Any boolean algebra also has the following properties:
 			\begin{enumerate}
 				\item $\wedge$ and $\vee$ are associative,
-				\item $\wedge$ and $\vee$ have the following \tbf{absorbtion property}:
+				\item $\wedge$ and $\vee$ have the following \tbf{absorption property}:
 				\begin{align*}
 					a \wedge (a \vee b) = a\\
 					a \vee (a \wedge b) = a,
@@ -543,7 +737,72 @@
 		\end{theorem}
 		In computer science and circuit engineering, one often considers the subalgebra of this boolean algebra where every formula is directly evaluated to "$0$" or "$1$".
 		\begin{theorem}
+			\theoremname{Power set algebra}
 			The \tbf{power set} $\cP(X)$ of any set $X$ forms a boolean algebra, where $0 = \emptyset$, $1 = X$, $\wedge$ is the set intersection operation $\cap$, $\vee$ is the set union operation $\cup$, and $\neg$ is the set complement operation $M \to X \setminus M$.
+		\end{theorem}
+		\begin{theorem}
+			\theoremname{Restrictions of Boolean algebras}
+			Let $\cB$ be a Boolean algebra on a set $X$, and let $Y$ be a subset of $X$. Then the \tbf{restriction of $\cB$ to $Y$}, defined as
+			\begin{align*}
+				\cB|_Y := \lr{E \cap Y \mid E \in \cB},
+			\end{align*}
+			is a boolean Algebra on $Y$.
+		\end{theorem}
+		\begin{theorem}
+			If $Y \in \cB$, then
+			\begin{align*}
+				\cB|_Y = \cB \cap \cP(Y) = \lr{E \subset Y \mid E \in \cB}
+			\end{align*}
+		\end{theorem}
+		\begin{theorem}
+			\theoremname{Atomic algebra} Let $X$ be partioned into a union
+			\begin{align*}
+				X = \bigcup_{\alpha \in I} A_\alpha
+			\end{align*}
+			of disjoint sets $A_\alpha$, which we refer to as \tit{atoms}. Then this partition forms a Boolean algebra 
+			\begin{align*}
+				\cA((A_\alpha)_{\alpha \in I}) 
+				:= \lr{ E \bigmid E = \bigcup_{\alpha \in J} A_\alpha, J \subset I}
+			\end{align*}
+			of all the sets that can be represented as a union of atoms.
+		\end{theorem}
+		The power set Algebra on $X$ is exactly the atomic algebra where $X$ is partitioned into singleton atoms.
+		\begin{theorem}
+			Atomic algebras are uniquely determined by their atoms, up to relabeling. More precisely:
+			Let $(A_\alpha)_{\alpha \in I}$ and $(B_\beta)_{\beta \in J}$ be two partitions of a set $X$. Then
+			\begin{align*}
+				\cA((A_\alpha)_{\alpha \in I}) 
+				=
+				\cA((B_\beta)_{\beta \in J}) 
+			\end{align*}
+			if and only if there exists a bijection $\phi : I \to J$ such that $B_{\phi(\alpha)} = A_{\alpha}$ for all $\alpha \in I$.
+		\end{theorem}
+		\begin{theorem}
+			Every finite Boolean algebra is an atomic algebra.
+		\end{theorem}
+		\begin{corollary}
+			Every finite Boolean algebra has cardinality $2^n$, where $n \in \bN$.
+		\end{corollary}
+		\begin{corollary}
+			There is a one-to-one correspondence, up to relabeling, between finite Boolean algebras on a set $X$ and finite partitions of $X$ into non-empty sets.
+		\end{corollary}
+		\begin{theorem}
+			\theoremname{Dyadic algebras} Let $n, i_1, \hdots, i_d \in \bZ$. The \tbf{dyadic algeba} $\cD_n(\bR^d)$ at scale $2^{-n}$ in $\bR^d$ is the atomic algebra generated by the products of the half-open dyadic intervals
+			\begin{align*}
+				I_j := \left[\frac{i_j}{2^n}, \frac{i_j +1}{2^n} \right)
+			\end{align*}
+			of length $2^{-n}$.
+		\end{theorem}
+		This algebra consists exactly of the "grid figures" made up of a finite number of "pixels" of length $2^{-n}$.
+		\begin{theorem}
+			\theoremname{Intersection of Boolean Algebras} The intersection of a family $(\cB_\alpha)_{\alpha \in I}$ of Boolean algebras on a set $X$ is again a Boolean algebra, assuming the convention that, if $I$ is empty, the intersection is the full power set.  Furthermore, this Intersection is the finest Boolean algebra that is coarser than every $\cB_\alpha$.
+		\end{theorem}
+		\begin{definition}
+			Let $\cF$ be any family of subsets of a set $X$. Then we define $\angles{\cF}_\cB$ to be the intersection of all Boolean algebras that contain $\cF$. We call this the \tbf{Boolean algebra generated by $\cF$}.
+		\end{definition}
+		Equivalently, $\angles{\cF}_\cB$ is the smallest Boolean algebra containing $\cF$.
+		\begin{theorem}
+			$\cF$ is a Boolean algebra if and only if $\angles{\cF}_\cB = \cF$.
 		\end{theorem}
 		\subsection{Lattices}
 		Boolean algebras themselves turn out to be specific instances of \tit{lattices}, which play an important role in order theory and universal algebra.
@@ -587,7 +846,158 @@
 		\begin{theorem}
 			\theoremname{(Stone's Representation Theorem for Boolean Algebras:)} Every boolean algebra is isomorphic to a set algebra.
 		\end{theorem}
-		\subsection{$\sigma$-Algebras}
+		\subsection{Set Rings}
+		A very important weakening of the concept of set algebras is given by \tit{set rings}, which contain the empty set and are closed under intersection and union, but don't have to contain the full set $X$ or be closed under complements.
+		\begin{theorem}
+			Let $\cA$ be a set ring. Then it is closed under finite symmetric difference, and forms a ring in the algebraic sense, with symmetric difference as addition and intersection as multiplication. If it contains the full set $X$, it forms a ring with identity.
+		\end{theorem}
+		\begin{definition}
+			Let $I \subset \bR$. We call $I$ an \tbf{interval} if there exist $a,b \in \bR$ such that $(a,b) \subset I \subset [a,b]$. 
+		\end{definition}
+		\begin{theorem}
+			The set of subsets of the real numbers which can be written as a finite union of intervals forms a set ring.
+		\end{theorem}
+		\begin{theorem}
+			Let $\cR$ and $\cS$ be set rings. Then the set of finite unions of cartesian products of elements of $R_i$ and $S_i$, i.e. of elements of the form,
+			\begin{align*}
+				\bigcup_{i \in \bN} R_i \times S_i,
+			\end{align*}
+		 	is also a set ring, which we will denote by $\cR \boxtimes \cS$.
+		\end{theorem}
+		\begin{corollary}
+			The set of finite unions of cuboids in $\bR^n$, where we define a cuboid to be a product of arbitrary intervals, i.e. we don't care if the boundary on any particular side is open or closed, forms a set ring. We call sets of this form \tbf{Elementary Sets}.
+		\end{corollary}
+		\subsection{Set Semirings}
+		\begin{theorem}
+			Let $\cS \subset \cP(X)$. We call $\cS$ a \tbf{set semiring}, or \tbf{semiring of sets}, if:
+			\begin{enumerate}
+				\item $\emptyset \in \cS$,
+				\item $\cS$ is closed under finite intersections,
+				\item For $A,B \in \cS$, there exist disjoint sets $S_1, \hdots, S_n \in \cS$ such that $A \setminus B = \bigcup_{i = i}^n S_i$.
+			\end{enumerate}
+		\end{theorem}
+		This means that a set semiring is a weakened form of a set ring where complements are not necessarily contained in the semiring, but can still be "constructed" from elements of the ring. Any set ring is therefore immediately also a set semiring.
+		\newpar
+		Sadly, unlike with rings of sets, there is absolutely no connection between set semirings and the algebraic notion of a semiring - a semiring of sets is exclusively a (semi)(ring of sets), and \tit{not} a (semiring)(of sets). This makes it tempting for me to use an alternative name which makes this distinction more clear, but since I haven't encountered any good alternative names anywhere else (and because I already know I will forget to stick with this convention moving forwards) I will stick with the less than perfect established name.
+		\newpar
+		Set semirings are of fundamental importance to measure theory because the set of cuboids in $\bR^n$ forms a set semiring, and we will end up defining our lebesque measure by approximating sets through coverings of the set with cuboids. Of course, we first have to establish a basic theory of set semirings and prove this claim.
+		\begin{theorem}
+			The set $\cI$ of real intervals forms a set semiring.
+		\end{theorem}
+		\begin{theorem}
+			The product of two set semirings is again a set semiring.
+		\end{theorem}
+		\begin{corollary}
+			The set $\cQ$ of cuboids in $\bR^n$ (once again with both open and closed sides allowed) forms a set semiring.
+		\end{corollary}
+		\section{Measures on $\bR^n$}
+		(TODO: Merge into abstract measure theory chapter)
+		\subsection{Jordan Measure}
+		\begin{definition}
+			Let $E \subset \bR^n$ be an elementary set. Then we can assign to it the \tbf{elementary volume} $\vol(E)$, where the volume of a cuboid is the product of its side lengths and the volume of a finite union of cuboids is the sum of the volumes of the individual cuboids making up $E$.
+		\end{definition}
+		\begin{definition}
+			\theoremname{Inner and outer Jordan Measures}
+			Let $E \subset \bR^n$.
+			\begin{enumerate}
+				\item  The \tbf{inner Jordan measure} $J_*(E)$ is
+				\begin{align*}
+					J_*(E) := \sup_{\substack{\textnormal{$Q_i \in \cQ$},\\ \bigcup_{i = 1}^n Q_i \subset E}} \vol(Q)
+				\end{align*}
+				\item The \tbf{outer Jordan measure} $J_*(E)$ is 
+				\begin{align*}
+					J^*(E) := \inf_{\substack{\textnormal{$Q_i \in \cQ$},\\ \bigcup_{i = 1}^n Q_i \supset E}} \vol(Q)
+				\end{align*}
+			\end{enumerate}
+		\end{definition}
+		\begin{definition}
+			\theoremname{Jordan measurable set, Jordan measure}
+			We call $E$ \tbf{Jordan-measurable} if $J_*(E) = J^*(E)$. Then we call $J(E) = J_*(E) = J^*(E)$ the \tbf{Jordan measure}.
+		\end{definition}
+		\begin{theorem}
+			The Jordan measure is $\sigma$-additive.
+		\end{theorem}
+		\begin{theorem}
+			The following are equivalent:
+			\begin{enumerate}
+				\item $E$ is Jordan measurable,
+				\item For every $\epsilon > 0$, there exist elementary sets $A \subset E \subset B$ such that $\vol(B \setminus A) \leq \epsilon$,
+				\item For every $\epsilon > 0$, there exists an elementary set $A$ such that
+				$J^*(A \symdiff E) \leq \epsilon$.
+			\end{enumerate}
+		\end{theorem}
+		\begin{theorem}
+			The collection of subsets of $\bR^n$ that are either Jordan measurable or have a Jordan-measurable complement form a Boolean algebra, known as the Jordan algebra.
+		\end{theorem}
+		\begin{theorem}
+			The Jordan algebra is non-atomic.
+		\end{theorem}
+		\begin{theorem}
+			\theoremname{(Regions under continuous Graphs are Jordan measurable)}
+			Let $B$ be a closed box in $\bR^n$, and let $f : B \to \bR$ be a continuous function. Then the set
+			\begin{align*}
+				\lr{(x,t) \mid x \in B, 0 \leq t \leq f(x)} \subset \bR^{n+1}
+			\end{align*}
+			is Jordan measurable.
+		\end{theorem}
+		\begin{theorem}
+			Triangles are Jordan measurable.
+		\end{theorem}
+		\begin{theorem}
+			Convex polytopes in $\bR^n$ are Jordan measurable.
+		\end{theorem}
+		\begin{theorem}
+			Open and closed Euclidean balls are Jordan measurable.
+		\end{theorem}
+		\begin{theorem}
+			Every subset of a Jordan null set is Jordan measurable and also a Jordan null set.
+		\end{theorem}
+		\begin{theorem}
+			The sets $[0,1]^2 \setminus \bQ^2$ and $[0,1]^2 \cap \bQ^2$ are both not Jordan measurable.
+		\end{theorem}
+		Informally, sets with a lot of "holes" or with very messy, fractal-like boundaries are generally not Jordan-measurable.
+		\begin{theorem}
+			There exist countable unions, and countable intersections, of Jordan measurable sets which are not Jordan measurable.
+		\end{theorem}
+		\subsection{Lebesque Measure}
+		One can extend the Jordan measure to a significantly larger number of subsets of $\bR^n$ by simply allowing countable unions of cuboids (instead of finite unions of cuboids). The Lebesque measure is simply this generalization of the Jordan measure. Formally:
+		\begin{definition}
+			Let $E \subset \bR^n$. The \tbf{Lebesque outer measure} of $E$ is given by
+			\begin{align*}
+				\lambda^*(E) := \inf_{\substack{E \subset \bigcup_{i = 1}^\infty Q_n,\\ Q_n \in \cQ}} \lr{\sum_{n = 1}^\infty \abs{Q_n}},
+			\end{align*}
+			i.e. the Lebesque outer measure of $E$ is the greatest lower bound of the measures of all coverings of $E$ by cuboids.
+		\end{definition}
+		\begin{theorem}
+			Let $U \subset \bR^n$ be open. Then $U$ is a countable union of cuboids.
+		\end{theorem}
+		Therefore, we can define Lebesque measurability similarly to Jordan measurability - a set is Lebesque measurable if it is "almost" an open set.
+		\begin{definition}
+			A set $E \subset \bR^n$ is \tbf{Lebesque measurable} if for every $\epsilon > 0$, there exists an open set $U \subset \bR^n$ such that $U \subset E$ and $\lambda^*(U \setminus E) \leq \epsilon$. If $E$ is Lebesque measurable, we refer to $\lambda(E) := \lambda^*(E)$ as the \tbf{Lebesque measure} of $E$. If the dimension $n$ should be emphasized, we sometimes write $\lambda(E)$ as $\lambda^n(E)$.
+		\end{definition}
+		\begin{theorem}
+			The Lebesque measure fulfills:
+			\begin{align*}
+				E \subset \bigcup_{i \in N} E_i \implies \lambda(E) \leq \sum_{i \in \bN} \lambda(E_i)
+			\end{align*}
+			This is a weakened form of $\sigma$-additivity, which is known as \tbf{$\sigma$}-subadditivity.
+		\end{theorem}
+		\begin{theorem}
+			The Lebesque measure defines a $\sigma$-additive function on the Lebesque measurable sets.
+		\end{theorem}
+		\begin{theorem}
+			The collection of subsets of $\bR^n$ that are either Lebesque measurable or have a Lebesque-measurable complement form a Boolean algebra.
+		\end{theorem}
+		You may have heard in linear algebra that the determinant of a matrix $S$ tells us how the matrix scales the volume of the unit cube. Since the Lebesque measure is defined using volumes of unit cubes, this intuition also holds for the image of any set $E$ under $S$:
+		\begin{theorem}
+			\theoremname{Linear Transformation Equation}
+			\label{thm:lineartransformationequation}
+			Let $S \in \bRnn$. Then for all $E \subset \bR^n$, we have:
+			\begin{align*}
+				\lambda^n(S(E)) = \abs{\det(S)}\lambda^n(E)
+			\end{align*}
+		\end{theorem}
+		\section{$\sigma$-Algebras}
 		The most important type of set algebra for the purposes of measure theory is the \tit{$\sigma$-Algebra}, on which we will define the notion of a "measure" in our desired final form.
 		\begin{definition}
 			Let $X$ be an arbitrary set and $\cA \subset \cP(X)$. We call $\cA$ a $\sigma$\tbf{-Algebra on $X$} if:
@@ -596,36 +1006,98 @@
 				\item For all $A \in \cA$, we have $X \setminus A \in \cA$ ($\cA$ is closed under the operation of taking a complement).
 				\item For all $A_i \in \cA$, we have $\bigcup_{i \in \bN} \in \cA$ ($\cA$ is closed under the operationg of taking countable unions).
 			\end{enumerate}
-			If $\cA$ is a $\sigma$-Algebra on $X$, we call $(X,\cA)$ a \tbf{measure space}.
+			If $\cA$ is a $\sigma$-algebra on $X$, we call $(X,\cA)$ a \tbf{measure space}, and any set $A \in \cA$ \tbf{$\cA$-measurable}.
 		\end{definition}
+		The "$\sigma$" here once again stands for "countable sum", as it also did for $\sigma$-additivity and $F_\sigma$ sets.
 		\begin{corollary}
 			Any $\sigma$-algebra contains the empty set and is closed under countable intersection.
 		\end{corollary}
 		\begin{corollary}
 			A $\sigma$-algebra can be more concisely defined as a set algebra that is closed under \tit{countable} union and intersection, not just finite ones.
 		\end{corollary}
-		\subsection{Set Rings}
+		This also trivially makes every $\sigma$-algebra a Boolean algebra.
 		\begin{theorem}
-			Let $\cA \subset \cP(X)$ such that $\emptyset \in \cA$ and such that $\cA$ is closed under symmetric difference and intersection. Then $\cA$ forms a ring (in the general algebraic sense), where addition is symmetric difference, multiplication, intersection, additive inverses are set complements and the neutral element of multiplication is $X$. We call such an $\cA$ a \tbf{ring of sets} or \tbf{set ring}.
+			Every atomic algebra is a $\sigma$-algebra.
 		\end{theorem}
 		\begin{corollary}
-			Set rings are closed under finite union and intersection.
+			The set of Lebesque measurable sets contains the Borel $\sigma$-slgebra.
 		\end{corollary}
-		\subsection{Semirings of Sets}
 		\begin{theorem}
-			Let $\cS \subset \cP(X)$. We call $\cS$ a \tbf{semiring of sets} if:
-			\begin{enumerate}
-				\item $\emptyset \in \cS$,
-				\item $\cS$ is closed under finite intersections,
-				\item For $A,B \in \cS$, there exist disjoint sets $S_1, \hdots, S_n \in \cS$ such that $A \setminus B = \bigcup_{i = i}^n S_i$.
-			\end{enumerate}
+			The Lebesque algebra is a $\sigma$-algebra.
 		\end{theorem}
-		This means that a set semiring is a weakened form of a set ring where complements are not necessarily contained in the semiring, but can still be "constructed" from elements of the ring.
+		\begin{theorem}
+			The Jordan algebra is not a $\sigma$-algebra.
+		\end{theorem}
+		\begin{theorem}
+			Just like for Boolean algebras, the restriction $\cA|_Y$ of a $\sigma$-algebra $\cA$ on $X$ to a subset $Y \subset X$ is again a $\sigma$-algebra on $Y$.
+		\end{theorem}
+		\begin{definition}
+			Let $\cA \subset \cP(X)$. Then $\angles{\cA}_\sigma$ denotes the smallest $\sigma$-algebra containing $\cA$.
+		\end{definition}
+		\begin{theorem}
+			We have $\angles{\cF}_\cB = \angles{\cF}_\sigma$ if and only if $\angles{\cF}_\cB$ is a $\sigma$-algebra.
+		\end{theorem}
+		\subsection{The Borel $\sigma$-Algebra}
+		\begin{definition}
+			Let $X$ be a topological space. The \tbf{Borel $\sigma$-algebra $\cB[X]$ of $X$} is the $\sigma$-Algebra generated by the open subsets of $X$.
+		\end{definition}
+		\begin{theorem}
+			The Borel $\sigma$-Algebra $\cB[\bR^d]$ is equivalently generated by any of the following:
+			\begin{multicols}{2}
+				\begin{enumerate}
+					\item The closed subsets of $\bR^d$,
+					\item The compact subsets of $\bR^d$,
+					\item The open balls of $\bR^d$,
+					\item The boxes in $\bR^d$,
+					\item The elementary sets in $\bR^d$.
+					\item[]
+				\end{enumerate}
+			\end{multicols}
+		\end{theorem}
+		\subsection{A Lebesque measurable set which is not Borel}
+		\begin{theorem}
+			There exist Lebesque measurable sets which are not Borel.
+		\end{theorem}
+		\section{Measures}
+		With our different subset systems in place, we can finally give a general formal definition of a measure. Along the way, we will encounter outer measures, contents, and premeasures, which are weakened measures that we can use to generate proper ones.
+		\begin{definition}
+			Let $X$ be a set and $\mu$ be a function $\cP(X) \to [0,\infty]$. We call $\mu$ an \tbf{outer measure on $X$} if it is $\sigma$-subadditive.
+		\end{definition}
+		Frustratingly, the Jordan outer measure $J^*$ is not an outer measure in this sense - it only fulfills finite subadditivity, not the full $\sigma$-Subadditivity. However, the Lebesque outer measure $\lambda^*$ thankfully is an outer measure in this sense (and historically, I assume this definition arose from a desire to generalize the Lebesque outer measure).
+		\begin{definition}
+			Let $\mu$ be an outer measure on a set $X$. Then we call a subset $A \subset X$ \tbf{$\mu$-measurable}, or just \tbf{measurable}, if for all $S \subset X$ we have
+			\begin{align*}
+				\mu(S) = \mu(S \cap A) + \mu(S \setminus A)
+			\end{align*}
+			The system of all $\mu$-measurable sets is sometimes denoted $\cM(\mu)$.
+		\end{definition}
+		Note that by the subadditivity of outer measures, we already get that the left side is at most as large as the right side, meaning that this condition can equivalently be weakened to
+		\begin{align*}
+			\mu(S) \geq \mu(S \cap A) + \mu(S \setminus A).
+		\end{align*}
+		\begin{theorem}
+			Let $\mu$ be an outer measure. Then the set of $\mu$-measurable sets forms a $\sigma$-Algebra.
+		\end{theorem}
+		In order for our disjoint sum condition for "measures" to be well-defined, it already followed that the domain of a measure needs to be a system of sets that contains the empty set and is closed under countable union. This theorem suggests that, at minimum, it should also be a $\sigma$-Algebra. This finally leads us to a concrete definition of what a measure should be in general:
+		\begin{definition}
+			Let $\cA$ be a \ul{$\sigma$-Algebra}. Then we call a $\sigma$-additive function $\mu : \cA \to [0,\infty]$ a \tbf{measure}.
+		\end{definition}
+		\begin{definition}
+			Let $\cS$ be a \ul{set semiring.} Then we call a \ul{finitely additive} function $\cS \to [0,\infty]$ a \tbf{content}, and a \ul{$\sigma$-additive} function $\cS \to [0,\infty]$ a \tbf{premeasure}.
+		\end{definition}
+		In effect, a premeasure is a measure whose domain might not be as big as it could be. Every measure trivially also defines a content and a premeasure, and every measure defined on $\cP(X)$ defines an outer measure.
 		\newpar
-		Sadly, unlike with rings of sets, there is absolutely no connection between semirings of sets and the algebraic notion of a semiring - a semiring of sets is exclusively a semi(ring of sets), and \tit{not} a (semiring) of sets.
-		\newpar
-		Semirings of sets are of fundamental importance to measure theory primarily because the \tit{lebesque measure} we will end up defining on $\bR^n$ is constructed through the approximation of sets by cuboids, which form a semiring - a complement of two cuboids is not necessarily a cuboid, but it can always be constructed from a finite union of cuboids.
-		\section{Measure functions}
+		We can construct outer measures from a very large class of functions by mimicking the construction of the Lebesque outer measure from the elementary Volume function:
+		\begin{theorem}
+			\theoremname{Carathéodory Extension}
+			Let $\cS$ be a system of subsets of a set $X$ containing the empty set. Let $\lambda : \cS \to [0,\infty]$ be a function such that $\lambda(\emptyset) = 0$. Then the function
+			\begin{align*}
+				\mu(E) := \inf\lr{\sum_{i = 1}^\infty \lambda(P_i) \mid P_i \in \cS, E \subset \bigcup_{i = 1}^\infty P_i}
+			\end{align*}
+			is an outer measure on $X$.
+		\end{theorem}
+		\iffalse
+		\section{Uncountable Sums}
 		\begin{definition}
 			Let $X$ be an uncountable set and $f : X \to [0,\infty]$. Then we define
 			\begin{align*}
@@ -660,8 +1132,92 @@
 				\sum_{x \in X} f(x) = \sum_{x \in X, f(x) \geq 0} f(x) - \sum_{x \in X, f(x) \leq 0} \abs{f(x)}
 			\end{align*}
 		\end{definition}
-		\section{The Lebesque Measure}
-	\chapter{Integration}
+		\fi
+	\chapter{Measurable Functions}
+	\section{Measurable Functions}
+	\begin{definition}
+		Let $(X, \cA)$ and $(Y, \cB)$ be measurable spaces. Then we call a map $f : X \to Y$ \tbf{$\cA$-$\cB$-measurable}, or just \tbf{measurable}, if the preimage of every measurable set is again measurable, i.e.
+		\begin{align*}
+			B \in \cB \implies f^{-1}(B) \in \cA
+		\end{align*}
+	\end{definition}
+	Once again, note the similarities between this definition and the topological definition of a continuous function. If the sigma-algebra on one of the sets is supposed to be clear from context, many authors only specify one of the the two sigma algebras. For example, for a function $f : X \to \barR$, many authors talk about $\cA$-measurability when they implicitly mean $\cA-\cB(\barR)$-measurability
+	\begin{proposition}
+		The composition of two measurable functions is again measurable.
+	\end{proposition}
+	\begin{lemma}
+		Let $(X, \cA)$, $(Y, \cB)$ be measurable spaces and $f : X \to Y$. Let $\cE \subset \cB$. Then
+		\begin{align*}
+			f^{-1}(\angles{\cE}_\sigma) = \angles{f^{-1}(\cE)}_\sigma
+		\end{align*}
+	\end{lemma}
+	\begin{corollary}
+		Let $\cE$ be a base of $\cB$, i.e. $\angles{\cE}_\sigma = \cB$. Then $f : X \to Y$ is $\cA$-$\cB$ measurable if and only if 
+		\begin{align*}
+			E \in \cE \implies f^{-1}(E) \in \cA,
+		\end{align*}
+	\end{corollary}
+	This means we don't need to check the preimage of every single set in $\cB$ to show that $f$ is measurable - it suffices to check a base.
+	\begin{corollary}
+		Every continuous function between topological spaces is measurable in the corresponding Borel-$\sigma$-algebras.
+	\end{corollary}
+	\begin{proof}
+		Let $f : X \to Y$ be continuous. Then the preimage of every open set of $Y$ is open in $X$, i.e. contained in the Borel $\sigma$-algebra on $X$, and the open sets of $Y$ form a base of the Borel $\sigma$-algebra on $Y$.
+	\end{proof}
+	\begin{theorem}
+		\theoremname{Simple criteria for measurability)} Let $(X, \cA)$ be a measureable space. Let $f : X \to \barR$. Then the following are equivalent:
+		\begin{enumerate}
+			\item $f$ is $\cA$-$\cB(\barR)$ measurable,
+			\item $\forall c \in \bR: \lr{f > c} \in \cA$,
+			\item $\forall c \in \bR: \lr{f \geq c} \in \cA$,
+			\item $\forall c \in \bR: \lr{f < c} \in \cA$,
+			\item $\forall c \in \bR: \lr{f \leq c} \in \cA$,
+		\end{enumerate}
+	\end{theorem}
+	\begin{proof}
+		\begin{enumerate}
+			\item The latter four conditions are equivalent to each other, since:
+			\begin{enumerate}
+				\item $\lr{f \geq c} = \bigcap_{k \in \bN} \lr{f > c - \frac{1}{k}}$,
+				\item $\lr{f > c} = \bigcup_{k \in \bN} \lr{f \geq c + \frac{1}{k}}$,
+				\item $\lr{f < c} = X \setminus \lr{f \geq c}$,
+				\item $\lr{f \leq c} = X \setminus \lr{f > c}$.
+			\end{enumerate}
+			\item The intervals $[c,\infty]$ form a base of $\cB(\barR)$, since:
+			\begin{enumerate}
+				\item $\lr{\infty} = \bigcap_{k \in \bN} [k, \infty]$
+				\item $\lr{-\infty} = \bigcap_{k \in \bN} [-\infty,-k]$
+				\item $(a,b) = [a,\infty] \setminus ([b, \infty] \cap [-\infty, a])$
+			\end{enumerate}
+		\end{enumerate}
+	\end{proof}
+	\begin{theorem}
+		Let $f,g : X \to \barR$ be $\cA$-$\cB(\barR)$ measurable. Then the following sets are contained in $\cA$:
+		\begin{enumerate}
+			\item $\lr{f > g}$,
+			\item $\lr{f \geq g}$,
+			\item $\lr{f = g}$,
+			\item $\lr{f \neq g}$.
+		\end{enumerate}
+	\end{theorem}
+	\begin{theorem}
+		Let $f,g : X \to \barR$ be $\cA$-$\cB[\barR]$ measurable. Then the following functions are also $\cA$-measurable:
+		\begin{enumerate}
+			\item $cf$, for all $c \in \bR$,
+			\item $\abs{f}^p$, for all $p \in \bR_{> 0}$,
+			\item $f + g$, assuming the sum is defined everywhere on $X$, i.e. there exists no $x \in X$ such that $f(x) =\infty$ and $g(x) = -\infty$ or vice versa,
+			\item $f \cdot g$.
+		\end{enumerate}
+	\end{theorem}
+	\begin{theorem}
+		Let $(X, \cA)$ be a measurable space and $\chi_E : X \to \bR$ be the characteristic function of a set $E \subset X$. Then $\chi_E$ is $\cA$-$\cB[\bR]$ measurable if and only if $E \in \cA$.
+	\end{theorem}
+	\begin{proof}
+		We have $\lr{1} = (-\infty,1) \cup (1, \infty) \in \cB[\bR]$ and $\chi_E^{-1}(\lr{1}) = E$, so $E$ has to be in $\cA$ for $\chi_E$ to be measurable.
+		\newpar
+	 	$E \in \cA$ is also a sufficient condition for $\chi_E$ to be measurable, since the only other possible preimages are $\emptyset \in \cA$, $X \in \cA$, $X \setminus E \in \cA$
+	\end{proof}
+	\chapter{Lebesque Integration}
 		\section{The Lebesque Integral}
 		\begin{theorem}
 			Let $X$ be an arbitrary set. Let $c$ be the counting measure on $\cP(X)$. Let $f : X \to \barR$ be a $c$-measurable function. Then
@@ -669,5 +1225,224 @@
 				\int_X f ~dc = \sum_{x \in X} f(x)
 			\end{align*}
 		\end{theorem}
-		\section{The Bochner Integral}		
+		\begin{theorem}
+			\theoremname{Tao, Jordan Measure, Exercise 25}
+			A bounded function $f : [a,b] \to \bR$ is Riemann integrable if and only if it is Lebesque integrable using the Jordan measure.
+		\end{theorem}
+		\section{Density Functions}
+		\begin{theorem}
+			Let $(X, \cA, \mu)$ be a measure space. Let $\theta : X \to \barR$ be nonnegative and $\mu$-measurable. Then the map
+			\begin{align*}
+				\nu : \cA &\to \barR\\
+				A &\mapsto \int_A \theta ~d\mu
+			\end{align*}
+			is a measure, which we call the \tbf{density of $\nu$ with respect to $\mu$} and which we denote $\mu_\theta$.
+		\end{theorem}
+		\begin{corollary}
+			The following hold for $\mu_\theta$:
+			\begin{enumerate}
+				\item $\mu(A) = 0$ implies $\mu_\theta(A) = 0$.
+				\item For every nonnegative $\mu$-measurable function $f$, we have
+				\begin{align*}
+					\int_X f ~d\mu_\theta = \int_X f \cdot \theta ~d\mu.
+				\end{align*}
+				\item $\theta$ is unique up to equality $\mu$-almost everywhere.
+			\end{enumerate}
+		\end{corollary}
+		\begin{definition}
+			Let $\mu$ and $\nu$ be measures on $(X, \cA)$. Then we call $\nu$ \tbf{absolutely continuous with respect to $\mu$}, which we denote $\nu \ll \mu$, if $\mu(A) = 0$ implies $\nu(A) = 0$.
+		\end{definition}
+		\begin{lemma}
+			Let $\sigma$ and $\nu$ be finite measures on $(X, \cA)$ such that $\nu(A) \leq \sigma(A)$ for every $A \in \cA$. Then there exists a density function $\theta$ such that $\nu = \sigma_\theta$.
+		\end{lemma}
+		This lemma is actually a special case of the significantly more general Riesz representation theorem for Hilbert spaces, which I sadly do not have the time to go into at this point (but look it up, it's really neat!).
+		\begin{lemma}
+			Let $\mu, \nu$ be measures on $(X, \cA)$. Let $\sigma := \mu + \nu$. Then if $f \in \cL^*(\sigma)$, then $f \in \cL^*(\mu)$ and $f \in \cL^*(\nu)$ and we have
+			\begin{align*}
+				\int_X f ~d\sigma = \int_X f ~d\mu + \int_X f ~d\nu
+			\end{align*}
+		\end{lemma}
+		\begin{theorem}
+			\theoremname{Radon-Nikodym, first draft} Let $\mu$, $\nu$ be finite measures on $(X, \cA)$ such that $\nu \ll \mu$. Then there exists a density function $\theta \in L^1(\mu)$ such that $\nu = \mu_\theta$.
+		\end{theorem}
+		In this case, $\theta$ is sometimes also called the \tbf{Radon-Nikodym derivative of $\nu$ with respect to $\mu$} and denoted $\frac{d\nu}{d\mu}$.
+		\begin{theorem}
+			Let $\mu$ and $\nu$ be finite measures on $(X, \cA)$. Then the following are equivalent:
+			\begin{enumerate}
+				\item $\nu \ll \mu$,
+				\item There exists a density function $\theta \in L^1(\mu)$ such that $\nu = \mu_\theta$,
+				\item For all $\epsilon > 0$, there exists a $\delta > 0$ such that $\mu(A) < \delta$ implies $\nu(A) < \epsilon$.
+			\end{enumerate}
+		\end{theorem}
+		\begin{proof}
+			(i) $\implies$ (ii) is the Radon-Nikodym theorem. (ii) $\implies$ (iii) follows from absolute continuity of the Lebesque integral. (iii) $\implies$ (i) follows immediately from the definition of $\ll$.
+		\end{proof}
+		\begin{theorem}
+			The Radon-Nikodym theorem also holds if $\mu$ and $\nu$ are only $\sigma$-finite.
+		\end{theorem}
+		\begin{definition}
+			Let $\mu$ and $\nu$ be measures on $(X, \cA)$. Then we call $\mu$ and $\nu$ \tbf{singular with respect to each other}, which we denote $\mu \perp \nu$, if there exists a set $M \in \cA$ such that
+			\begin{align*}
+				\mu(M) = \nu(X \setminus M) = 0.
+			\end{align*}
+		\end{definition}
+		\begin{theorem}
+			\theoremname{Lebesque's decomposition theorem} Let $\mu$ and $\nu$ be measures on $(X, \cA)$, and let $\nu$ be $\sigma$-finite. Then there exists a unique decomposition $\nu = \nu_a + \nu_s$ such that $\nu_a \ll \mu$ and $\nu_a \perp \mu$.
+		\end{theorem}
+	\chapter{Integration over Immersed Manifolds}
+		\section{Change of Variables}
+		\begin{lemma}
+			Let $U \subset \bR^n$ and $x_0 \in U$. Let $\phi : U \to \bR^n$ be a function such that $D\phi(x_0)$ is invertible.
+			\newpar
+			Then for a sequence $Q_j = Q(x_j, r_j) \subset U$ of cuboids of sidelength $r_j$ with center $x_j$ such that $r_j \to 0$ and $x_0 \in Q_j$, we have:
+			\begin{align*}
+				\limsup_{j \to \infty} \frac{\lambda^n(\phi(Q_j))}{\lambda^n(Q_j)}
+				\leq
+				\abs{\det D\phi(x_0)}
+			\end{align*}
+		\end{lemma}
+		\begin{proof}
+			We can assume $x_0 = 0$ and $\phi(0) = 0$, since otherwise we can translate space as needed before doing any calculations without breaking any of our assumptions.
+			\begin{enumerate}
+				\item  Assume $D(\phi(0)) = E_n$. Then, by definition of differentiablity and equivalence of norms on finite-dimensional vector spaces, we have
+				\begin{align*}
+					0 &= \lim_{x \to 0}
+					\frac{\norm{\phi(x) - \phi(0) - D\phi(0)x}\infty}{\norm{x}_\infty}\\
+					&= \lim_{x \to 0} \frac{\norm{\phi(x) - x}_\infty}{\norm{x}_\infty},
+				\end{align*}
+				Let $\epsilon > 0$. Then, by the definition of convergence, for every $x$ with a sufficiently small norm, we have:
+				\begin{align*}
+					\frac{\norm{\phi(x) - x}_\infty}{\norm{x}_\infty} \leq \epsilon,
+				\end{align*}
+				which means
+				\begin{align*}
+					\norm{\phi(x) - x}_\infty \leq \epsilon{\norm{x}_\infty}.
+				\end{align*}
+				Furthermore, for $x \in Q_j$, we have:
+				\begin{align*}
+					\norm{x}_\infty 
+					&= \norm{x - \vzero}_\infty\\
+					&= \norm{x - x_0}_\infty\\
+					&\leq \norm{x - x_j}
+					+ \norm{x_j - x_0}\\
+					&\leq 2r_j
+				\end{align*}
+				For sufficiently large $j$, these imply:
+				\begin{align*}
+					\norm{\phi(x) - x}_\infty &\leq \epsilon \norm{x}_\infty\\
+					&\leq 2\epsilon r_j.
+				\end{align*}
+				Further applying the triangle inequality, we get:
+				\begin{align*}
+					\norm{\phi(x) - \phi(x)}
+					&\leq \norm{\phi(x) - x}_\infty\\
+					&+ \norm{x - x_j}_\infty\\
+					&+ \norm{x_j - \phi(x_j)}_\infty\\
+					&\leq 2\epsilon r_j + r_j + 2\epsilon r_j\\
+					&\leq (1 + 4\epsilon)r_j,
+				\end{align*}
+				which means that $\phi$ increases the side length of our cube by a factor of at most $(1 + 4\epsilon)$. Therefore, it increases the volume by a factor at most $(1 + 4\epsilon)^n$, i.e:
+				\begin{align*}
+					\frac{\lambda^n(\phi(Q_j))}{\lambda^n(Q_j)}
+					\leq (1 + 4\epsilon)^n
+				\end{align*}
+				Letting $j \to \infty$ and $\epsilon \searrow 0$, we have
+				\begin{align*}
+					\limsup_{j \to \infty }\frac{\lambda^n(\phi(Q_j))}{\lambda^n(Q_j)}
+					&\leq \lim_{\epsilon \to 0} (1 + 4\abs{\epsilon})^n\\
+					&= 1\\
+					&= \abs{\det E_n}
+				\end{align*}
+			\item Now, let $S := D\phi(0)$ and $\phi_0 := S^{-1} \circ \phi$, i.e. $\phi = S \circ \phi_0$. Then $D\phi_0(0) = E_n$. By the linear transformation equation $\lambda^n(S(E)) = \abs{\det(S)} \lambda^n(E)$ (\ref{thm:lineartransformationequation}), we have:
+			\begin{align*}
+				\limsup_{j \to \infty} \frac{\lambda^n(\phi(Q_j))}{\lambda^n(Q_j)}
+				&=
+				\limsup_{j \to \infty} \frac{\lambda^n(S(\phi_0(Q_j)))}{\lambda^n(Q_j)}\\
+				&= \abs{\det S} \limsup_{j \to \infty} \frac{\lambda^n(\phi_0(Q_j))}{\lambda^n(Q_j)}\\
+				&\leq \abs{\det S}\\
+				&= \abs{\det D\phi(0)}
+			\end{align*}
+			\end{enumerate}
+		\end{proof}
+		\begin{theorem}
+			\theoremname{Multivariable Substitution Formula}
+			Let $U \subset \bR^n$ be open. Let $\phi : U \to \bR^n$ be $C^1$. Then if $f : V \to \barR$ is $\lambda^n$-measurable, we have:
+			\begin{align*}
+				\int_V f(y) ~dy = \int_{\phi^{-1}(V)} f(\phi(x)) \abs{\det D\phi(x)} ~dx.
+			\end{align*}
+		\end{theorem}
+		\begin{corollary}
+			Let $U,V \subset \bR^n$ be open. Let $\phi : U \to \bR^n$ be $C^1$. Then if $A \subset U$ is $\lambda^n$-measurable, so is $\phi(A)$, and we have
+			\begin{align*}
+				\lambda^n(\phi(A)) = \int_A \abs{\det D\phi(x)} ~dx.
+			\end{align*}
+		\end{corollary}
+		\begin{proof}
+			Apply the integral transformation equation to $f = \chi_{\phi(A)}$.
+		\end{proof}
+		\begin{example}
+			\theoremname{Two-Dimensional Bell Curve}
+			We want to find the area under the Gaussian bell curve, given by
+			\begin{align*}
+				\int_\bR e^{-x^2} ~dx
+			\end{align*}
+			To do this, we add an additional dimension and exploit the resulting rotational symmetry.
+			Let $f : \bR^2 \to \bR$ with
+			\begin{align*}
+				f(x,y) = e^{-(x^2 + y^2)}
+			\end{align*}
+		\end{example}
+	\chapter{Generalizing even further}
+		\section{The Bochner Integral}
+		\section{The Pettis Integral}	
+	\appendix
+	\part{Summaries}
+	\chapter{Littlewood's three Principles of Real Analysis}
+	\chapter{Modes of Convergence}
+	There are many different inequivalent ways in which a series of function $(f_i)_{i \in \bN}$ on a common domain $X$ could "converge" to a function $f$:
+	\begin{enumerate}
+		\item Assume $f_n : X \to T$, where $(T, \tau)$ is a topological space. Then we say $f_n$ converges \tbf{pointwise} to $f$ if, for every $x \in X$, $f_n(x)$ converges to $f(x)$, i.e. for every neighborhood $U$ around $f(x)$, all points $f_n(x)$ eventually lie in $U$ for large enough $n$:
+		\begin{align*}
+			\forall x \in X : \forall U \in \cN(f(x)) : \exists N \in \bN : &\\& n \geq N \implies f_n(x) \in U
+		\end{align*}
+		If we assume functions $f_n : X \to M$, where $(M, d_M)$ is a metric space equipped with the metric topology, then this is equivalent to the statement that the distance $d_M(f(x), f_n(x))$ gets arbitrarily small:
+		\begin{align*}
+			\forall x \in X : \forall \epsilon \in \bR : \exists N \in \bN: &\\& n \geq N \implies d_M(f(x), f_n(x)) \leq \epsilon
+		\end{align*}
+		\item If we have a metric on the set of functions themselves, we can just have the $f_n$ converge to $f$ directly like any set of points would. Therefore we say that $f_n$ converges to $f$ \tbf{in Norm}, if:
+		\begin{align*}
+			\forall \epsilon \in \bR : \exists N \in \bN: &\\& n \geq N \implies d_M(f, f_n) \leq \epsilon
+		\end{align*}
+		A special case that is particularly important for real (and functional) analysis is \tbf{convergence in $L^p$-Norm}, i.e.:
+		\begin{align*}
+			\forall \epsilon \in \bR : \exists N \in \bN: &\\& n \geq N \implies \norm{f - f_n}_{L^p} \leq \epsilon,
+		\end{align*}
+		where:
+		\begin{align*}
+			\norm{f - f_n}_{L^p} = \lr(\int_{X} \abs{f - f_n}^p  ~d\mu)^\frac{1}{p}
+		\end{align*}
+		\item 
+		(TODO: Uniform Spaces)
+		
+		Let $f_n : X \to M$, where $(M, \leq)$ is a metric space. Then we say $f_n$ converges \tbf{uniformly} to if the same condition still holds when we have to choose our $N$ independently of (i.e. before) $x$:
+		\begin{align*}
+			\forall \epsilon \in \bR : \exists N \in \bN : \forall x \in X : &\\& n \geq N \implies d_M(f(x), f_n(x)) \leq \epsilon
+		\end{align*}
+		\item Let $f_n : X \to M$ and let $\mu$ be a measure on $X$. Then $f_n$ converges to $f$ \tbf{almost uniformly} if there exists a set $A_\epsilon$ such that $\mu(A_\epsilon) < \epsilon$ and such that $f_n$ converges to $f$ uniformly on $X \setminus A_\epsilon$. Note that this does \tbf{not} imply that $f_n$ converges uniformly to $f$ \tit{almost everywhere}, since all our $A_\epsilon$ still have positive measure, and so uniform convergence might not hold in the "limit case" where $A_\epsilon$ has to be zero.
+	\end{enumerate}
+	\begin{example}
+		The sequence $f_n : [0,1] \to \bR$, $x \mapsto x^n$ converges to the zero function almost uniformly, but not uniformly almost everywhere:
+		\begin{enumerate}
+			\item 
+			\item Let $E$ have zero measure. Then $E$ cannot contain any closed interval as a subset. Therefore, for any $m$, there must be a point $x_m \in \lr[1 - \frac{1}{m}, 1 - \frac{1}{m + 1}]$ such that $x_m \notin E$. We therefore have:
+			\begin{align*}
+				\sup_{x \in [0,1] \setminus E} \abs{f_n - 0} 
+				&= \sup_{x \in [0,1] \setminus E} \abs{x^n}\\
+				&\geq f_n(x_m)\\
+				&\geq f_n\lr(1 - \frac{1}{m})\\
+				&= \lr(1 - \frac{1}{m})^n
+			\end{align*}
+			Therefore, $f_n$ cannot converge uniformly to $0$, since for every choice of $E$ and any arbitrarily large $n \geq N$, we can still always find a point $x_m \in [0,1] \setminus E$ such that $f_n(x_m)$ is arbitrarily close to $1$.
+		\end{enumerate}
+	\end{example}
 \end{document}
