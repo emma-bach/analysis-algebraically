@@ -780,6 +780,15 @@
 			\item The volume should be invariant under isometries, i.e. functions like rotations, translations, and reflections should not change the volume of a set.
 		\end{enumerate}
 		We call a $\sigma$-additive function a \tit{measure}.
+		\begin{theorem}
+			Let $X$ be a set and $\cA \subseteq \cP(X)$. Then the $\sigma$-additivity of a function $\mu : \cA \to [0,\infty]$ is only well defined if $\cA$ contains the empty set and is closed under countable union.
+		\end{theorem}
+		\begin{corollary}\theoremname{$\emptyset$ is always a zero set}
+			Let $\mu$ be a $\sigma$-additive function $\cA \to [0,\infty]$. Then $\mu(\emptyset) = 0$.
+		\end{corollary}
+		\begin{corollary}\theoremname{$\sigma$-Additivity implies monotonicity}
+			Let $\mu$ be a $\sigma$-additive function $\cA \to [0,\infty]$. Then $A \subset B$ implies $\mu(A) \leq \mu(B)$.
+		\end{corollary}	
 		It will turn out that there exists exactly one function on $\bR^n$, called the \tit{Lebesque measure} $\lambda^n$, that fulfills these conditions for a very large family of sets (the so-called "Borel $\sigma$-Algebra") - enough to include every "somewhat reasonable" subset of $\bR^n$. However, there are still counterexamples.
 		\begin{proposition}
 			Every subset of $\bR^n$ being Lebesque-measurable is consistent with ZF (without the axiom of choice).
@@ -831,7 +840,7 @@
 			\begin{align*}
 				1 = \lambda^1([0,1]) \leq \lambda^1\lr(\bigcup_{k \in \bN} (q_k + V)) \leq \lambda^1\lr([-1,2]) = 3
 			\end{align*}
-			Since our measure is countably addiive and invariant under isometries, we can translate each individual set and preserve the measure:
+			Since our measure is countably additive and invariant under isometries, we can translate each individual set and preserve the measure:
 			\begin{align*}
 				\lambda^1\lr(\bigcup_{k \in \bN} (q_k + V)) 
 				&= \sum_{k \in \bN} \lambda^1\lr(q_k + V)\\
@@ -846,17 +855,10 @@
 	
 		\begin{corollary}
 			The unit sphere can be transformed into two copies of the unit sphere by a finite disjoint decomposition followed by an isometry. The subsets of the decomposition therefore violate the countable union condition we expect from measure functions, and can therefore not be a assigned a meaningful volume.
-		\end{corollary}
-		\section{$\sigma$-Additivity}
-		\begin{theorem}
-			Let $X$ be a set and $\cA \subseteq \cP(X)$. Then the $\sigma$-additivity of a function $\mu : \cA \to [0,\infty]$ is only well defined if $\cA$ contains the empty set and is closed under countable union.
-		\end{theorem}
-		\begin{corollary}\theoremname{$\emptyset$ is always a zero set}
-			Let $\mu$ be a $\sigma$-additive function $\cA \to [0,\infty]$. Then $\mu(\emptyset) = 0$.
-		\end{corollary}
-		\begin{corollary}\theoremname{$\sigma$-Additivity implies monotonicity}
-			Let $\mu$ be a $\sigma$-additive function $\cA \to [0,\infty]$. Then $A \subset B$ implies $\mu(A) \leq \mu(B)$.
-		\end{corollary}	
+		\end{corollary}		
+	
+		\clearpage
+		
 		\section{Lattices and Boolean Algebras}
 		We have just seen that we cannot define our desired measure function on the full power set of $\bR^n$. This means we will have to work on smaller systems of subsets of a given set. Naturally, we want to find the largest such systems that are still well-behaved enough to allow us to define a sensible notion of measure.
 		\newpar
@@ -972,6 +974,9 @@
 		\begin{corollary}
 			A boolean algebra is a bounded lattice such that meet and join are distributive over each other and such that complements exist.
 		\end{corollary}
+		
+		\clearpage
+		
 		\section{Set Algebras}
 		\begin{definition}
 			Let $X$ be a set and $\cA \subset \cP(X)$. Then we call $\cA$ a \tbf{set algebra} if it has the following properties:
@@ -998,7 +1003,7 @@
 			A topology on $X$ is "simply" a set algebra on $X$ that is closed under arbitrary unions.
 		\end{corollary}
 		\begin{theorem}
-			\theoremname{(Stone's Representation Theorem for Boolean Algebras:)} Every boolean algebra is isomorphic to a set algebra.
+			\theoremname{Stone's Representation Theorem for Boolean Algebras} Every boolean algebra is isomorphic to a set algebra.
 		\end{theorem}
 		\subsection{Set Rings}
 		A very important weakening of the concept of set algebras is given by \tit{set rings}, which contain the empty set and are closed under intersection and union, but don't have to contain the full set $X$ or be closed under complements.
@@ -1044,6 +1049,9 @@
 		\begin{corollary}
 			The set $\cQ$ of cuboids in $\bR^n$ (once again with both open and closed sides allowed) forms a set semiring.
 		\end{corollary}
+	
+		\clearpage
+		
 		\section{$\sigma$-Algebras}
 		The most important type of set algebra for the purposes of measure theory is the \tit{$\sigma$-Algebra}, on which we will define the notion of a "measure" in our desired final form.
 		\begin{definition}
@@ -1105,8 +1113,90 @@
 		\begin{theorem}
 			There exist Lebesque measurable sets which are not Borel.
 		\end{theorem}
+	
+		\clearpage
+		
+		\section{Dynkin Systems}
+		
+		\clearpage
+		
+		\section{Monotone Classes}
+		\begin{importantdefinition}{Monotone classes}{}
+			Let $\cM \subset \cP(X)$. Then we call $\cM$ a \tbf{monotone class} if:
+			\begin{enumerate}
+				\item 
+				For any Family $(A_i)_{i \in \bN} \subset \cM$ such that $A_i \subset A_{i + 1}$ holds for all $i \in \bN$, we have
+				\begin{align*}
+					\bigcup_{i = 1}^\infty A_i \in \cM
+				\end{align*}
+				\item 
+				For any Family $(A_i)_{i \in \bN} \subset \cM$ such that $A_i \supset A_{i + 1}$ holds for all $i \in \bN$, we have
+				\begin{align*}
+					\bigcap_{i = 1}^\infty A_i \in \cM
+				\end{align*}
+			\end{enumerate}
+			We denote the smallest monotone class containing a set $\cS \subset \cP(X)$ as $\angles{\cS}_\cM$.
+		\end{importantdefinition}
+		\begin{corollary}
+			Every $\sigma$-algebra is a monotone class.
+		\end{corollary}
+		\begin{corollary}
+			Given $\cF \subset \cP(X)$, we have $\angles{\cF}_\cM \subseteq \angles{\cF}_\sigma$
+		\end{corollary}
+		Recall that a \tit{set algebra} is a set $\cA \subset \cP(X)$ that contains the empty set and is closed under complements and binary unions.
+		\begin{theorem}
+			Let $\cF \subset \cP(X)$ be a set algebra and a monotone class. Then $\cF$ is a $\sigma$-algebra.
+		\end{theorem}
+		\begin{proof}
+			We need to show that $\cF$ is closed under countable unions. Let $(F_j)_{j \in \bN} \subset \cF$ be a family of elements of $\cF$. Since $\cF$ is closed under finite union, the increasing sequence of sets
+			\begin{align*}
+				A_i := \bigcup_{j = 1}^i F_j 
+			\end{align*}
+			must be contained in $\cF$. Therefore, since $\cF$ is a monotone class, the union
+			\begin{align*}
+				\bigcup_{i \in \bN} A_i = \bigcup_{i \in \bN} \lr(\bigcup_{j = 1}^i F_j) = \bigcup_{j \in \bN} F_j
+			\end{align*}
+			must also be contained in $\cF$. Therefore, $\cF$ is closed under countable union, making it a $\sigma$-algebra.
+		\end{proof}
+		 The relevance of monotone classes is given by the following theorem, which gives us an additional way of verifying whether a given subset of a power set forms a $\sigma$-algebra:
+		\begin{importanttheorem}{Monotone class theorem}{}
+			Let $\cA \subset \cP(X)$ be a set algebra. Then
+			\begin{align*}
+				\angles{\cA}_\cM 
+				=
+				\angles{\cA}_\sigma
+			\end{align*}
+		\end{importanttheorem}
+		\begin{proof}
+			We have already observed that, since any $\sigma$-algebra is a monotone class, we have $\angles{\cA}_\cM \subset \angles{\cA}_\sigma$. Therefore, it suffices to show that we also have $\angles{\cA}_\cM \supset \angles{\cA}_\sigma$. This holds automatically if $\angles{\cA}_\cM$ is a $\sigma$-algebra, and since we already know that any monotone class is a $\sigma$-algebra if it is a set algebra, it suffices to show that $\angles{\cA}_\cM$ is a set algebra.
+			\newpar
+			For any $E \in \angles{\cA}_\cM$, let $\cM_E$ be the system of "good subsets" of $X$ which can be combined with $E$ as desired, i.e.
+			\begin{align*}
+				\cM_E := \lr{F \subset X \mid \begin{array}{c}
+						F \setminus E \in \angles{\cA}_\cM\\
+						E \setminus F \in \angles{\cA}_\cM\\
+						E \cup F \in \angles{\cA}_\cM
+				\end{array}}
+			\end{align*}
+			\begin{enumerate}
+				\item First, we want to show that $\cM_E$ is a monotone class.
+				\item Next, we want to show that for every $E \in \cA$, we have $\angles{\cA}_\cM \subset \cM_E$. Since $\cA$ is a set algebra, every element of $\cA$ combines with $E$ as desired, giving us $\cA \subset \cM_E$. Therefore, since $\cM_E$ is a monotone class, we have 
+				\begin{align*}
+					\angles{\cA}_\cM \subset \angles{\cM_E}_\cM = \cM_E.
+				\end{align*}
+				\item Next, we want to show that for every $F \in \angles{\cA}_\cM$, we have $\angles{\cA}_\cM \subset \cM_F$. We just showed that $\angles{\cA}_\cM \subset \cM_F$, which means we have $F \in \cM_E$ for any $E \in \cA$. Since the definition of $\cM_E$ is entirely symmetric in $E$ and $F$, we also have $E \in \cM_F$. Therefore, since all $E \in \cA$ are contained in $\cM_F$, we have $\cA \subset \cM_F$, implying 
+				\begin{align*}
+					\angles{\cA}_\cM \subset \angles{\cM_F}_\cM = \cM_F.
+				\end{align*}
+				\item We have just shown that, for any $E,F \in \monotone{\cA}$, we have $E \in \cM_F$, implying that $\monotone{\cA}$ is closed under complementation and binary union. Since $X \in \cA$, we also have $X \in \monotone{\cA}$. Therefore, $\monotone{\cA}$ is a set algebra.
+			\end{enumerate}
+			Therefore, $\monotone{\cA}$ is indeed both a set algebra and a monotone class, making it a $\sigma$ algebra. 
+		\end{proof}
+		\clearpage
+		
 		\section{Measures}
 		With our different subset systems in place, we can finally give a general formal definition of a measure. Along the way, we will encounter outer measures, contents, and premeasures, which are weakened measures that we can use to generate proper ones.
+		
 		\begin{definition}
 			Let $X$ be a set and $\mu$ be a function $\cP(X) \to [0,\infty]$. We call $\mu$ an \tbf{outer measure on $X$} if it is $\sigma$-subadditive.
 		\end{definition}
@@ -1253,10 +1343,35 @@
 	\begin{definition}
 		Let $E \subset \bR^n$. The \tbf{Lebesque outer measure} of $E$ is given by
 		\begin{align*}
-			\lambda^*(E) := \inf_{\substack{E \subset \bigcup_{i = 1}^\infty Q_n,\\ Q_n \in \cQ}} \lr{\sum_{n = 1}^\infty \abs{Q_n}},
+			\lambda^*(E) := \inf_{\substack{E \subset \bigcup_{i = 1}^\infty Q_n,\\ Q_n \in \cQ}} \lr{\sum_{n = 1}^\infty \vol^n{Q_n}},
 		\end{align*}
 		i.e. the Lebesque outer measure of $E$ is the greatest lower bound of the measures of all coverings of $E$ by cuboids.
 	\end{definition}
+	\begin{corollary}
+		We have $\lambda^0 = \card$ - the zero-dimensional lebesque measure is the counting measure.
+	\end{corollary}
+	\begin{proof}
+		$\bR^0$ is by definition cartesian product of $\bR$ with a set of cardinality $0$ i.e. the empty set, as its index set:
+		\begin{align*}
+			\bR^0 = \prod_\emptyset \bR
+		\end{align*}
+		By definition of cartesian products, its members must be functions $\emptyset \to \bR$. There is exactly one such "empty function", which we will denote $f_\emptyset$. Thus, the only subsets of $\bR^0$ are the empty set and $\lr{f_\emptyset}$.
+		\begin{enumerate}
+			\item Since $\lambda^0$ and $\card$ are measures, we have 
+			\begin{align*}
+				\lambda^0(\emptyset) = 0 = \card(\emptyset)
+			\end{align*}
+			\item By definition, a $0$-dimensional cuboid must be a function $\emptyset \to I$ to an interval $I \subset \bR$. Since all functions from the empty set to any set are identical, $f_\emptyset$ qualifies as a cuboid. We thus have:
+			\begin{align*}
+				\lambda^0(\lr{f_\emptyset}) 
+				&= \vol^0(\lr{f_\emptyset})\\ 
+				&= \prod_{\emptyset} \vol(I)\\
+				&= 1\\
+				&= \card(\lr{f_\emptyset})
+			\end{align*}
+			Where the last step follows since empty products evaluate to the multiplicative identity, in this case the number $1$.
+		\end{enumerate}
+	\end{proof}
 	\begin{theorem}
 		Let $U \subset \bR^n$ be open. Then $U$ is a countable union of cuboids.
 	\end{theorem}
@@ -2020,7 +2135,259 @@
 		\clearpage
 		
 		\section{Product Measures and Fubini's Theorem}
+		In this section, given two measure spaces $(X, \cA, \mu)$ and $(Y, \cB, \nu)$, we want to derive a canonical measure $\mu \tensor \nu$ on $\cA \tensor \cB$. Our intuition already tells us what the measure of a cuboid should be: Given a cuboid
+		\begin{align*}
+			Q = A \times B \subset X \times Y,
+		\end{align*}
+		where $A \in \cA$ and $B \in \cB$, we want the measure of the cuboid to be the product of the measures of its sides:
+		\begin{align*}
+			(\mu \tensor \nu)(M) = \mu(A) \cdot \nu(B)
+		\end{align*}
+		Recall that, for any $M \in X \times Y$, the cuts through $M$ by $x \in X$ and $y \in Y$ are simply defined as
+		\begin{align*}
+			M^x = \lr{y \in Y \mid (x,y) \in M},\\
+			M^y = \lr{x \in X \mid (x,y) \in M}.
+		\end{align*}
+		\begin{importanttheorem}{}{}
+			Let $(X,\cA, \mu)$ and $(Y, \cB, \nu)$ be $\sigma$-finite measure spaces. Let $M \in \cA \tensor \cB$. Then:
+			\begin{enumerate}
+				\item The function $x \mapsto \nu(M^x)$ is $\cA$-measurable,
+				\item The function $y \mapsto \mu(M^y)$ is $\cB$-measurable,
+				\item We have
+				\begin{align*}
+					\int_X \nu(M^x) ~d\mu(x)
+					&=
+					\int_Y \mu(M^y) ~d\nu(y)
+				\end{align*}
+			\end{enumerate}
+		\end{importanttheorem}
+		\begin{proof}
+			Let $\cS$ be the system of all sets $M \in \cA \tensor \cB$ for which this theorem holds.
+			\newpar
+			Let $\cQ$ be the system of all measurable cuboids in $X \times Y$, which we have just established are simply given by $Q = A \times B$ such that $A \in \cA$ and $B \in \cB$.
+			\newpar
+			Let $\cF$ be the system of finite unions of cuboids (which by our definition of cuboids inherently includes complements of cuboids). Since we count $X \times Y$ as a cuboid, $\cF$ forms a set algebra.
+			\newpar
+			We will show that $\cS$ is a monotone class containing $\cF$, which will give us
+			\begin{align*}
+				\cA \tensor \cB = \sigalg{\cQ} = \sigalg{\cF} = \mono{\cF} \subseteq \cS
+			\end{align*}
+			since $\cS \subseteq \cA \tensor \cB$ by definition, this implies $\cA \tensor \cB = \cS$.
+			\newpar
+			The proof the $\cS$ is a monotone class is however left as an exercise to the reader :)
+		\end{proof}
+		\begin{importanttheorem}{Product measure}{}
+			Let $(X, \cA, \mu)$ and $(Y, \cB, \nu$ be $\sigma$-finite measure spaces. Then there exists exactly one measure $\mu \otimes \nu$ on $\cA \otimes \cB$ such that for any $A \in \cA$ and $B \in \cB$, we have
+			\begin{align*}
+				(\mu \otimes \nu)(A \times B) = \mu(A)\nu(B)
+			\end{align*}
+			This measure is given by
+			\begin{align*}
+				(\mu \otimes \nu)(M) = \int_X \nu(M^x) ~d\mu(x) = \int_Y \mu(M^y) ~d\mu(y)
+			\end{align*}
+		\end{importanttheorem}
+		\begin{importantcorollary}{Cavalieri's Principle}{}
+			Let $(X, \cA, \mu)$ and $(Y, \cB, \nu)$ be $\sigma$-finite measure spaces. Then, for all $M \in \cA \tensor \cB$, we have
+			\begin{align*}
+				(\mu \tensor \nu)(M) 
+				&=
+				\int_X \nu(M^x) ~d\mu(x)\\
+				&=
+				\int_X \int_Y \chi_M(x,y) ~d\nu(y) ~d\mu(x)\\
+				&=
+				\int_Y \mu(M^Y) ~d\nu(x)\\
+				&=
+				\int_Y \int_X \chi_M(x,y) ~d\mu(x) ~d\nu(y)
+			\end{align*}
+		\end{importantcorollary}
+		\begin{corollary}
+			Let $(X, \cA, \mu)$ and $(Y, \cB, \nu)$ be $\sigma$-finite measure spaces. Then, for any $M \in \cA \tensor \cB$, the following are equivalent:
+			\begin{enumerate}
+				\item $(\mu \tensor \nu)(M) = 0$,
+				\item $\mu(M^y) = 0$ $\nu$-almost everywhere,
+				\item $\nu(M^x) = 0$ $\mu$-almost everywhere.
+			\end{enumerate}
+		\end{corollary}
+		\begin{lemma}
+			Let $(X, \cA, \mu)$ and $(Y, \cB, \nu)$ be $\sigma$-finite measure spaces. Let $f : X \times Y \to \bR$ be $\cA \tensor \cB$ measurable. Then the function $f(x, \cdot) : Y \to \bR$ is $\cB$-measurable for all $x \in X$.
+		\end{lemma}
+		\begin{importanttheorem}{Fubini's Theorem}{}
+			Let $(X, \cA, \mu)$ and $(Y, \cB, \nu)$ be $\sigma$-finite measure spaces. Let $f \in \cL^*(\mu \otimes \nu)$. Then:
+			\begin{align*}
+				\int_{X \times Y} f ~d(\mu \tensor \nu)
+				&=
+				\int_X \int_Y f(x,y) ~d\nu(y) ~d\mu(x)\\
+				&=
+				\int_Y \int_X f(x,y) ~d\mu(x) ~d\nu(y)
+			\end{align*}
+		\end{importanttheorem}
+		\pagebreak
+		\begin{corollary}
+			The volume of the open unit ball
+			\begin{align*}
+				B^n_1(0) = \lr{\vx \in \bR^n \mid \norm{\vx}_2 < 1}.
+			\end{align*}
+			is given by:
+			\begin{align*}
+				\lambda^n(B^n_1(0))
+				&=
+				\frac{\pi^{n/2}}{\Gamma(\frac{n}{2}+1)}
+				=
+				\begin{cases}
+					\frac{\pi^k}{k!} & n = 2k\\
+					\frac{\pi^k}{\prod_{i = 1}^k \frac{1}{2} + k - i} & n = 2k + 1
+				\end{cases}
+			\end{align*}
+		\end{corollary}
+		In particular:
+		\begin{enumerate}
+			\item The $1$-dimensional unit ball is simply the interval $(-1,1)$ and thus has length $2$,
+			\item The $2$-dimensional unit ball is a circle of radius $1$ and has area $\pi$
+			\item The $3$-dimensional unit ball has volume
+			$\frac{4\pi}{3}$
+			\item The $4$-dimensional unit ball has volume $\frac{\pi^2}{2}$
+			\item The $5$-dimensional unit ball has volume $\frac{8\pi^2}{15}$
+			\item $\hdots$
+		\end{enumerate}
+		\begin{proof}
+				First, we want to show by induction that the volume of an $n$-dimensional ball is proportional to the $n$-th power of its radius. The case $n = 1$ is trivial, since we have 
+				\begin{align*}
+					\lambda(B_r^1(0))
+					&= \lambda((-r,r))
+					= r \cdot \lambda((-1,1))
+					= r \cdot \lambda(B_1^1(0))
+				\end{align*}
+				Now, by Cavalieri's Principle, we get:
+				\begin{align*}
+					\lambda^n(B^n_r(0))
+					&=
+					\int_\bR \lambda^{n-1}\lr(B^n_r(0)^y) ~dy\\
+					&=
+					\int_{(-r,r)} \lambda^{n-1}\lr(B^n_r(0)^y) ~dy\\
+					&=
+					\int_{(-r,r)} \lambda^{n-1}\lr{x \in \bR^{n-1} \mid \norm{x}_2 < \sqrt{r^2-y^2}} ~dy\\
+					&=
+					\int_{(-r,r)} \lambda^{n-1}\lr{x \in \bR^{n-1} \mid \norm{x}_2 < r\sqrt{1-\lr(\frac{y}{r})^2}} ~dy\\
+					&\overset{IH}{=}
+					r^{n-1} \cdot \int_{(-r,r)} \lambda^{n-1}\lr{x \in \bR^{n-1} \mid \norm{x}_2 < \sqrt{1-\lr(\frac{y}{r})^2}} ~dy\\
+					&=
+					r^n \cdot \int_{-r}^r \lambda^{n-1}\lr{x \in \bR^{n-1} \mid \norm{x}_2 < \sqrt{1-\lr(\frac{y}{r})^2}} \cdot \frac{1}{r} ~dy\\
+					&\overset{g(x) := \frac{x}{r}}{=}
+					r^n \cdot \int_{\frac{-r}{r} = -1}^{\frac{r}{r} = 1} \lambda^{n-1}\lr{x \in \bR^{n-1} \mid \norm{x}_2 < \sqrt{1-u^2}} ~du\\
+					&=
+					r^n \cdot \lambda^n(B^n_1(0)),
+				\end{align*}
+				which completes the induction.
+				\newpar
+				Now, using this knowledge, we can extract a recurrence relation from one of our intermediate steps:
+				\begin{align*}
+					\lambda^n(B^n_1(0))
+					&=
+					\int_{-1}^1 \lambda^{n-1}\lr{x \in \bR^{n-1} \mid \norm{x}_2 < \sqrt{1-y^2}} ~dy\\
+					&=
+					\int_{-1}^1 \lr(\sqrt{1-y^2})^{n-1} \cdot \lambda^{n-1} \lr{x \in \bR^{n-1} \mid \norm{x}_2 < 1} ~dy\\
+					&=
+					\lambda^{n-1}(B^{n-1}_1(0)) \cdot \int_{-1}^1 \lr(\sqrt{1 - y^2})^{n-1} ~dy\\
+				\end{align*}
+				We can thus get our result by solving the integral
+				\begin{align*}
+					I_n &:= \int_{-1}^1 \lr(\sqrt{1-y^2})^{n-1} ~dy\\
+				\end{align*}
+				Substituting $\cos(\theta) = y$ gives:
+				\begin{align*}
+					I_n &= \int_{-1}^1 \lr(\sqrt{1-y^2})^{n-1} ~dy\\
+					&= \int_{-1}^1 \lr(\sqrt{1-\cos(\theta)^2})^{n-1} \cdot \sin(\theta) ~d\theta\\
+					&= \int_{0}^\pi \sin^n(\theta) ~d\theta
+				\end{align*}
+				Now, partial integration gives:
+				\begin{align*}
+					I_n 
+					&= \int_{0}^\pi \sin^n(\theta) ~d\theta\\
+					&= \int_{0}^\pi \sin(\theta) \cdot \sin^{n-1}(\theta) ~d\theta\\
+					&=
+					\lr[-\cos(\theta) \cdot \sin^{n-1}(\theta)]_0^\pi + (n-1) \cdot \int_{0}^\pi \cos^2(\theta) \cdot \sin^{n-2}(\theta) ~d\theta\\
+					&=
+					(n-1) \cdot \int_{0}^\pi \cos^2(\theta) \cdot \sin^{n-2}(\theta) ~d\theta\\
+					&=
+					(n-1) \cdot \int_{0}^\pi (1 - \sin^2) \cdot \sin^{n-2}(\theta) ~d\theta\\
+					&=
+					(n-1) \cdot (I_{n-2} - I_n),
+				\end{align*}
+				which means:
+				\begin{align*}
+					I_n &= (n-1) \cdot I_{n-2} - (n-1) \cdot I_n\\
+					\implies n I_n &= (n-1) \cdot I_{n-2}\\
+					\implies I_n &= \frac{n-1}{n} \cdot I_{n-2}
+				\end{align*}
+				Unrolling this recursive formula, we get:
+				\begin{align*}
+					I_{2k} = I_0 \cdot \prod_{i = 1}^n \frac{2i - 1}{2i}\\
+					I_{2k+1} = I_1 \cdot \prod_{i = 1}^n \frac{2i}{2i+1}\\
+				\end{align*}
+				We can easily calculate $I_0$ and $I_1$ explicitly:
+				\begin{align*}
+					I_0 
+					&= \int_{0}^\pi \sin^0(\theta) ~d\theta\\
+					&= \int_{0}^\pi 1 ~d\theta\\
+					&= \pi
+				\end{align*}
+				\begin{align*}
+					I_1 
+					&= \int_{0}^\pi \sin(\theta) ~d\theta\\
+					&= (-\cos(\pi)) - (-\cos(0))\\
+					&= 2
+				\end{align*}
+				Thus, we have:
+				\begin{align*}
+					I_{2k} = \pi \cdot \prod_{i = 1}^k \frac{2i - 1}{2i}\\
+					I_{2k+1} = 2 \cdot \prod_{i = 1}^k \frac{2i}{2i+1}
+				\end{align*}
+				This gives us:
+				\begin{align*}
+					I_{2k+1}I_{2k} 
+					&= 2\pi \cdot \prod_{i = 1}^k \frac{2i - 1}{2i} \cdot \prod_{i = 1}^k \frac{2i}{2i+1}\\
+					&= 2\pi \cdot \prod_{i = 1}^k \frac{2i - 1}{2i+1}\\
+					&= \frac{2\pi}{2k+1}\\
+					&= \frac{\pi}{k + \frac{1}{2}}
+				\end{align*}
+				\begin{align*}
+					I_{2k}I_{2k-1} 
+					&= 2\pi \cdot \prod_{i = 1}^k \frac{2i - 1}{2i} \cdot \prod_{i = 1}^{k-1} \frac{2i}{2i+1}\\
+					&= 2\pi \cdot \frac{2k - 1}{2k} \cdot \prod_{i = 1}^{k-1} \frac{2i - 1}{2i} \cdot \prod_{i = 1}^{k-1} \frac{2i}{2i+1}\\
+					&= 2\pi \cdot \frac{2k - 1}{2k} \cdot \frac{1}{2k-1}\\
+					&= \frac{\pi}{k}
+				\end{align*}
+				We know that 
+				\begin{align*}
+					\lambda(B_1^1(0)) = \lambda((-1,1)) = 2
+				\end{align*}
+				And, recalling the fact that $\lambda^0$ is the counting measure, we also know that \begin{align*}
+					\lambda^0(B_1^0(0)) = \lambda^0(\lr{0}) = 1
+				\end{align*}
+				Thus, at long last, we get:
+				\begin{align*}
+					\lambda^{2k}(B^{2k}_1(0)) 
+					&= (I_{2k}I_{2k-1}) \cdot (I_{2k - 2}I_{2k-3}) \cdot \hdots \cdot (I_2 I_1) \cdot \lambda^0(B^0(0))\\
+					&= \lr(\prod_{i = 1}^k \frac{\pi}{i}) \cdot 1\\
+					&= \frac{\pi^k}{k!} = \frac{\pi^{n/2}}{\Gamma\lr(\frac{n}{2} + 1)}
+				\end{align*}
+				\begin{align*}
+					\lambda^{2k+1}(B^{2k+1}_1(0)) 
+					&= (I_{2k+1}I_{2k}) \cdot (I_{2k - 1}I_{2k-2}) \cdot \hdots \cdot (I_3 I_2) \cdot \lambda^1(B^1(0))\\
+					&= \lr(\prod_{i = 1}^k \frac{\pi}{i + \frac{1}{2}}) \cdot 2\\
+					&= \frac{\pi^k}{\prod_{i = 1}^k i + \frac{1}{2}} \cdot 2\\
+					&= \frac{\pi^k}{\prod_{i = 0}^k i + \frac{1}{2}}\\
+					&= \frac{\pi^k \cdot \sqrt{\pi}}{\lr(\prod_{i = 0}^k i + \frac{1}{2}) \cdot \sqrt{\pi}}\\
+					&= \frac{\pi^\frac{n}{2}}{\lr(\prod_{i = 0}^k i + \frac{1}{2}) \cdot \Gamma\lr(\frac{1}{2})}\\
+					&= \frac{\pi^\frac{n}{2}}{\lr(\prod_{i = 1}^{k+1} i - \frac{1}{2}) \cdot \Gamma\lr(\frac{1}{2})}\\
+					&= \frac{\pi^\frac{n}{2}}{\Gamma\lr(k + \frac{1}{2} + 1)}\\
+					&= \frac{\pi^{n/2}}{\Gamma\lr(\frac{n}{2} + 1)}
+				\end{align*}
+		\end{proof}
 		
+		\begin{proposition}
+			The $5$-dimensional unit ball has the highest volume out of any unit ball. As the dimension increases, the volume of the unit ball converges to zero.
+		\end{proposition}
 		\clearpage
 		
 		\section{Change of Variables}
