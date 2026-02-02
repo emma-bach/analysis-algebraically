@@ -6,6 +6,31 @@
 
 % Nicer Headers and Footers
 \usepackage{fancyhdr}
+
+\renewcommand{\chaptermark}[1]{
+	\markboth{\chaptername\ \thechapter:\ #1}
+	{}
+}
+
+\renewcommand{\sectionmark}[1]{
+	\markright{\thesection{}\ -- \ #1}
+	{}
+}
+
+\fancyhead[L]{\leftmark\\\rightmark}
+\fancyhead[R]{}
+
+\newcommand*\parttitle{}
+\let\origpart\part
+\renewcommand*{\part}[2][]{ %
+	\ifx\\#1\\% optional argument not present?
+	\origpart{#2}%
+	\renewcommand*\parttitle{#2}%
+	\else
+	\origpart[#1]{#2}%
+	\renewcommand*\parttitle{#1}%
+	\fi
+}
 \usepackage[yyyymmdd]{datetime}
 \renewcommand{\dateseparator}{-}
 
@@ -67,10 +92,14 @@
 }
 
 % shorthand
-\newcommand{\tn}[1]{\textnormal{#1}}
 \newcommand{\tbf}[1]{\textbf{#1}}
+\newcommand{\tn}[1]{\textnormal{#1}}
 \newcommand{\tit}[1]{\textit{#1}}
 \newcommand{\ttt}[1]{\texttt{#1}}
+
+% make \textbf automatically include math
+\let\oldtextbf=\textbf
+\renewcommand\textbf[1]{{\boldmath\oldtextbf{#1}}}
 
 \newcommand{\mc}[1]{\mathcal{#1}}
 
@@ -96,6 +125,7 @@
 \newcommand{\symdiff}{\vartriangle}
 \newcommand{\trans}{\twoheadrightarrow}
 \newcommand{\tensor}{\otimes}
+\newcommand{\Tensor}{\bigotimes}
 \renewcommand{\mid}{~\middle|~}
 
 %--- STUFF IN FANCY BRACKETS ---

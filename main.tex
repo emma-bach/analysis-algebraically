@@ -5,8 +5,6 @@
 \usepackage[a4paper,margin=1in,rmargin=2.5in,marginparsep=16pt, marginparwidth=1.5in]{geometry}
 \renewcommand{\baselinestretch}{1.2}
 
-%\AddToHook{cmd/section/before}{\clearpage}
-
 % emma's long list of custom macros and universally used packages
 \include{./macros-and-packages-en.tex}
 
@@ -22,6 +20,39 @@
 	breakable,
 	enhanced,
 }
+
+% Turn definitions into boxes to prevent page breaks
+% Mostly commented out again because the effect on compile time is pretty dire ^^
+\tcolorboxenvironment{definition}{
+	colback=white,
+	size=tight,
+	enhanced,
+	frame hidden,
+	center
+}
+\iffalse
+\tcolorboxenvironment{theorem}{
+	colback=white,
+	size=tight,
+	enhanced,
+	frame hidden,
+	center
+}
+\tcolorboxenvironment{lemma}{
+	colback=white,
+	size=tight,
+	enhanced,
+	frame hidden,
+	center
+}
+\tcolorboxenvironment{corollary}{
+	colback=white,
+	size=tight,
+	enhanced,
+	frame hidden,
+	center
+}
+\fi
 
 \newtcbtheorem[number within=lemma]{importanttheorem}{Theorem}{colback=white,
 	colframe=black,
@@ -87,21 +118,13 @@
 
 \renewenvironment{proofsketch}{\begin{proof}[Proof Sketch]\renewcommand*{\qedsymbol}{\("\square"\)}}{\end{proof}}
 
-\pagestyle{fancy} %allows headers
-
-\lhead{Emma Yoneda}
-\rhead{\today}
-
 \begin{document}
 	
 	\include{title}
 	\tableofcontents
-	\thispagestyle{fancy}
 	\part{Set Theory}
-	\chapter{Axioms of Set Theory}
-		\section{Set Theoretic Axioms}
-		\section{Operations on Sets}
-		\section{Relations and Maps}
+	\pagestyle{fancy} %allows headers
+	\chapter{Relations and Maps}
 		\begin{theorem}
 			\theoremname{Some identities for preimages}
 			Let $f : X \to Y$ be a bijective map. Then for all $Y_i \subset Y$, the following identities hold:
@@ -120,7 +143,7 @@
 				\end{align*}
 			\end{enumerate}
 		\end{theorem}
-		\section{Orders}
+	\chapter{Orders}
 		\begin{definition}
 			Let $S$ be a subset of a partially ordered set $(P, \leq)$. Then:
 			\begin{enumerate}
@@ -155,6 +178,7 @@
 		\end{importantdefinition}
 	\part{Algebraic Structures}
 	\chapter{Ordered Fields}
+		\section{Basic Properties}
 		\begin{importantdefinition}{Ordered Commutative Ring}{}
 			An \tbf{ordered commutative Ring} $(R, \leq)$ is a commutative Ring $R$ equipped with an \tbf{ordering relation} $\leq$, such that for all $a,b,c \in R$, we have:
 			\begin{enumerate}
@@ -233,6 +257,7 @@
 				\end{enumerate}
 			\end{multicols}
 		\end{summary}
+	\clearpage
 	\section{The Archimedean Property}
 		\begin{definition}
 			Let $F$ be an archimedean ordered field. Then we say that $F$ is \tbf{archimedean} if for every $x,y \in F_{> 0}$, there exists a natural number $n$ such that
@@ -1019,113 +1044,6 @@
 		\begin{corollary}
 			The set $\cQ$ of cuboids in $\bR^n$ (once again with both open and closed sides allowed) forms a set semiring.
 		\end{corollary}
-		\section{Measures on $\bR^n$}
-		(TODO: Merge into abstract measure theory chapter)
-		\subsection{Jordan Measure}
-		\begin{definition}
-			Let $E \subset \bR^n$ be an elementary set. Then we can assign to it the \tbf{elementary volume} $\vol(E)$, where the volume of a cuboid is the product of its side lengths and the volume of a finite union of cuboids is the sum of the volumes of the individual cuboids making up $E$.
-		\end{definition}
-		\begin{definition}
-			\theoremname{Inner and outer Jordan Measures}
-			Let $E \subset \bR^n$.
-			\begin{enumerate}
-				\item  The \tbf{inner Jordan measure} $J_*(E)$ is
-				\begin{align*}
-					J_*(E) := \sup_{\substack{\textnormal{$Q_i \in \cQ$},\\ \bigcup_{i = 1}^n Q_i \subset E}} \vol(Q)
-				\end{align*}
-				\item The \tbf{outer Jordan measure} $J_*(E)$ is 
-				\begin{align*}
-					J^*(E) := \inf_{\substack{\textnormal{$Q_i \in \cQ$},\\ \bigcup_{i = 1}^n Q_i \supset E}} \vol(Q)
-				\end{align*}
-			\end{enumerate}
-		\end{definition}
-		\begin{definition}
-			\theoremname{Jordan measurable set, Jordan measure}
-			We call $E$ \tbf{Jordan-measurable} if $J_*(E) = J^*(E)$. Then we call $J(E) = J_*(E) = J^*(E)$ the \tbf{Jordan measure}.
-		\end{definition}
-		\begin{theorem}
-			The Jordan measure is $\sigma$-additive.
-		\end{theorem}
-		\begin{theorem}
-			The following are equivalent:
-			\begin{enumerate}
-				\item $E$ is Jordan measurable,
-				\item For every $\epsilon > 0$, there exist elementary sets $A \subset E \subset B$ such that $\vol(B \setminus A) \leq \epsilon$,
-				\item For every $\epsilon > 0$, there exists an elementary set $A$ such that
-				$J^*(A \symdiff E) \leq \epsilon$.
-			\end{enumerate}
-		\end{theorem}
-		\begin{theorem}
-			The collection of subsets of $\bR^n$ that are either Jordan measurable or have a Jordan-measurable complement form a Boolean algebra, known as the Jordan algebra.
-		\end{theorem}
-		\begin{theorem}
-			The Jordan algebra is non-atomic.
-		\end{theorem}
-		\begin{theorem}
-			\theoremname{(Regions under continuous Graphs are Jordan measurable)}
-			Let $B$ be a closed box in $\bR^n$, and let $f : B \to \bR$ be a continuous function. Then the set
-			\begin{align*}
-				\lr{(x,t) \mid x \in B, 0 \leq t \leq f(x)} \subset \bR^{n+1}
-			\end{align*}
-			is Jordan measurable.
-		\end{theorem}
-		\begin{theorem}
-			Triangles are Jordan measurable.
-		\end{theorem}
-		\begin{theorem}
-			Convex polytopes in $\bR^n$ are Jordan measurable.
-		\end{theorem}
-		\begin{theorem}
-			Open and closed Euclidean balls are Jordan measurable.
-		\end{theorem}
-		\begin{theorem}
-			Every subset of a Jordan null set is Jordan measurable and also a Jordan null set.
-		\end{theorem}
-		\begin{theorem}
-			The sets $[0,1]^2 \setminus \bQ^2$ and $[0,1]^2 \cap \bQ^2$ are both not Jordan measurable.
-		\end{theorem}
-		Informally, sets with a lot of "holes" or with very messy, fractal-like boundaries are generally not Jordan-measurable.
-		\begin{theorem}
-			There exist countable unions, and countable intersections, of Jordan measurable sets which are not Jordan measurable.
-		\end{theorem}
-		\subsection{Lebesque Measure}
-		One can extend the Jordan measure to a significantly larger number of subsets of $\bR^n$ by simply allowing countable unions of cuboids (instead of finite unions of cuboids). The Lebesque measure is simply this generalization of the Jordan measure. Formally:
-		\begin{definition}
-			Let $E \subset \bR^n$. The \tbf{Lebesque outer measure} of $E$ is given by
-			\begin{align*}
-				\lambda^*(E) := \inf_{\substack{E \subset \bigcup_{i = 1}^\infty Q_n,\\ Q_n \in \cQ}} \lr{\sum_{n = 1}^\infty \abs{Q_n}},
-			\end{align*}
-			i.e. the Lebesque outer measure of $E$ is the greatest lower bound of the measures of all coverings of $E$ by cuboids.
-		\end{definition}
-		\begin{theorem}
-			Let $U \subset \bR^n$ be open. Then $U$ is a countable union of cuboids.
-		\end{theorem}
-		Therefore, we can define Lebesque measurability similarly to Jordan measurability - a set is Lebesque measurable if it is "almost" an open set.
-		\begin{definition}
-			A set $E \subset \bR^n$ is \tbf{Lebesque measurable} if for every $\epsilon > 0$, there exists an open set $U \subset \bR^n$ such that $U \subset E$ and $\lambda^*(U \setminus E) \leq \epsilon$. If $E$ is Lebesque measurable, we refer to $\lambda(E) := \lambda^*(E)$ as the \tbf{Lebesque measure} of $E$. If the dimension $n$ should be emphasized, we sometimes write $\lambda(E)$ as $\lambda^n(E)$.
-		\end{definition}
-		\begin{theorem}
-			The Lebesque measure fulfills:
-			\begin{align*}
-				E \subset \bigcup_{i \in N} E_i \implies \lambda(E) \leq \sum_{i \in \bN} \lambda(E_i)
-			\end{align*}
-			This is a weakened form of $\sigma$-additivity, which is known as \tbf{$\sigma$}-subadditivity.
-		\end{theorem}
-		\begin{theorem}
-			The Lebesque measure defines a $\sigma$-additive function on the Lebesque measurable sets.
-		\end{theorem}
-		\begin{theorem}
-			The collection of subsets of $\bR^n$ that are either Lebesque measurable or have a Lebesque-measurable complement form a Boolean algebra.
-		\end{theorem}
-		You may have heard in linear algebra that the determinant of a matrix $S$ tells us how the matrix scales the volume of the unit cube. Since the Lebesque measure is defined using volumes of unit cubes, this intuition also holds for the image of any set $E$ under $S$:
-		\begin{theorem}
-			\theoremname{Linear Transformation Equation}
-			\label{thm:lineartransformationequation}
-			Let $S \in \bRnn$. Then for all $E \subset \bR^n$, we have:
-			\begin{align*}
-				\lambda^n(S(E)) = \abs{\det(S)}\lambda^n(E)
-			\end{align*}
-		\end{theorem}
 		\section{$\sigma$-Algebras}
 		The most important type of set algebra for the purposes of measure theory is the \tit{$\sigma$-Algebra}, on which we will define the notion of a "measure" in our desired final form.
 		\begin{definition}
@@ -1262,6 +1180,112 @@
 			\end{align*}
 		\end{definition}
 		\fi
+	\section{Measures on $\bR^n$}
+	\subsection{Jordan Measure}
+	\begin{definition}
+		Let $E \subset \bR^n$ be an elementary set. Then we can assign to it the \tbf{elementary volume} $\vol(E)$, where the volume of a cuboid is the product of its side lengths and the volume of a finite union of cuboids is the sum of the volumes of the individual cuboids making up $E$.
+	\end{definition}
+	\begin{definition}
+		\theoremname{Inner and outer Jordan Measures}
+		Let $E \subset \bR^n$.
+		\begin{enumerate}
+			\item  The \tbf{inner Jordan measure} $J_*(E)$ is
+			\begin{align*}
+				J_*(E) := \sup_{\substack{\textnormal{$Q_i \in \cQ$},\\ \bigcup_{i = 1}^n Q_i \subset E}} \vol(Q)
+			\end{align*}
+			\item The \tbf{outer Jordan measure} $J_*(E)$ is 
+			\begin{align*}
+				J^*(E) := \inf_{\substack{\textnormal{$Q_i \in \cQ$},\\ \bigcup_{i = 1}^n Q_i \supset E}} \vol(Q)
+			\end{align*}
+		\end{enumerate}
+	\end{definition}
+	\begin{definition}
+		\theoremname{Jordan measurable set, Jordan measure}
+		We call $E$ \tbf{Jordan-measurable} if $J_*(E) = J^*(E)$. Then we call $J(E) = J_*(E) = J^*(E)$ the \tbf{Jordan measure}.
+	\end{definition}
+	\begin{theorem}
+		The Jordan measure is $\sigma$-additive.
+	\end{theorem}
+	\begin{theorem}
+		The following are equivalent:
+		\begin{enumerate}
+			\item $E$ is Jordan measurable,
+			\item For every $\epsilon > 0$, there exist elementary sets $A \subset E \subset B$ such that $\vol(B \setminus A) \leq \epsilon$,
+			\item For every $\epsilon > 0$, there exists an elementary set $A$ such that
+			$J^*(A \symdiff E) \leq \epsilon$.
+		\end{enumerate}
+	\end{theorem}
+	\begin{theorem}
+		The collection of subsets of $\bR^n$ that are either Jordan measurable or have a Jordan-measurable complement form a Boolean algebra, known as the Jordan algebra.
+	\end{theorem}
+	\begin{theorem}
+		The Jordan algebra is non-atomic.
+	\end{theorem}
+	\begin{theorem}
+		\theoremname{(Regions under continuous Graphs are Jordan measurable)}
+		Let $B$ be a closed box in $\bR^n$, and let $f : B \to \bR$ be a continuous function. Then the set
+		\begin{align*}
+			\lr{(x,t) \mid x \in B, 0 \leq t \leq f(x)} \subset \bR^{n+1}
+		\end{align*}
+		is Jordan measurable.
+	\end{theorem}
+	\begin{theorem}
+		Triangles are Jordan measurable.
+	\end{theorem}
+	\begin{theorem}
+		Convex polytopes in $\bR^n$ are Jordan measurable.
+	\end{theorem}
+	\begin{theorem}
+		Open and closed Euclidean balls are Jordan measurable.
+	\end{theorem}
+	\begin{theorem}
+		Every subset of a Jordan null set is Jordan measurable and also a Jordan null set.
+	\end{theorem}
+	\begin{theorem}
+		The sets $[0,1]^2 \setminus \bQ^2$ and $[0,1]^2 \cap \bQ^2$ are both not Jordan measurable.
+	\end{theorem}
+	Informally, sets with a lot of "holes" or with very messy, fractal-like boundaries are generally not Jordan-measurable.
+	\begin{theorem}
+		There exist countable unions, and countable intersections, of Jordan measurable sets which are not Jordan measurable.
+	\end{theorem}
+	\subsection{Lebesque Measure}
+	One can extend the Jordan measure to a significantly larger number of subsets of $\bR^n$ by simply allowing countable unions of cuboids (instead of finite unions of cuboids). The Lebesque measure is simply this generalization of the Jordan measure. Formally:
+	\begin{definition}
+		Let $E \subset \bR^n$. The \tbf{Lebesque outer measure} of $E$ is given by
+		\begin{align*}
+			\lambda^*(E) := \inf_{\substack{E \subset \bigcup_{i = 1}^\infty Q_n,\\ Q_n \in \cQ}} \lr{\sum_{n = 1}^\infty \abs{Q_n}},
+		\end{align*}
+		i.e. the Lebesque outer measure of $E$ is the greatest lower bound of the measures of all coverings of $E$ by cuboids.
+	\end{definition}
+	\begin{theorem}
+		Let $U \subset \bR^n$ be open. Then $U$ is a countable union of cuboids.
+	\end{theorem}
+	Therefore, we can define Lebesque measurability similarly to Jordan measurability - a set is Lebesque measurable if it is "almost" an open set.
+	\begin{definition}
+		A set $E \subset \bR^n$ is \tbf{Lebesque measurable} if for every $\epsilon > 0$, there exists an open set $U \subset \bR^n$ such that $U \subset E$ and $\lambda^*(U \setminus E) \leq \epsilon$. If $E$ is Lebesque measurable, we refer to $\lambda(E) := \lambda^*(E)$ as the \tbf{Lebesque measure} of $E$. If the dimension $n$ should be emphasized, we sometimes write $\lambda(E)$ as $\lambda^n(E)$.
+	\end{definition}
+	\begin{theorem}
+		The Lebesque measure fulfills:
+		\begin{align*}
+			E \subset \bigcup_{i \in N} E_i \implies \lambda(E) \leq \sum_{i \in \bN} \lambda(E_i)
+		\end{align*}
+		This is a weakened form of $\sigma$-additivity, which is known as \tbf{$\sigma$}-subadditivity.
+	\end{theorem}
+	\begin{theorem}
+		The Lebesque measure defines a $\sigma$-additive function on the Lebesque measurable sets.
+	\end{theorem}
+	\begin{theorem}
+		The collection of subsets of $\bR^n$ that are either Lebesque measurable or have a Lebesque-measurable complement form a Boolean algebra.
+	\end{theorem}
+	You may have heard in linear algebra that the determinant of a matrix $S$ tells us how the matrix scales the volume of the unit cube. Since the Lebesque measure is defined using volumes of unit cubes, this intuition also holds for the image of any set $E$ under $S$:
+	\begin{theorem}
+		\theoremname{Linear Transformation Equation}
+		\label{thm:lineartransformationequation}
+		Let $S \in \bRnn$. Then for all $E \subset \bR^n$, we have:
+		\begin{align*}
+			\lambda^n(S(E)) = \abs{\det(S)}\lambda^n(E)
+		\end{align*}
+	\end{theorem}
 	\chapter{Measurable Functions}
 	\section{Measurable Functions}
 	\begin{importantdefinition}{Measurable Functions}{}
@@ -1728,7 +1752,277 @@
 			{Lebesque's decomposition theorem}{} Let $\mu$ and $\nu$ be measures on $(X, \cA)$, and let $\nu$ be $\sigma$-finite. Then there exists a unique decomposition $\nu = \nu_a + \nu_s$ such that $\nu_a \ll \mu$ and $\nu_a \perp \mu$.
 		\end{importanttheorem}
 	\chapter{Integration over Immersed Manifolds}
+		\section{Products of Measure Spaces}
+		In this section, we will be interested in finding a canonical $\sigma$-Algebra on cartesian products of measurable spaces.
+		\begin{importantdefinition}{General Products in Category Theory}{}
+			Let $C$ be a category. Let $X_1$ and $X_2$ be objects of $C$. Then the \tbf{product of $X_1$ and $X_2$} is an object $X_1 \times X_2$ equipped with two morphisms $\pi_1 : X \to X_1$, $\pi_2 : X \to X_2$ with the property that for every object $Y$ and every pair of morphisms $f_1 : Y \to X_1$, $f_2 : Y \to X_2$, there exists a unique morphism $f : Y \to X_1 \times X_2$ such that:
+			\begin{enumerate}
+				\item $f_1 = \pi_1 \circ f$
+				\item $f_2 = \pi_2 \circ f$
+			\end{enumerate}
+			We call this property the \tbf{universal property of product objects.}
+		\end{importantdefinition}
+		In the case of sets, this definition leads us to the familiar cartesian products, where $\pi_1$ and $\pi_2$ are the projections to the first and second component of the product respectively. We can generalize the cartesian product to uncountably infinite products as follows:
+		\begin{importantdefinition}{Cartesian Product of sets}{}
+			Let $I$ be any set. Let $(X_i)_{i \in I}$ be a Family of nonempty sets indexed by $I$, i.e. there exists a function assigning to each element $i \in I$ an element of $(X_i)_{i \in I}$. Then the cartesian product of $(X_i)_{i \in I}$ is the unique set:
+			\begin{align*}
+				\prod_{i \in I} X_i := \lr{x : I \to \bigcup_{i \in I} X_i \mid x_i := x(i) \in X_i \tn{ for all } i \in I}
+			\end{align*}
+		\end{importantdefinition}
+		Written more simply: Each element of $\prod_{i \in I} X_i$ is a function assigning to each $i \in I$ an element $x(i) \in X_i$, where we generally write the argument in the index ($x_i := x(i)$), to stay consistent with the established notation in the countable case. 
+		\newpar
+		This definition is simply a reinterpretation of the definition of finite cartesian products: It amounts to viewing, for example, the tuple $ T := (x,y,z)$ as a map:
+		\begin{align*}
+			T : \lr{1,2,3} &\to \lr{x,y,z}
+		\end{align*}
+		such that $T(1) = x$, $T(2) = y$, and $T(3) = z$. 
+		\begin{importantdefinition}{Projections}{}
+			Let $J \subset I$. Then we define the projection of $I$ to $J$ as the map
+			\begin{align*}
+				\pi_J := \pi_{J}^I : \prod_{i \in I} X_i &\to \prod_{j \in J} X_j\\
+				x &\mapsto \lr(x|_J : J \to \bigcup_{j \in J} X_j)
+			\end{align*}
+			which restricts the domain of a given element $x$ of the product to the subset $J$.
+		\end{importantdefinition}
+		In particular, if $J$ is a set consisting of a single element $j$, we have:
+		\begin{align*}
+			\pi_j := \pi_{\lr{j}}^I : \prod_{i \in I} X_i &\to X_j\\
+			x &\mapsto x_j
+		\end{align*}
+		We can now define a product $\sigma$-algebra of an indexed family of $\sigma$-algebras as the sigma algebra fulfilling the universal property of product objects. We are working in the category of measurable spaces, where morphisms are measurable functions.
+		\newpar
+		Therefore, our definition simply amounts to defining product sigma algebras as the $\sigma$-algebras induced by the projection functions, which in turn is the smallest $\sigma$-algebra such that all projections are measurable. 
+		\begin{importantdefinition}{Product $\sigma$-Algebra}{}
+			Let $(X_i, \cA_i)_{i \in I}$ be a family of measurable spaces. Then the product $\sigma$-algebra on the cartestian product $\prod_{i \in I} X_i$ is the smallest $\sigma$-Algebra $\Tensor_{i \in I} \cA_i$ such that every projection $\pi_j$ is $\Tensor_{i \in I} \cA_i - \cA_j$-measurable.
+		\end{importantdefinition}
+		Explicitly, this means we have:
+		\begin{align*}
+			\Tensor_{i \in I} \cA_i = \angles{\bigcup_{i \in I} \pi_i^{-1}(\cA_i)}_\sigma
+		\end{align*}
+		Note that this is also entirely analogous to the definition of the product topology, which is the coarsest (i.e. "smallest") topology such that projections are continuous.
+		\newpar
+		If the cardinality of $I$ is a small finite number, we may sometimes write out the product $\sigma$-algebra as:
+		\begin{align*}
+			\Tensor_{i \in I} \cA_i = \cA_1 \tensor \cA_2 \tensor \hdots
+		\end{align*}
+		\begin{importanttheorem}{}{}
+			Let $(X, \cA)$ and $(Y_i, \cB_i)$ be measurable spaces. Let $g : X \to \prod_{i \in I} Y_i$. Then $g$ is $\cA-\Tensor_{i \in I} \cB_i$-measurable if and only if all maps $\pi_i \circ g$ are $\cA-\cB_i$-measurable.
+		\end{importanttheorem}
+		\begin{proof}
+			\begin{enumerate}
+				\item Assume $g$ is measurable. We know that $\pi_i$ are measurable by definition, and we know that compositions of measurable functions are measurable. Therefore, $\pi_i \circ g$ are measurable.
+				\item Assume $\pi_i \circ g$ are measurable. Then we have:
+				\begin{align*}
+					g^{-1}\lr(\bigcup_{i \in I} \pi_i^{-1}(\cA_i))
+					&= \bigcup_{i \in I} g^{-1}(\pi_i^{-1}(\cA_i))\\
+					&= \bigcup_{i \in I} (\pi_i \circ g)^{-1}(\cA_i)) \subset \cA
+				\end{align*}
+				Where the last step follows from the measurability of $\pi_i \circ g$. Therefore, since $\bigcup_{i \in I} \pi_i^{-1}(\cA_i)$ forms a basis of $\Tensor_{i \in I} \cA_i$, we have that $g$ is measurable.
+			\end{enumerate}
+		\end{proof}
+		As a corollary, we get that our product space actually fulfills the universal property of product objects:
+		\begin{corollary}
+			Let $(X, \cA)$ and $(Y_i, \cB_i)_{i \in I}$ be measurable spaces. Let $g_i : X \to Y_i$ be a family of $\cA - \cB_i$-measurable functions. Then there exists a $\cA-\cB_i$-measurable function $g : X \to \prod_{i \in I} Y_i$ such that, for each $i \in I$, $g_i = \pi_i \circ g$.
+		\end{corollary}
+		\begin{proof}
+			Define $g$ as the cartesian product of all $g_i$:
+			\begin{align*}
+				g : I &\to \lr(X \to \prod_{i \in I} Y_i)\\
+				i &\mapsto g_i
+			\end{align*}
+			Then our previous lemma tells us that, since all $g_i = \pi_i \circ g$ are measurable, $g$ is measurable as well.
+		\end{proof}
+		\begin{corollary}
+			Let $(X_i, \cA_i)_{i \in I}$ be measurable spaces, and let $J \subset I$ be nonempty. Then the projection $\pi_J$ is $\Tensor_{i \in I} \cA_i-\Tensor_{j \in J} \cA_j$-measurable.
+		\end{corollary}
+		\begin{definition}{\theoremname{Embedding into a larger product space}}
+			Let $p_j \in X_j$. Then we define the \tbf{embedding of $\prod_{i \in I \setminus j} X_i$ into $\prod_{i \in I} X_i$ by $x_j$} to be the map $e_{x_j}$ which takes a product $(x_i)_{i \in I \setminus j}$ and "adds in $x_j$ as a new component", i.e. it maps $(x_i)_{i \in I \setminus j}$ to the product $(x'_i)_{i \in I}$ with $x'_j = x_j$ and $(x'_i)_{i \in I \setminus j} = (x_i)_{i \in I \setminus j}$.
+		\end{definition}
+		\begin{importantdefinition}{Cuts of subsets}{}
+		Let $M \subseteq \prod_{i \in I} X_i$, and let $x_j \in X_j$. Then we define the \tbf{cut of $M$ through $x_j$} to be the set $M^{x_j} = e_{x_j}^{-1}(M)$. 
+		\end{importantdefinition}
+		More explicitly, $M^{x_j}$ is the set such that for for every $y \in M$, we have $y|_{I \setminus \lr{j}} \in M^{x_j}$ if and only if $y_j = x_j$.
+		\begin{corollary}
+			Let $(X_i, \cA_i)_{i \in I}$ be measurable spaces, let $M \in \Tensor_{i \in I} \cA_i$, and let  $x_j \in X_j$ for $j \in I$. Then we have
+			\begin{align*}
+				M^{x_j} \in \Tensor_{i \in I \setminus j} \cA_i
+			\end{align*}
+		\end{corollary}
+		\begin{proof}
+			Let $x_j \in X_j, j \in I$. We want to show that $e_{x_j}$ is measurable, which would follow immediately if we could show that all projections $\pi_i^I \circ e_{x_j}$ are measurable.
+			\begin{enumerate}
+				\item Let $i \in I \setminus \neq j$. Then $\pi_i^I \circ e_{x_j} = \pi_i^{I \setminus j}$, which is measurable.
+				\item Let $i = j$. Then $\pi_i^I \circ e_{x_j} = \pi_j^I \circ e_{x_j}$, which is just the constant map onto $x_j$, which is measurable.
+			\end{enumerate}
+			Since all projections are measurable, $e_{x_j}$ itself must also be measurable. Therefore, since $M$ is measurable, the preimage $M^{x_j} = e_{x_j}^{-1}(M)$ must also be measurable.
+		\end{proof}
+		Note that, in particular, this tells us that if $(X_1, \cA_1)$ and $(X_2, \cA_2)$ are measurable spaces, then for any $M \in \cA_1 \tensor \cA_2$, $x_1 \in X_1$, and $x_2 \in X_2$, we have 
+		\begin{align*}
+			M^{x_2} = \lr{x \in X_1 \mid (x, x_2) \in M} \in \cA_1
+		\end{align*}
+		and 
+		\begin{align*}
+			M^{x_1} = \lr{x \in X_2 \mid (x_1, x) \in M} \in \cA_2
+		\end{align*} 
+		\begin{importanttheorem}{A basis of the product $\sigma$-Algebra}{}
+			Let $(X_i, \cA_i)_{i \in I}$ be a family of measurable spaces. For each $i \in I$, let $\cE_i$ be a basis of $\cA_i$. Then we have
+			\begin{align*}
+				\Tensor_{i \in I} \cA_i = \angles{\bigcup_{i \in I} \pi_i^{-1}(\cE_i)}_\sigma.
+			\end{align*}
+		\end{importanttheorem}
+		\begin{proof}
+			Recall that, for any map $f$ and any system of subsets $\cS \subset \cA$ of a $\sigma$-algebra $\cA$, we have 
+			\begin{align*}
+				f^{-1}\lr(\angles{\cS_i}_\sigma) = \angles{f^{-1}(\cS_i)}_\sigma
+			\end{align*}
+			and
+			\begin{align*}
+				\angles{\bigcup_{i \in I} \cS_i}_\sigma
+				&=
+				\angles{\bigcup_{i \in I}  \angles{\cS_i}_\sigma}_\sigma,
+			\end{align*} which gives us:
+			\begin{align*}
+				\Tensor_{i \in I} \cA_i 
+				&= \angles{\bigcup_{i \in I} \pi_i^{-1}(\cA_i)}_\sigma\\
+				&= \angles{\bigcup_{i \in I} \pi_i^{-1}(\angles{\cE_i}_\sigma)}_\sigma\\
+				&= \angles{\bigcup_{i \in I}\angles{\pi_i^{-1}(\cE_i)}_\sigma}_\sigma\\
+				&= \angles{\bigcup_{i \in I} \pi_i^{-1}(\cE_i)}_\sigma
+			\end{align*}
+		\end{proof}
+		If $I$ is finite, we get the following representation of the product $\sigma$-algebra:
+		\begin{corollary}
+			For each $i \in \lr{1, \hdots, n}$, let $(X_i, \cA_i)$ be a measurable space such that $\cE_i$ is a basis of $\cA_i$ and such that $X_i$ can be represented as a countable union of basis elements $E_i^k \in \cE_i$. Then 
+			\begin{align*}
+				\cQ_0 := \lr{\prod_{i = 1}^n E_i \mid E_i \in \cE_i}
+			\end{align*}
+			is a basis of $\Tensor_{i = 1}^n \cA_i$.
+		\end{corollary}
+		\begin{proof}
+			We need to show $\angles{\cQ_0}_\sigma = \Tensor_{i = 1}^n \cA_i$.
+			\begin{enumerate}
+				\item 			
+				Let $E_i \in \cE_i$. We know that
+				\begin{align*}
+					\pi_i^{-1}(E_i) = E_i \times \prod_{j \neq i} X_j,
+				\end{align*}
+				which gives us the following representation for the basis $\cQ$ we just established in the last theory:
+				\begin{align*}
+					\cQ = \bigcup_{i = 1}^n \pi_i^{-1}(\cE_i)
+					&=
+					\bigcup_{i = 1}^n \lr{E_i \times \prod_{j \neq i} X_j \mid E_i \in \cE_i}
+				\end{align*}
+				Furthermore, $\cap$-stability of $\sigma$-algebras gives us that any element
+				\begin{align*}
+					\prod_{i = 1}^n E_i =
+					\bigcap_{i = 1}^n \pi_i^{-1}(E_i)
+				\end{align*}
+				of $\cQ_0$
+				must be contained in $\angles{\cQ}_\sigma$.
+				\newpar
+				Therefore, we have
+				\begin{align*}
+					´\angles{\cQ_0}_\sigma \subset \angles{\cQ}_\sigma = \Tensor_{i = 1}^n \cA_i
+				\end{align*}
+				\item Now, let $E_i \in \cE_i$ and $k \in \bN$. By definition of $\cQ_0$, we have
+				\begin{align*}
+					E_i \times \prod_{j \neq i} E_j^k \in \cQ_0,
+				\end{align*}
+				which gives us:
+				\begin{align*}
+					\pi_i^{-1}(E_i)
+					&= \bigcup_{k = 1}^\infty \lr(E_i \times \prod_{j \neq i} E_j^k)
+					\in \angles{\cQ_0}_\sigma,
+				\end{align*}
+				and by extension:
+				\begin{align*}
+					\cQ = \bigcup_{i = 1}^n \pi_i^{-1}(E_i)
+					\subset \angles{\cQ_0}_\sigma
+				\end{align*}
+				which means we also have
+				\begin{align*}
+					\Tensor_{i = 1}^n \cA_i
+					= \angles{\cQ}_\sigma
+					\subset \sigma(\cQ_0).
+				\end{align*}
+			\end{enumerate}
+		\end{proof}
+		\begin{corollary}
+			The Borel $\sigma$-algebra $\cB(\bR^n)$ is the product of the Borel $\sigma$-algebra $\cB(\bR)$, i.e. we have:
+			\begin{align*}
+				\cB(\bR^n) = \Tensor_{i = 1}^n \cB(\bR)
+			\end{align*}
+		\end{corollary}
+		\begin{proof}
+			We know that the set $\cI$ of real intervals forms a basis of $\cB(\bR)$. Given this basis, the set $\cQ_0$ is exactly the set of $n$-dimensional real cuboids, which forms a basis of $\cB(\bR^n)$. Therefore, we have:
+			\begin{align*}
+				\cB(\bR^n)
+				= \angles{\cQ_0}_\sigma 
+				= \Tensor_{i = 1}^n \cB(\bR)
+			\end{align*}
+		\end{proof}
+		For the final part of this chapter, we establish some notation for commonly encountered subsets of product $\sigma$-algebras.
+		\begin{definition}
+			Let $I$ be a set. Then we denote by $\cP_0(I)$ the finite, nonenmpty subsets of $I$.
+		\end{definition}
+		\begin{importantdefinition}{Measurable Cuboids}{}
+			Let $(X_i, \cA_i)_{i \in I}$ be a family of measurable spaces. Then we define the set of \tbf{measurable cuboids in $\prod_{i \in I} X_i$} as:
+			\begin{align*}
+				\cQ := \bigcup_{J \in \cP_0(I)} \lr{\prod_{j \in J} A_j \times \prod_{I \setminus J} X_i \mid A_j \in \cA_j},
+			\end{align*}
+			i.e. a finite number of the sides of our cuboid can be arbitrary measurable sets, and the remaining sides must correspond to the remaining domain sets $(X_i)_{i \in I \setminus J}$.
+		\end{importantdefinition}
+		\begin{importantdefinition}{Cylindrical Sets}{}
+			Let $(X_i, \cA_i)_{i \in I}$ be a family of measurable spaces. Then we define the set of \tbf{cylinder sets in $\prod_{i \in I} X_i$} as:
+			\begin{align*}
+				\cZ :=
+				&\bigcup_{J \in \cP_0(I)} \lr{A_J \times \prod_{i \in I \setminus J} X_i
+				\mid
+				A_J \in \Tensor_{j \in J} \cA_j}\\
+				=
+				&\bigcup_{J \in \cP_0(I)}
+				\pi_J^{-1}\lr(\Tensor_{j \in J} \cA_j),
+			\end{align*}
+			i.e. the base of the cylinder is a measurable set $A_j \subset \prod_{i \in I} X_i$ and all other sides are once again the remaining domain sets $(X_i)_{i \in I \setminus J}$.
+		\end{importantdefinition}
+		Note that if we view an everyday geometric cylinder $Z \subset \bR^3$ as the product of of the circle at its base with a finite real interval, it doesn't actually qualify as a cylindrical set in $\bR^3$, since it would have to be a product of the base circle with all of $\bR$, i.e. only "infinite" cylinders immediately qualify.
+		\newpar
+		By technicality, normal cylinders are still cylindrical sets though, since we can set $J = I$ and have view the entire cylinder as the base, without adding any additional "sides". 
+		\newpar
+		Therefore, this definition is not very useful if $I$ is finite, since every measurable set is a cylindrical with itself as its base and every cylindrical set is a product of measurable sets, i.e. measurable.
+		\begin{importanttheorem}{}{}
+			Let $(X_i, \cA_i)_{i \in I}$ be a family of measurable spaces. Then the measurable cuboids in $\prod_{i \in I} X_i$ and the cylindrical sets in $\prod_{i \in I} X_i$ form bases of $\Tensor_{i \in I} \cA_i$.
+		\end{importanttheorem}
+		\begin{proof}
+			We will show $\cQ \subset \cZ \subset \Tensor_{i \in I} \cA_i \subset \angles{\cQ}_\sigma$, which implies $ \angles{\cQ}_\sigma \subset \angles{\cZ}_\sigma \subset \Tensor_{i \in I} \cA_i \subset \angles{\cQ}_\sigma$, proving the theorem.
+			\begin{enumerate}
+				\item $\cQ \subset \cZ$: Let $A \in \cQ$. Then $A$ is given as
+				\begin{align*}
+					A 
+					&= \prod_{j \in J}^n A_j \times \prod_{i \notin J} X_i\\
+					&= \pi_J^{-1}\lr(\prod_{j \in J} A_j).
+				\end{align*}
+				Therefore, since $\prod_{j \in J} A_j \in \Tensor_{j \in J} \cA_j$, $A$ is a cylinder set.
+				\item $\cZ \subset \Tensor_{i \in I} \cA_i$: Recall that $\pi_J$ is $\Tensor_{i \in I} \cA_i-\cA_J$-measurable. Therefore, for any $J \in \cP_0(I)$, we have that $\pi_J^{-1}(\cA_j) \subset \Tensor_{i \in I} \cA_i$, which means any cylinder set is contained in $\Tensor_{i \in I} \cA_i$.
+				\item $\Tensor_{i \in I} \cA_i \subset \angles{\cQ}_\sigma$: For any $i \in I$ and $A_i \in \cA_i$, we have:
+				\begin{align*}
+					\pi_i^{-1}(A_i) = A_i \times \prod_{j \neq i} X_j \in \cQ,
+				\end{align*}
+				i.e. $\pi_i^{-1}(\cA_i) \subset \cQ$ for all $i \in I$, which means we also have:
+				\begin{align*}
+					\bigcup_{i \in I} \pi_i^{-1}(\cA_i) \subset \cQ.
+				\end{align*}
+				By definition of $\Tensor_{i \in I} \cA_i$, we get:
+				\begin{align*}
+					\Tensor_{i \in I} \cA_i  = \angles{\bigcup_{i \in I} \pi_i^{-1}(\cA_i)}_\sigma \subset \angles{\cQ}_\sigma.
+				\end{align*}
+			\end{enumerate}
+		\end{proof}
+		\clearpage
+		
 		\section{Product Measures and Fubini's Theorem}
+		
+		\clearpage
+		
 		\section{Change of Variables}
 		\begin{lemma}
 			Let $U \subset \bR^n$ and $x_0 \in U$. Let $\phi : U \to \bR^n$ be a function such that $D\phi(x_0)$ is invertible.
