@@ -770,25 +770,132 @@
 		\begin{theorem}
 			Let $f : [a,b] \to \bR$. Then $f$ is Riemann integrable if and only if the set of discontinuities of $f$ can be covered by a countable union of intervals of arbitrarily small length.
 		\end{theorem}
-		\section{The Gauge Integral}
+	\chapter{Some Special Functions}
+		\section{The Gamma Function}
+		In this section, we discover some basic properties of the so-called gamma function. We will find that it is the canonical extension of the factorial function to positive real numbers. With some knowledge of complex analyis, it can easily be extended to arbitrary complex numbers, but that is beyond the scope of these notes.
+		\begin{importantdefinition}{Gamma function}{}
+			For any $x \in \bR_{> 0}$, the gamma function is defined as the improper integral
+			\begin{align*}
+				\Gamma(x) = \int_0^\infty t^{x-1} e^{-t} ~dt
+			\end{align*}
+		\end{importantdefinition}
+		\begin{theorem}
+			The gamma function obeys the recurrence relation
+			\begin{align*}
+				\Gamma(x + 1) = x \cdot \Gamma(x)
+			\end{align*}
+		\end{theorem}
+		\begin{proof}
+			Integration by parts gives:
+			\begin{align*}
+				\Gamma(x+1)
+				&= \int_{0}^\infty t^x e^{-t} ~dt\\
+				&= \lr[-t^xe^{-t}]_0^\infty
+				+ \int_0^\infty xt^{x-1} e^{-t} ~dt\\
+				&= 0 - \lim_{n \to \infty} (-t^xe^{-t})
+				+ x \int_0^\infty t^{x-1} e^{-t} ~dt\\
+				&= x \int_0^\infty t^{x-1} e^{-t} ~dt\\
+				&= x \cdot \Gamma(x)
+			\end{align*}
+		\end{proof}
+		\pagebreak
+		\begin{corollary}
+			For any $n \in \bN$, we have
+			\begin{align*}
+				\Gamma(n + 1) = n!
+			\end{align*}
+		\end{corollary}
+		\begin{proof}
+			Our recurrence relation gives
+			\begin{align*}
+				\Gamma(n + 1) = n! \cdot \Gamma(1)
+			\end{align*}
+			and we have
+			\begin{align*}
+				\Gamma(1) 
+				&=
+				\int_0^\infty t^{1-1}e^{-t} ~dt\\
+				&=
+				\int_0^\infty e^{-t} ~dt\\
+				&=
+				\lr[-e^{-t}]_0^\infty\\
+				&= \lr(\lim_{n \to \infty} -e^{-n}) - (-e^0)\\
+				&= 0 - (-1)\\
+				&= 1
+			\end{align*}
+		\end{proof}
+		\begin{lemma}
+			We have:
+			\begin{align*}
+				\Gamma(x) = 2c^x \int_0^\infty t^{2x-1} e^{-ct^2} ~dt
+			\end{align*}
+		\end{lemma}
+		\begin{proof}
+			Substituting $t := cu^2$, we get:
+			\begin{align*}
+				\Gamma(x) &=
+				\int_{0}^\infty t^{x - 1} e^{-t} ~dt\\
+				&= \int_{0}^\infty (cu^2)^{x - 1} e^{-cu^2} \cdot 2cu ~du\\
+				&= \int_0^\infty c^{x-1} u^{2(x-1)} e^{-cu^2} \cdot 2cu ~du\\
+				&= \int_0^\infty c^x u^{2x-1} e^{-cu^2} ~du\\
+				&= c^x \cdot \int_0^\infty u^{2x-1} e^{-cu^2} ~du\\
+				&= c^x \cdot \int_0^\infty t^{2x-1} e^{-ct^2} ~dt\\
+			\end{align*}
+		\end{proof}
+		\begin{proposition}
+			We have $\Gamma\lr(\frac{1}{2}) = \sqrt{\pi}$
+		\end{proposition}
+		\begin{proofsketch}
+			By the last lemma, we have:
+			\begin{align*}
+				\Gamma\lr(\frac{1}{2}) &= 2\int_{0}^\infty t^{2 \cdot \frac{1}{2} - 1} e^{-t^2} ~dt\\
+				&= 2\int_{0}^{\infty} e^{-t^2} ~dt\\
+				&= \int_{-\infty}^{\infty} e^{-t^2} ~dt
+			\end{align*}
+			The fact that $\int_{-\infty}^{\infty} e^{-t^2} ~dt = \sqrt{\pi}$ might be familiar if you have a basic knowledge of probability theory, since this is exactly the reason why $\pi$ appears in the formula for a normal distribution:
+			\begin{align*}
+				\cN(\mu,\sigma^2)(t)
+				&=
+				\frac{1}{\sqrt{2\pi\sigma^2}} e^\lr(-\frac{(t-\mu)^2}{2\sigma^2})
+			\end{align*}
+			Setting $\mu = 0$ and $\sigma^2 = \frac{1}{2}$, which was Gauss' original definition for the standard normal distribution, we get:
+			\begin{align*}
+				\cN(0,1)(t)
+				&=
+				\frac{1}{\sqrt{\pi}} e^{-t^2},
+			\end{align*}
+			where the factor $\frac{1}{\sqrt{\pi}}$ appears to normalize the integral of the distribution to $1$, since it wouldn't be a probability distribution otherwise.
+			\newpar
+			We will formally prove this fact much later, when we introduce the substitution formula for multidimensional Lebesque integration.
+		\end{proofsketch}
 	\chapter{Measure Theory}
 		\section{The Measure Problem}
-		The most basic goal of measure theory is to establish a generalized notion of a "measure function", which assigns a "volume" to a given set. In particular, we would like to establish a function that assigns volume functions to subsets of $\bR^n$ and has the following three properties:
+		The most basic goal of measure theory is to establish a generalized notion of a "measure function", which assigns a "volume" to a given set. In particular, we would like to establish a function that assigns volume functions to subsets of $\bR^n$ and has the following properties:
 		\begin{enumerate}
 			\item When given a subset with an easily intuitively definable volume, the volume function should agree with that volume. In particular, the volume of a cuboid should be the product of the lengths of its sides, and the length of a real interval $(a,b)$ should be $b-a$.
 			\item The volume of a countable disjoint union of sets should be the sum of the individual volumes. This property is generally referred to as \tit{$\sigma$-additivity}.
 			\item The volume should be invariant under isometries, i.e. functions like rotations, translations, and reflections should not change the volume of a set.
+			\item We want our volume to be a positive real number.
 		\end{enumerate}
-		We call a $\sigma$-additive function a \tit{measure}.
-		\begin{theorem}
+		We call a $\sigma$-additive function a \tit{measure} - we want to eventually find a meausure on $\bR^n$ that also fulfills the other properties, but we want measures to be far more generally applicable, and as such we want to be able to define measures much more general spaces that may not have a defined notion of an interval or an isometry.
+		\begin{proposition}
 			Let $X$ be a set and $\cA \subseteq \cP(X)$. Then the $\sigma$-additivity of a function $\mu : \cA \to [0,\infty]$ is only well defined if $\cA$ contains the empty set and is closed under countable union.
-		\end{theorem}
+		\end{proposition}
+		\begin{proof}
+			We can decompose any disjoint union of sets further by adding the empty set, therefore our measure should be defined on the empty set. Given any disjoint sets, we want the measure of their countable union to be equal to the sum of their measures, therefore the measure of the countable union should be well-defined in the first place.
+		\end{proof}
 		\begin{corollary}\theoremname{$\emptyset$ is always a zero set}
 			Let $\mu$ be a $\sigma$-additive function $\cA \to [0,\infty]$. Then $\mu(\emptyset) = 0$.
 		\end{corollary}
+		\begin{proof}
+			We can add the empty set to any disjoint union of sets without changing the resulting set, therefore the measure of the empty set should not change the sum, i.e. it should be zero.
+		\end{proof}
 		\begin{corollary}\theoremname{$\sigma$-Additivity implies monotonicity}
 			Let $\mu$ be a $\sigma$-additive function $\cA \to [0,\infty]$. Then $A \subset B$ implies $\mu(A) \leq \mu(B)$.
 		\end{corollary}	
+		\begin{proof}
+			We have $B = A \sqcup (B \setminus A)$, implying $\mu(B) = \mu(A) + \mu(B \setminus A) \geq \mu(A)$.
+		\end{proof}
 		It will turn out that there exists exactly one function on $\bR^n$, called the \tit{Lebesque measure} $\lambda^n$, that fulfills these conditions for a very large family of sets (the so-called "Borel $\sigma$-Algebra") - enough to include every "somewhat reasonable" subset of $\bR^n$. However, there are still counterexamples.
 		\begin{proposition}
 			Every subset of $\bR^n$ being Lebesque-measurable is consistent with ZF (without the axiom of choice).
@@ -2384,10 +2491,12 @@
 					&= \frac{\pi^{n/2}}{\Gamma\lr(\frac{n}{2} + 1)}
 				\end{align*}
 		\end{proof}
-		
 		\begin{proposition}
-			The $5$-dimensional unit ball has the highest volume out of any unit ball. As the dimension increases, the volume of the unit ball converges to zero.
+			The $5$-dimensional unit ball has the highest volume out of any unit ball. As the dimension increases, the volume of the unit ball converges to zero.  
 		\end{proposition}
+		\begin{proofsketch}
+			Plugging small natural numbers into our formula, we see that the formula is monotonically increasing for $n \leq 5$ and monotonically decreasing for $n \geq 5$. Furthermore, we have $\Gamma(\frac{n}{2} + 1) \geq \Gamma(k + 1) = k!$, which grows asymptotically faster than $\pi^{n/2} \leq \sqrt{\pi} \cdot \pi^k$.
+		\end{proofsketch}
 		\clearpage
 		
 		\section{Change of Variables}
