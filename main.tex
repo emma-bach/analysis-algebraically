@@ -502,8 +502,8 @@
 				\item Let $x \notin \bQ$. Then the preimage of $(-\frac{1}{2}x, \frac{1}{2}x)$ contains $x$, but not any rationals between $x$ and $\frac{1}{2}x$, and therefore cannot be a neighborhood of $x$.
 			\end{enumerate}
 		\end{proof}
-		\begin{importanttheorem}{A function only continuous at the irrationals}{Thomae's function}{} 
-		$T : \bR \to \bR$, defined as
+		\begin{importanttheorem}{A function only continuous at the irrationals}{} 
+		Thomae's function $T : \bR \to \bR$, defined as
 			\begin{align*}
 				T(x) =
 				\begin{cases}
@@ -738,11 +738,14 @@
 		\end{proposition}
 		\begin{align*}
 		\end{align*}
+		\clearpage
+		
 		\section{Differential Operators}
+		\subsection{Divergence}
 		\begin{importantdefinition}{Divergence of a Vector Field}{}
 			Let 
 			\begin{align*}
-				f : \bR^m \supset S &\to \bR^n\\
+				f : \bR^n \supset S &\to \bR^n\\
 				x &\mapsto (f_1(x), \hdots, f_n(x))
 			\end{align*} be continuously differentiable. Then the \tbf{divergence} of $f$ is defined to be
 			\begin{align*}
@@ -750,11 +753,12 @@
 			\end{align*}
 		\end{importantdefinition}
 		\begin{anmerkung}
-			If we assume the standard base on $\bR^n$, we have:
+			If we assume the standard basis on $\bR^n$, we have:
 			\begin{align*}
 				\div f = \tr(Df) =  \sum_{i = 1}^n \frac{\partial}{\partial x_i} f_i(x)
 			\end{align*}
 		\end{anmerkung}
+		For the rest of the text, we will always assume the standard basis on $\bR^n$, and thus use this expression liberally.
 		$\div f$ is sometimes written as $\nabla \cdot f$, which is horrendous notation that I will stay far away from.
 		\newpar
 		$\div f$ has a nice physical interpretation: Imagine $f$ as a physical vector field describing the flow of a fluid. Take a neighborhood around a point $x$, measure the amount of fluid flowing out of that neighborhood, and subtract the amount of fluid flowing into that neighborhood. Then $(\div f)(x)$ is the limiting value of this operation as we let our neighborhoods converge to the point $x$ itself.
@@ -770,6 +774,45 @@
 				\div~ x = d.
 			\end{align*}
 		\end{corollary}
+		\begin{importanttheorem}{Linearity of Divergence}{}
+			Let $F,G : \bR^n \to \bR^n$. Let $a,b \in \bR$. Then we have:
+			\begin{align*}
+				\div (a \cdot F(x) + b \cdot G(x))
+				= a \cdot \div(F(x)) + b \cdot \div(G(x))\\
+			\end{align*}
+		\end{importanttheorem}
+		\begin{proof}
+			\begin{align*}
+				~ \div (a \cdot F(x) + b \cdot G(x))
+				=&~ \sum_{i = 1}^n \pdv{x_i} (a \cdot F(x) + b \cdot G(x))\\
+				=&~ \sum_{i = 1}^n a \cdot \pdv{x_i} F(x) + b \cdot \pdv{x_i}G(x)\\
+				=&~ \lr(a \cdot \sum_{i = 1}^n \pdv{x_i} F(x)) + \lr(b \cdot \sum_{i = 1}^n \pdv{x_i}G(x))\\
+				=&~ a \cdot \div(F(x)) + b \cdot \div(G(x))
+			\end{align*}
+		\end{proof}
+		\begin{importanttheorem}{Product Rule for Divergence}{}
+			Let $f : \bR^n \to \bR$. Let $G : \bR^n \to \bR^n$. Then we have:
+			\begin{align*}
+				\div(f(x) \cdot G(x))
+				=
+				f(x) \cdot \div(G(x))
+				+
+				\scalar{\grad f(x)}{G(x)}
+			\end{align*}
+		\end{importanttheorem}
+		\begin{proof}
+			\begin{align*}
+				\div(f(x) \cdot G(x))
+				&= \sum_{i = 1}^n \pdv{x_i} f(x) G_i(x)\\
+				&= \sum_{i = 1}^n f(x) \cdot \pdv{x_i} G_i(x) + G_i(x) \cdot \pdv{x_i} f(x)\\
+				&= \lr(\sum_{i = 1}^n f(x) \cdot \pdv{x_i} G_i(x)) + \lr(\sum_{i = 1}^n G_i(x) \cdot \pdv{x_i} f(x))\\
+				&= f(x) \cdot \lr(\sum_{i = 1}^n \pdv{x_i} G_i(x)) + \lr(\sum_{i = 1}^n G_i(x) \cdot \pdv{x_i} f(x))\\
+				&= f(x) \cdot \div(G(x)) + \scalar{\grad f(x)}{G(x)}
+			\end{align*}
+		\end{proof}
+		\clearpage
+		
+		\subsection{Laplacian}
 		\begin{importantdefinition}{Laplacian}{}
 			Let 
 			\begin{align*}
@@ -786,12 +829,34 @@
 				\Delta f = \div (\nabla f) = \sum_{i = 1}^n \frac{\partial^2}{\partial x_i^2} f_i(x)
 			\end{align*}
 		\end{anmerkung}
-	\chapter{Differentiable Manifolds}
-		\section{Differentiable Manifolds}
+	\chapter{First Steps in Differential Geometry}
+		\section{$C^n$-Submanifolds of $\bR^n$}
 		\begin{definition}
 			We say a map is "$\cC^n$" if its first $n$ derivatives exist and are continuous. If $f \in \cC^n$ is bijective such that $f^{-1} \in \cC^n$, then we call $f$ a \tbf{$\cC^n$-diffeomorphism}.
 		\end{definition}
 		Under the convention that the $0$th derivative of $f$ is $f$ itself, a $C^0$-diffeomorphism is the same thing as a homeomorphism.
+		\begin{importantdefinition}{$C^n$-Manifold}{}
+			Hi
+		\end{importantdefinition}
+		\begin{importanttheorem}{}{}
+			Let $M \subset \bR^{n+k}$. Then the following are equivalent:
+			\begin{enumerate}
+				\item $M$ is an $n$-dimensional $C^r$-submanifold of $\bR^{n+k}$
+				\item $M$ is locally given as a $C^r$-level set, i.e. For every $p \in M$ there exists an open set $\Omega \subset \bR^{n+k}$ and an $r$-times continuously differentiable function $f : \Omega \to \bR^k$ such that:
+				\begin{enumerate}
+					\item $\displaystyle M \cap \Omega = \lr{x \in \Omega : f(x) = 0}$
+					\item For all $x \in \Omega$, we have $\rank Df(x) = k$.
+				\end{enumerate}
+				\item $M$ 
+			\end{enumerate}
+		\end{importanttheorem}
+		\begin{importantdefinition}{Tangent Vector}{}
+			Let $M \subset \bR^{n+k}$. Let $p \in M$. Then we call a vector $v \in \bR^{n+k}$ a \tit{tangent vector of $M$ at $p$} If there exists a map $\gamma : (-\delta, \delta) \to M$ such that $\gamma(0) = p$ and $D\gamma(0) = v$.
+		\end{importantdefinition}
+		\begin{importanttheorem}{Tangent Space}{}
+			Now, let $M$ be a manifold. Then the set of all tangent vectors of $M$ at $p$ forms an $n$-dimensional vector space, which we call the \tit{tangent space of $M$ at $p$} and which we denote $T_pM$.
+		\end{importanttheorem}
+		\clearpage
 		\section{Inverse Function Theorem}
 		\begin{importanttheorem}{Inverse Function Theorem}{}
 			Let $X, Y$ be finite-dimensional real affine spaces, let $U \subset X$ be open and let $f : U \to Y$ be $\cC^n$.
@@ -1404,6 +1469,8 @@
 			\end{align*}
 		\end{definition}
 		\fi
+	\clearpage
+	
 	\section{Measures on $\bR^n$}
 	\subsection{Jordan Measure}
 	\begin{definition}
@@ -1446,7 +1513,7 @@
 		The Jordan algebra is non-atomic.
 	\end{theorem}
 	\begin{theorem}
-		\theoremname{(Regions under continuous Graphs are Jordan measurable)}
+		\theoremname{Regions under continuous Graphs are Jordan measurable}
 		Let $B$ be a closed box in $\bR^n$, and let $f : B \to \bR$ be a continuous function. Then the set
 		\begin{align*}
 			\lr{(x,t) \mid x \in B, 0 \leq t \leq f(x)} \subset \bR^{n+1}
@@ -3374,7 +3441,6 @@
 			\end{align*}
 		\end{proof}
 		\clearpage
-		
 		\section{The Surface Area Measure}
 		\begin{definition}
 			Let $U \supset \bR^n$ be open. We call a map $f : U \to \bR^{n+k}$ an \tit{immersion} iff $f$ is continuously differentiable and $ Df(x)$ is invertible.
@@ -3452,6 +3518,21 @@
 			\end{align*}
 			giving our desired result for $\sqrt{\det g_f}$.´
 		\end{proof}
+		\begin{importanttheorem}{Area of a Graph}{}
+			Let $U \subset \bR^n$ be open, $u : U \to \bR^k$ and
+			\begin{align*}
+				f : U &\to \bR^{n+k}\\
+				x &\mapsto (x, u(x))
+			\end{align*}
+			Then we have:
+			\begin{align*}
+				A(f,U) = \int_U \sqrt{\det(E_n + Du(x)^\top Du(x))} ~d\lambda^n(x)
+			\end{align*}
+			If $k = 1$, i.e. $U \subset \bR^n$, $u : U \to \bR$, then we can simplify significantly and get:
+			\begin{align*}
+				A(f,U) = \int_U \sqrt{1 + \norm{Du(x)}^2¸} ~d\lambda^n(x)
+			\end{align*}
+		\end{importanttheorem}
 		\begin{importanttheorem}{Surface Measure}{}
 			Let $M$ be an $n$-dimension $C^1$-submanifold of $\bR^{n+k}$ locally parametrized by $f : U \to M$. Let $E \subset M$. Then there exists a measure $\omega_M$ such that
 			\begin{align*}
@@ -3562,16 +3643,208 @@
 		\begin{align*}
 			\int_M u(x) ~d\omega_M(x) = \int_{f^{-1}(M)} u(f(x)) \cdot \abs{\det Df(x)} ~d\lambda^n(x)
 		\end{align*}
+		\begin{importanttheorem}{Onion Formula}{}
+			Integrating a function $f$ over $\bR^n$ is the same thing as integrating over all surface integrals of the function over all balls $B_r^n$, i.e. we have:
+			\begin{align*}
+				\int_{\bR^n} f(x) ~d\lambda^n(x) 
+				= \int_{0}^{\infty} \lr( \int_{\partial B_r^n} f(y) ~d\omega_{\partial B_r^n}(y)) ~dr
+			\end{align*}
+		\end{importanttheorem}
+		Note that via multivariable substitution we also get:
+		\begin{align*}
+			\int_{0}^{\infty} \lr( \int_{\partial B_r^n} f(y) ~d\omega_{\partial B_r^n}(y)) ~dr
+			= \int_{0}^{\infty} \lr( \int_{\partial B_1^n} r^n f(ry) ~d\omega_{\partial B_1^n}(y)) ~dr
+		\end{align*}
+		\begin{corollary}
+			We have:
+			\begin{align*}
+				\omega_{\partial B_1^n}(\partial B_1^n) = (n+1) \cdot \lambda^{n+1}(B_1^{n+1}),
+			\end{align*}
+			i.e. the surface area of the $n$-dimensional unit ball is $(n+1)$ times the volume of the $n+1$-dimensional unit ball.
+		\end{corollary}
+		\begin{proof}
+			Applying the onion formula and then Fubini twice, we get:
+			\begin{align*}
+				\lambda^{n+1}(B_1^{n+1}) 
+				&= \int_{\bR^n} \boldone_{B_1^n}(x) ~d\lambda^n(x)\\
+				&= \int_{0}^\infty \int_{\partial{B_r^n}} \boldone_{B_1^n}(y) ~d\omega_{\partial B_r^n}(y) ~dr\\
+				&= \int_{\partial{B_r^n}} \int_{0}^\infty  \boldone_{B_1^n}(y)  ~dr ~d\omega_{\partial B_r^n}(y)\\
+				&= \int_{\partial{B_r^n}} \int_{0}^1  1  ~dr ~d\omega_{\partial B_r^n}(y)\\
+				&= \int_{0}^1  \int_{\partial{B_r^n}} 1  ~d\omega_{\partial B_r^n}(y) ~dr\\
+				&= \int_0^1 \omega_{\partial B_r^n}(\partial B_r^n) ~dr\\
+				&= \int_0^1 r^n \cdot \omega_{\partial B_1^n}(\partial B_1^n) ~dr\\
+				&= \frac{\omega_{\partial B_1^n}(\partial B_1^n)}{n+1}
+			\end{align*}
+		\end{proof}
 		\clearpage
 		
 		\section{The Divergence Theorem}
-		\clearpage
+		\begin{definition}
+			Let $\Omega \in \bR^n$. We say $\Omega$ has a $C^1$ boundary if $\partial\Omega$ is an $n-1$ dimensional $C^1$-manifold such that $\Omega$ locally lies on only one side of $\partial \Omega$.
+			\newpar
+			More precisely, $\Omega$ has a $C^1$ boundary iff for every point $p \in \partial \Omega$, there exists an open set $U \subset \bR^n$, an open interval $I \subset \bR$, an a $C^1$-function $u : U \to I$ such $p \in U \times I$ and
+			\begin{align*}
+				\Omega \cap (U \times I) = \lr{(x,y) \in U \times I : y < u(x)}
+			\end{align*}	
+		\end{definition}
+		\begin{lemma}
+			Let $\Omega \in \bR^n$ be open with $C^1$ boundary. Then we have:
+			\begin{enumerate}
+				\item $\partial \Omega \cap (U \times I) = \lr{(x,y) \in U \times I : y = u(x)}$
+				\item $(\bR^n \setminus \ol \Omega) \cap (U \times I) = \lr{(x,y) \in U \times I : y \geq u(x)}$
+			\end{enumerate}
+			In particular, $\partial \Omega$ is an $n-1$ dimensional manifold given via the graph criterion as $(x,u(x))$.
+		\end{lemma}
 		
-		\section{Convolutions}
-		
-	\chapter{Generalizing even further}
-		\section{The Bochner Integral}
-		\section{The Pettis Integral}	
+		\begin{importanttheorem}{Outer Normal Field}{}
+			Let $\Omega \subset \bR^n$ be open with $C^1$ boundary. Then there exists exactly one map $\nu_\Omega : \partial \Omega \to \bR^n$ such that:
+			\begin{enumerate}
+				\item $\nu_\Omega(p) \perp T_p(\partial\Omega)$,
+				\item $\norm{\nu_\Omega(p)}_2 = 1$,
+				\item $\exists \epsilon > 0 : t \in (0,\epsilon) \implies p + t\nu_\Omega(p) \notin \Omega$.
+			\end{enumerate}
+			This map is continuous and unique and is known as the \tit{outer normal field of $\Omega$}. If $u$ is given as in the definition of $C^1$ boundary, and $p = (x, u(x))$, then we have:
+			\begin{align*}
+				\nu_\Omega(p) = \frac{(-Du(x),1)^\top}{\sqrt{1 + \norm{Du(x)}_2^2}}
+			\end{align*}
+		\end{importanttheorem}
+		\begin{importantlemma}{Partition of Unity}{}
+			Let $W_i, i \in I$ be an open cover of a compact set $K \subset \bR^n$. Then there exists a finite family of smooth functions $\chi_j : \bR^n \to \bR^n$ with compact support such that
+			\begin{enumerate}
+				\item For all $x \in K$, we have $\sum_{j \in J} \chi_j(x) = 1$
+				\item For all $j \in J$, there exists an $i$ such that $\spt \chi_j \subset W_i$.
+			\end{enumerate}
+		\end{importantlemma}
+		\begin{importanttheorem}{Divergence Theorem / Gauss's Theorem}{}
+			Let $\Omega \subset \bR^n$ be a bounded open set with $C^1$ boundary and outer normal $\nu_\Omega : \partial \Omega \to \bR^n$. Let $f : \ol \Omega \bR$ be continuously differentiable. Then we have:
+			\begin{align*}
+				\int_\Omega \div f(x) ~d\lambda^n(x)
+				&=
+				\int_{\partial \Omega} \scalar{f(x)}{\nu(x)} ~d\omega(x).
+			\end{align*}
+		\end{importanttheorem}
+		\begin{importanttheorem}{Green's First Identity}{}
+			Let $\Omega \subset \bR^n$ be open and bounded with $C^1$ boundary. Let $f: \ol \Omega \to \bR$ be continuously differentiable and let $g : \ol \Omega \to \bR$ be twice continuously differentiable. Then we have:
+			\begin{align*}
+				&\int_\Omega f(x) \cdot \Delta g(x) + \scalar{\grad f(x)}{\grad g(x)} ~d\lambda^n(x)\\
+				= &\int_{\partial \Omega} f(x) \cdot \scalar{\nu_\Omega(x)}{\grad g(x)} ~d\omega(x) 
+			\end{align*}
+		\end{importanttheorem}
+		\begin{proof}
+			By the product rule for divergence, we have:
+			\begin{align*}
+				~&f(x) \cdot \Delta g(x) + \scalar{\grad f(x)}{\grad g(x)}\\
+				=~&f(x) \cdot \div(\grad g(x)) + \scalar{\grad f(x)}{\grad g(x)}\\
+				=~&\div(f(x) \cdot \grad g(x))\\
+			\end{align*}
+			Now, simply apply the divergence theorem, together with basic properties of scalar products, to get:
+			\begin{align*}
+				&
+				\int_\Omega f(x) \cdot \Delta g(x) + \scalar{\grad f(x)}{\grad g(x)} ~d\lambda^n(x)\\
+				=&
+				\int_\Omega \div (f(x) \cdot \grad g(x)) ~d\lambda^n(x)\\
+				=&
+				\int_{\partial \Omega} \scalar{f(x) \cdot \grad g(x)}{\nu_\Omega(x)} ~d\omega(x)\\
+				= &\int_{\partial \Omega} f(x) \cdot \scalar{\nu_\Omega(x)}{\grad g(x)} ~d\omega(x) 
+			\end{align*}
+			
+		\end{proof}
+		\begin{importanttheorem}{Green's Second Identity}{}
+			Let $\Omega \subset \bR^n$ be open and bounded with $C^1$ boundary. Let $f: \ol \Omega \to \bR$ and $g : \ol \Omega \to \bR$ be twice continuously differentiable. Then we have:
+			\begin{align*}
+				&\int_\Omega f(x) \cdot  \Delta g(x) - g(x) \cdot \Delta f(x) ~d\lambda^n\\ = &\int_{\partial \Omega} f(x) \cdot \scalar{\nu_\Omega(x)}{\grad g(x)}
+				-
+				g(x)
+				\cdot
+				\scalar{\nu_\Omega(x)}{\grad f(x)}
+				~d\omega(x)
+			\end{align*}
+		\end{importanttheorem}
+	\chapter{Convolutions}
+	Convolution is a way of creating a function by taking a weighted average of two functions. Among other things, it can be used to smooth a given function.
+	\begin{lemma}{}{}
+		$\tau_h : \bR^n \to \bR^n$ be the function that translates a vector by the vector $h$, i.e. $\tau_h(x) = x + h$. Let $f \in L^p(\bR^n)$ for $1 \leq p < \infty$. Then the following hold: 
+		\begin{enumerate}
+			\item $f \circ \tau_h \in L^p(\bR^n)$
+			\item $\norm{f \circ \tau_h}_p = \norm{f}_p$
+			\item $\displaystyle \lim_{h \to 0} \norm{f \circ \tau_h - f}_p = 0$
+		\end{enumerate}
+	\end{lemma}
+	\begin{importantdefinition}{Convolution}{}
+		Let $1 \leq p < \infty$, $f \in L^p(\bR^n)$ and $g \in L^1(\bR^n$. The \tit{convolution of $f$ and $g$} is defined to be:
+		\begin{align*}
+			f * g : 
+			\bR^n &\to \barR\\
+			(f * g)(x) &= \int_{\bR^n} f(x-y)g(y) ~d\lambda^n(y)
+		\end{align*}
+	\end{importantdefinition}
+	\begin{theorem}
+		Let $1 \leq p < \infty$, $f \in L^p(\bR^n)$ and $g \in L^1(\bR^n$. Then we have:
+		\begin{enumerate}
+			\item $f * g \in L^p(\bR^n)$
+			\item $\norm{f * g}_p \leq \norm{f}_p \norm{g}_1$
+			\item $f * g = g * f$
+		\end{enumerate}
+	\end{theorem}
+	\pagebreak
+	\begin{theorem}\theoremname{Approximation through convolution}{}
+		Let $\eta \in L^1(\bR^n)$ such that
+		\begin{align*}
+			\int_{\bR^n} \eta(x) ~d\lambda^n(x).
+		\end{align*}
+		Let $\rho > 0$ and
+		\begin{align*}
+			\eta_\rho(x) := \rho^{-n} \cdot \eta\lr(\frac{x}{\rho}).
+		\end{align*}
+		Let $1 \leq p < \infty$ and $f \in L^p(\bR^n)$. Then we have:
+		\begin{enumerate}
+			\item $f * \eta_\rho \in L^p(\bR^n)$
+			\item $\norm{f * \eta_\rho}_p \leq \norm{f}_p \cdot \norm{\eta}_1$
+			\item 
+			$\norm{(f * \eta_\rho) - f}_p \to 0$
+		\end{enumerate}
+	\end{theorem}
+	\begin{importantdefinition}{Multi-index Notation}{}
+		Let $\alpha = (\alpha_1, \hdots, \alpha_n) \in \bN_0^n$. Then we define:
+		\begin{enumerate}
+			\item $\displaystyle \abs{\alpha}= \sum_{i = 1}^n \alpha_i$
+			\item $\partial^\alpha f(x) = \pdv[\alpha_1]{x_1} \hdots \pdv[\alpha_n]{x_n} f(x)$
+		\end{enumerate}
+	\end{importantdefinition}
+	\begin{importanttheorem}{Smoothing}{}
+		Let $\eta \in C^k(\bR^n)$ such that for $\abs{\alpha} \leq k$, we have
+		\begin{align*}
+			\norm{\partial^\alpha \eta}_{C^0(\bR^n)} \leq K.
+		\end{align*}
+		Let $f \in L^1(\bR^n)$. Then we have:
+		\begin{enumerate}
+			\item $f * \eta \in C^k(\bR^n)$,
+			\item $\partial^\alpha(f * \eta) = f * (\partial^\alpha \eta)$,
+			\item $\norm{\partial^\alpha (f * \eta)}_{C^0(\bR^n)} \leq K \norm{f}_1$
+		\end{enumerate}
+	\end{importanttheorem}
+	Smoothing lets us strengthen our result on the density of continous functions in $L^p(\Omega)$:
+	\begin{importantcorollary}{Density of $C_0^\infty$ in $L^p(\Omega)$}{}
+		Let $\Omega \subset \bR^n$ be open. Let $1 \leq p < \infty$. Then, for every $f \in L^p(\Omega)$, there exists a sequence $f_k \in C_0^\infty(\Omega)$ such that $\norm{f - f_k}_{L^p(\Omega)} \to 0$.
+	\end{importantcorollary}
+	\begin{importantdefinition}{Locally integrable Function}{}
+		Let $\Omega \subset \bR^n$ open and $1 \leq p \leq \infty$. Then we call a function $f : \Omega \to \bR$ \tit{locally integrable} iff for any compact set $K \subset \Omega$, we have $\boldone_K \cdot f \in L^p(\Omega)$. We denote the set of all locally integrable functions $f : \Omega \to \bR$ by
+		\begin{align*}
+			L_{\tn{loc}}^p(\Omega)
+		\end{align*} 
+	\end{importantdefinition}
+	\begin{importantlemma}{Fundamental Lemma of the Calculus of Variations}{}
+		Let $\Omega \subset \bR^n$ be open. Let $f \in L^1_{\tn{loc}}(\Omega)$ such that
+		\begin{align*}
+			\forall &\phi \in C_0^\infty(\Omega) :\\
+			&\phi \geq  0 \implies \int_\Omega f \phi ~d\lambda^n(x) \geq 0
+		\end{align*}
+		Then we have $f(x) \geq 0$ for $\lambda^n$-almost all $x \in \Omega$.
+	\end{importantlemma}
+	\begin{importantcorollary}{There is no identity of convolution.}{}
+		There exists no function $\eta \in L^1(\bR^n)$ such that for all $f \in C_0^\infty(\bR^n)$, we have $f * n = f$.
+	\end{importantcorollary}
+	\chapter{The Bochner Integral}
 	\appendix
 	\part{Summaries}
 	\chapter{Littlewood's three Principles of Real Analysis}
