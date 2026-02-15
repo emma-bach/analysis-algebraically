@@ -1,1 +1,3 @@
-This is an eternally WIP set of notes on mathematical analysis which I am working on as a form of self study where I try to get a better grasp on real analysis by seeking out ways to present important results in a generalized way that avoids the handwavey, informal arguments and unclear notation that I have come to associate with most popular resources on analysis.
+An eternally work-in-progess set of notes on mathematical analysis. 
+
+I am working on as a form of self study in which I try to get a better grasp on real analysis by seeking out ways to generalize important results while avoiding the handwavey, informal arguments and unclear notation that I have generally associate with most popular treatments of analysis.
